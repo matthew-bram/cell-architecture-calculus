@@ -58,6 +58,23 @@ python3 -m unittest discover -s impl -v                        # the implementat
 
 A wrong claim fails with "Tactic `decide` proved that the proposition ... is false". A journey that loops fails with "fail to show termination". The same steps run in CI.
 
+## Modelling your own system
+
+A team's own package is a `lakefile.toml` that requires the calculus over git at a tag, plus the two types the calculus is generic over, both algebraic data types defined from your corpus: the **principal**, who a person or system is when they act, and the **subject**, what an event is about, bounded by a trust zone where you have one. From there, each cell is five types transcribed from its design's tables, the command, foreign event, event, state and refusal types, and one `Cell` value with a branch per row of the Decide table. The journey map, the context map, the examples, the fixtures, the tests and the traces follow in a fixed order, and every step has a file in the example that does it.
+
+[docs/getting-started.md](docs/getting-started.md) walks the twelve steps, from the corpus's tables to the gates in CI, each pointing at the example's file. The short form:
+
+| Step | You write | In the example |
+| --- | --- | --- |
+| The corpus | The vision with Steps and References tables per journey, the capability map, the architecture with its paths table | [corpus/](examples/library/corpus/) |
+| The package | The build file requiring the calculus, the principal and the subject | [Architecture.lean](examples/library/Library/Architecture.lean) |
+| The maps | The journeys as DAGs and the context map, with the corpus's claims as theorems | [JourneyMap.lean](examples/library/JourneyMap.lean), [ContextMap.lean](examples/library/ContextMap.lean) |
+| The design | Prose, and the tables the model is transcribed from | [designs/circulation.md](examples/library/designs/circulation.md) |
+| The cell | The five types, the cell, the examples as theorems, the codec, the mutants | [Circulation.lean](examples/library/Library/Circulation.lean) |
+| The views | One line registering the cell; the feature file and the fixtures are generated | [Fixtures.lean](examples/library/Fixtures.lean) |
+| The code | A pure fold and decider, and one test per example by id | [impl/](examples/library/impl/) |
+| The traces | What the code did, replayed into the model | [Replay.lean](examples/library/Replay.lean), [traces/](examples/library/traces/) |
+
 ## The layout
 
 | Directory | What it holds |
@@ -71,6 +88,8 @@ A wrong claim fails with "Tactic `decide` proved that the proposition ... is fal
 
 | Document | What it is |
 | --- | --- |
+| [docs/white-paper.md](docs/white-paper.md) | The paper: the hypothesis, the foundations, the calculus shape by shape, the method as documents and a round trip, the evidence from the worked example, where the method can fail and what it proposes, the seven problems that had to be decided, and what comes next |
+| [docs/getting-started.md](docs/getting-started.md) | Modelling your own system in twelve steps, from the corpus's tables to the gates in CI, each step pointing at the file in the example that does it |
 | [docs/the-calculus.md](docs/the-calculus.md) | The shapes, each with its theorem, its source and the file it lives in: the three-valued outcome, the cell, the journey algebra, the envelopes, inputs instead of calls, boundaries as types, the one place a fact may become a command, promises as predicates over runs, contracts that fold, governance by supersession, the context map |
 | [docs/the-lifecycle.md](docs/the-lifecycle.md) | The method as a lifecycle: nine steps by who leads each, the four places the work is checked against the model, the six-stage round trip with its artifact and acceptance test at each, what a reviewer reads, what the checks catch, and what the method does not do |
 | [docs/foundations.md](docs/foundations.md) | The prior art under the calculus: the Decider, the failure window, sagas, the holes in exactly-once, verification-guided development, and the six rules the calculus takes from them |

@@ -19,6 +19,8 @@ PATTERNS = [
     r"matthew", r"\bbram\b",
     r"/private/tmp", r"/Users/", r"\{\{FILL-",
 ]
+# The repository's own address is the one place a name belongs.
+REPOSITORY = "github.com/matthew-bram/cell-architecture-calculus"
 SKIP_DIRS = {".git", ".lake", "__pycache__"}
 SKIP_FILES = {os.path.join("tools", "scrub-check.py")}
 TEXT = {".md", ".lean", ".py", ".json", ".toml", ".yml", ".yaml", ".feature", ".txt", ""}
@@ -40,7 +42,7 @@ def main(argv):
             except (UnicodeDecodeError, OSError):
                 continue
             for number, line in enumerate(lines, 1):
-                match = pattern.search(line)
+                match = pattern.search(line.replace(REPOSITORY, ""))
                 if match:
                     hits += 1
                     print(f"{rel}:{number}: {match.group(0)!r} in: {line.strip()[:120]}")
