@@ -1,0 +1,15 @@
+# The cell calculus: the generic scaffolding any project can build on.
+# One library, no dependencies, carrying only universal theorems. A project
+# that uses it supplies its principal through the `Architecture` class and
+# builds its cells from the shapes here.
+name = "cell-calculus"
+version = "2.3.0"
+defaultTargets = ["CellCalculus"]
+
+# The data dictionary is a build check: every constructor and field carries
+# a doc comment, or the build warns.
+[leanOptions]
+linter.missingDocs = true
+
+[[lean_lib]]
+name = "CellCalculus"

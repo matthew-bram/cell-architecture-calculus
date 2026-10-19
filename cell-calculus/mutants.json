@@ -1,0 +1,50 @@
+{
+ "package": "cell-calculus",
+ "root": ".",
+ "cwd": ".",
+ "target": "CellCalculus",
+ "mutants": [
+  {
+   "name": "actor gate wide open",
+   "file": "CellCalculus/Envelope.lean",
+   "old": "if may envelope.actor envelope.payload then",
+   "new": "if true then"
+  },
+  {
+   "name": "shadow issues",
+   "file": "CellCalculus/Policy.lean",
+   "old": "| .shadow     => .ok [.shadowed p]",
+   "new": "| .shadow     => .ok [.issued p]"
+  },
+  {
+   "name": "clock runs backwards",
+   "file": "CellCalculus/Inputs.lean",
+   "old": "if s.last.ms < t.ms then .ok [.ticked t]",
+   "new": "if s.last.ms <= t.ms then .ok [.ticked t]"
+  },
+  {
+   "name": "sequence bound takes max",
+   "file": "CellCalculus/Contract.lean",
+   "old": "| seq a b     => a.latencyBound contracts + b.latencyBound contracts",
+   "new": "| seq a b     => max (a.latencyBound contracts) (b.latencyBound contracts)"
+  },
+  {
+   "name": "forbids ignored",
+   "file": "CellCalculus/Envelope.lean",
+   "old": "      && !rules.forbids.any (fun rule => rule actor command)",
+   "new": "      && true"
+  },
+  {
+   "name": "rejection never reported",
+   "file": "CellCalculus/Replay.lean",
+   "old": "if events == reported then cell.firstRejection rest (history ++ events) (i + 1)",
+   "new": "if true then cell.firstRejection rest (history ++ events) (i + 1)"
+  },
+  {
+   "name": "scrub forgets the map",
+   "file": "CellCalculus/Boundaries.lean",
+   "old": "  match map.forward e.subject with\n  | none   => .error .unknownSubject\n  | some s => .ok { id := e.id, causation := e.causation, correlation := e.correlation,\n                    version := e.version, subject := s, recordedAt := e.recordedAt,\n                    payload := tokenize e.payload }",
+   "new": "  match map.forward e.subject with\n  | _ => .error .unknownSubject"
+  }
+ ]
+}

@@ -1,0 +1,24 @@
+# The build. The calculus is checked by its own theorems and gated by its
+# mutants: a mutant that builds has found a part of the calculus nothing
+# pins, and that fails the job.
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  calculus:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Lean's version manager
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Build the calculus
+        working-directory: cell-calculus
+        run: lake build
+      - name: Run the mutation gate
+        run: python3 tools/mutants.py cell-calculus/mutants.json
