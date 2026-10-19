@@ -58,8 +58,8 @@ One module per idea, in the order a reader should meet them:
 `ModelHeader` and `GovernedReactionExample` beside `GovernedExample`, both
 found by the skills' evaluations; **2.2 the same day** adds `Replay`, the
 trace checker, and `JsonDecode`, nothing changed; **2.3** adds `ContextMap`. Version 1 was frozen the same morning with one
-consumer; the second pass took the consumer's zones, roles, seats and
-households out of the generic shapes, so a change of version rather than a
+consumer; the second pass took the consumer's zones, roles and
+identifiers out of the generic shapes, so a change of version rather than a
 set of deprecated aliases that would have kept them. The skill and the style
 guide are written against this API. A change to a public shape is governed by
 supersession, never by edit: the old name stays, deprecated, and names its

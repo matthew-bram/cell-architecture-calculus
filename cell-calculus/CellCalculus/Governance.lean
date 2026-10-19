@@ -27,7 +27,7 @@ structure ReviewLine where
 /-- A model's header as first written: one review line and what the model
     has superseded. Superseded by `ProjectHeader` on 2026-10-15, because one
     line cannot sign a package with several designs: the review of the
-    notifications model had to replace the ledger's line. -/
+    second design had to replace the first design's line. -/
 structure ModelHeader where
   /-- The one review line. -/
   review     : ReviewLine

@@ -78,7 +78,7 @@ end Cell
     `id`. `given` is this cell's history, `when` the command, `expect` the
     refusal or the events the design says must follow. -/
 structure Example (Command Event Refusal : Type) where
-  /-- The row's id in the design, the theorem's name in the model and the test's name in the code, such as "LEDGER-COMMIT-1". -/
+  /-- The row's id in the design, the theorem's name in the model and the test's name in the code, such as "LOAN-OUT-1". -/
   id     : String
   /-- This cell's history before the command, its own events oldest first; empty for a cell that has seen nothing. -/
   given  : List Event
@@ -100,7 +100,7 @@ def Example.holds {Command ForeignEvent Event State Refusal : Type} [BEq Event] 
 /-- A reaction example: given this cell's history, when a foreign fact
     arrives, then these facts are emitted. -/
 structure ReactionExample (ForeignEvent Event : Type) where
-  /-- The row's id in the design, the theorem's name in the model and the test's name in the code, such as "ALERTS-TRIPWIRE-1". -/
+  /-- The row's id in the design, the theorem's name in the model and the test's name in the code, such as "NOTICE-WARN-1". -/
   id     : String
   /-- This cell's history before the fact arrives, its own events oldest first. -/
   given  : List Event
