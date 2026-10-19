@@ -22,7 +22,7 @@ inductive Exception (Reason : Type)
   | unknown
 ```
 
-`Either[Ex, B]` at every gateway. *Refused* is the cell's invariants saying no: deterministic, final, the journey stops at a named outcome. *Unknown* is the failure window: the effect may or may not have landed. The model never produces `unknown`; only the world does, and `model_never_unknown` is the theorem. The model's job is to say what the caller may do on it: retry with the same key, never decide as if the effect did not happen. Conflating the two is the specific bug the window produces, a timeout treated as a refusal and an effect that landed compensated away.
+`Either[Ex, B]` at every gateway, and `Ex` is itself a sum, `Either[Refused, Unknown]`. *Refused* is the cell's invariants saying no: deterministic, final, the journey stops at a named outcome. *Unknown* is the failure window: the effect may or may not have landed. The two sides come from different places, and the types say so. A cell's `decide` returns `Except Refusal (List Event)`, the inner `Either[Refused, B]`, so a cell can say yes or a deterministic no and nothing else. The third value is added only where a result crosses the wire: `liftToWire` maps a cell's result into `Except (Exception Refusal) B`, turning a refusal into `refused` and never producing `unknown`, which is the theorem `model_never_unknown`. Only the world produces it. The model's job is to say what the caller may do on it: retry with the same key, never decide as if the effect did not happen. Conflating the two is the specific bug the window produces, a timeout treated as a refusal and an effect that landed compensated away.
 
 **A cell is three pure functions.** `Cell.lean`.
 
