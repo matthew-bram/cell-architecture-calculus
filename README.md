@@ -88,7 +88,7 @@ A team's own package is a `lakefile.toml` that requires the calculus over git at
 
 | Document | What it is |
 | --- | --- |
-| [docs/white-paper.md](docs/white-paper.md) | The paper: the hypothesis, the foundations, the calculus shape by shape, the method as documents and a round trip, the evidence from the worked example, where the method can fail and what it proposes, the seven problems that had to be decided, and what comes next |
+| [docs/white-paper.md](docs/white-paper.md) | The paper: the hypothesis, the foundations, the calculus shape by shape, the method as documents and a round trip, the evidence from the worked example, where the method can fail and what it proposes, the seven problems that had to be decided, and a call to contribute |
 | [docs/getting-started.md](docs/getting-started.md) | Modelling your own system in twelve steps, from the corpus's tables to the gates in CI, each step pointing at the file in the example that does it |
 | [docs/the-calculus.md](docs/the-calculus.md) | The shapes, each with its theorem, its source and the file it lives in: the three-valued outcome, the cell, the journey algebra, the envelopes, inputs instead of calls, boundaries as types, the one place a fact may become a command, promises as predicates over runs, contracts that fold, governance by supersession, the context map |
 | [docs/the-lifecycle.md](docs/the-lifecycle.md) | The method as a lifecycle: nine steps by who leads each, the four places the work is checked against the model, the six-stage round trip with its artifact and acceptance test at each, what a reviewer reads, what the checks catch, and what the method does not do |
