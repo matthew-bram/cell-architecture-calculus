@@ -36,7 +36,7 @@ In one line: generate the math, then validate the implementation with the math. 
 
 ## 3. Foundations
 
-Every piece of the calculus has a prior statement by someone who arrived at it on their own. We name each here; the full lineage with its sources is in [foundations.md](foundations.md).
+Every piece of the calculus has a prior statement by someone who arrived at it on their own. We name each here; the full lineage with its sources is in [foundations.md](docs/foundations.md).
 
 **The Decider.** Chassaing gives functional event sourcing's core as a record of four things: `decide: Command -> State -> Event list`, `evolve: State -> Event -> State`, an initial state and a terminal predicate [1]. Decision is separated from state change by materializing the decision as events first. The same shape is Akka Persistence's command handler and event handler [23], and Event Modeling is the documentation method built on it, with commands, events and views on a swimlane per cell and Given, When, Then on each slice [2]. Fraktalio's fmodel library gives the Decider a `combine` operator, a monoid over the sum of commands and events and the product of states, which is the published form of "two cells packaged as one" [3].
 
@@ -140,7 +140,7 @@ In the composite, fan-in is a function of both facts and time is gone. In the wo
 
 ### 4.7 Composition and succession
 
-A journey may run another as a step, which we call **composition**, and that relation must be acyclic. A journey's last fact may be the trigger of a new run of another, which we call **succession**, and that relation may cycle, because each edge is a new fact and a new run. The everyday loop of a product is a succession of DAG runs, never one cyclic journey. Read as one relation, "this journey references that one", almost every journey map cycles; read by kind, composition is acyclic and the cycles are all succession, where they belong. The full argument is [the-dag-rule.md](the-dag-rule.md).
+A journey may run another as a step, which we call **composition**, and that relation must be acyclic. A journey's last fact may be the trigger of a new run of another, which we call **succession**, and that relation may cycle, because each edge is a new fact and a new run. The everyday loop of a product is a succession of DAG runs, never one cyclic journey. Read as one relation, "this journey references that one", almost every journey map cycles; read by kind, composition is acyclic and the cycles are all succession, where they belong. The full argument is [the-dag-rule.md](docs/the-dag-rule.md).
 
 ### 4.8 The wire is a projection, and the parse is in the model
 
@@ -221,9 +221,9 @@ Five documents, each owning one thing, and the Lean beside them.
 | --- | --- | --- |
 | The calculus | The types, the three functions, the three-valued outcome, the forbidden shape, non-determinism at the roots, the journey algebra, the wire as a projection | `cell-calculus`, and Section 4 |
 | The geometry | The catalogue of allowed journey shapes: root, decide, fan-out, fan-in with memory, sink, succession, and the view and query archetypes. New features are modeled by picking from it | Not drafted; the fan-in with memory is worked in the example |
-| The annotation | The fixed tables a design and a journey carry so that the model is transcribed one to one. Prose stays the owner of meaning | [style-guide.md](style-guide.md), sections 8 and 9 |
+| The annotation | The fixed tables a design and a journey carry so that the model is transcribed one to one. Prose stays the owner of meaning | [style-guide.md](docs/style-guide.md), sections 8 and 9 |
 | The examples | Given, When, Then rules and the one-id convention across design, theorem and test | In the calculus; coverage and conformance in Section 4 |
-| The round trip | The six stages from the maps to the traces and back, with the artifact, the direction of generation and the acceptance test at each | [the-lifecycle.md](the-lifecycle.md) |
+| The round trip | The six stages from the maps to the traces and back, with the artifact, the direction of generation and the acceptance test at each | [the-lifecycle.md](docs/the-lifecycle.md) |
 
 **The six stages.**
 
@@ -308,7 +308,7 @@ Still parked on purpose: the saga and commands over RPC between cells, which non
 
 The method is published so that the people who use it say what comes next. Section 7 lists ten places it can fail, each with the proposal we would make; Section 8 lists what each decision leaves open; the build lists what it does not yet generate. We do not rank them, because the ranking belongs to whoever models the next system, and the method's own next test is exactly that: a system that is not the example, modeled by a team that did not write the calculus.
 
-Three kinds of contribution are worth more than the rest. A **second project**, whatever its domain, with what the calculus lacked for it fed back as proposals: a shape with the universal theorem it would carry, arriving beside the old one and never in its place. A **transcription** that holds the same design to the same module, so that two authors produce one model. And a **rejected trace** from running code, with the step it was rejected at and the design row it disagreed with, because that is the one artifact the method cannot produce for itself. The repository's [contributor's guide](../CONTRIBUTING.md) says how each arrives and the gates it passes.
+Three kinds of contribution are worth more than the rest. A **second project**, whatever its domain, with what the calculus lacked for it fed back as proposals: a shape with the universal theorem it would carry, arriving beside the old one and never in its place. A **transcription** that holds the same design to the same module, so that two authors produce one model. And a **rejected trace** from running code, with the step it was rejected at and the design row it disagreed with, because that is the one artifact the method cannot produce for itself. The repository's [contributor's guide](CONTRIBUTING.md) says how each arrives and the gates it passes.
 
 ## 10. Conclusion
 

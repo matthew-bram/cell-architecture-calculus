@@ -4,6 +4,15 @@ A strongly typed approach to validating a cell-based architecture, in Lean 4, wi
 
 The repository holds the generic calculus as one Lean package with no dependencies, a worked example that carries the whole round trip, the documents that state the method, and the two scripts that gate a build.
 
+## The case for the method
+
+Two papers at the root of the repository make the argument, for two readers.
+
+| Paper | For whom | What it is |
+| --- | --- | --- |
+| [White paper](white-paper.md) | Architects and engineers | The hypothesis, the prior art each shape stands on, the calculus shape by shape with its theorems, the method as documents and a round trip, the evidence from the worked example with every number taken from the build, the ten places the method can fail with a proposal for each, the seven problems that had to be decided with what each leaves open, and a call to contribute |
+| [Executive summary](executive-summary.md) | Technology leaders | The problem from the leader's seat, what the method changes for an organization, what it removes from the daily work, what it costs, what it does not do, the evidence in one table, and how to start with a one-journey pilot |
+
 ## In twenty lines
 
 A cell decides on commands, reacts to other cells' facts, and folds its own facts into its state. No function returns a command, so one cell cannot quietly trigger another: that wiring cannot be written.
@@ -88,7 +97,6 @@ A team's own package is a `lakefile.toml` that requires the calculus over git at
 
 | Document | What it is |
 | --- | --- |
-| [docs/white-paper.md](docs/white-paper.md) | The paper: the hypothesis, the foundations, the calculus shape by shape, the method as documents and a round trip, the evidence from the worked example, where the method can fail and what it proposes, the seven problems that had to be decided, and a call to contribute |
 | [docs/getting-started.md](docs/getting-started.md) | Modelling your own system in twelve steps, from the corpus's tables to the gates in CI, each step pointing at the file in the example that does it |
 | [docs/the-calculus.md](docs/the-calculus.md) | The shapes, each with its theorem, its source and the file it lives in: the three-valued outcome, the cell, the journey algebra, the envelopes, inputs instead of calls, boundaries as types, the one place a fact may become a command, promises as predicates over runs, contracts that fold, governance by supersession, the context map |
 | [docs/the-lifecycle.md](docs/the-lifecycle.md) | The method as a lifecycle: nine steps by who leads each, the four places the work is checked against the model, the six-stage round trip with its artifact and acceptance test at each, what a reviewer reads, what the checks catch, and what the method does not do |
