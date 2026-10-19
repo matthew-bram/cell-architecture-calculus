@@ -1,6 +1,9 @@
-# The build. The calculus is checked by its own theorems and gated by its
-# mutants: a mutant that builds has found a part of the calculus nothing
-# pins, and that fails the job.
+# The build. Two jobs: the calculus, checked by its own theorems and gated
+# by its mutants; then the example, where the kernel checks every theorem,
+# the generators render the views, the review line is checked against the
+# design, the mutation score gates, the trace checker accepts the good
+# traces and rejects the bad, and the reference implementation is tested
+# against the fixtures and its trace replayed.
 name: ci
 
 on:
@@ -22,3 +25,39 @@ jobs:
         run: lake build
       - name: Run the mutation gate
         run: python3 tools/mutants.py cell-calculus/mutants.json
+
+  example:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: examples/library
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Lean's version manager
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Build the example
+        run: lake build
+      - name: Render the views and check they are the committed ones
+        run: |
+          lake exe fixtures
+          git diff --exit-code generated/
+      - name: Check the review line
+        run: python3 ../../tools/review-check.py Library/Governance.lean .
+      - name: Run the mutation gate
+        run: python3 ../../tools/mutants.py mutants.json
+      - name: Replay the traces that conform
+        run: lake exe replay traces/circulation-good.json traces/borrow-run-good.json traces/circulation-recorded.json
+      - name: Replay the traces that must be rejected
+        run: |
+          if lake exe replay traces/circulation-retry-twice.json traces/circulation-not-understood.json traces/borrow-run-backwards.json traces/borrow-run-stray.json; then
+            echo "a known-bad trace was accepted"; exit 1
+          fi
+      - name: Test the implementation against the fixtures
+        run: python3 -m unittest discover -s impl -v
+      - name: Record the implementation's trace and replay it
+        run: |
+          python3 impl/record_trace.py
+          git diff --exit-code traces/circulation-recorded.json
+          lake exe replay traces/circulation-recorded.json

@@ -1,0 +1,13 @@
+{"version": "1.2.0",
+ "packagesDir": ".lake/packages",
+ "packages":
+ [{"type": "path",
+   "scope": "",
+   "name": "«cell-calculus»",
+   "manifestFile": "lake-manifest.json",
+   "inherited": false,
+   "dir": "../../cell-calculus",
+   "configFile": "lakefile.toml"}],
+ "name": "«library»",
+ "lakeDir": ".lake",
+ "fixedToolchain": false}

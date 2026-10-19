@@ -1,0 +1,34 @@
+# The library's package: the circulation slice and every example and
+# computation about it, built on the generic cell calculus.
+name = "library"
+defaultTargets = ["Maps", "Library", "fixtures", "replay"]
+
+# The data dictionary is a build check: every constructor and field carries
+# a doc comment, or the build warns.
+[leanOptions]
+linter.missingDocs = true
+
+[[require]]
+name = "cell-calculus"
+path = "../../cell-calculus"
+
+# The two maps the method starts from: the journeys as checked DAGs with
+# the paths table and the direction rule, and the context map beside it.
+[[lean_lib]]
+name = "Maps"
+roots = ["JourneyMap", "ContextMap"]
+
+# The slice: circulation, notices, fines, pickup and the renewals policy,
+# the borrow journey, the envelopes, the promise, and the model's governance.
+[[lean_lib]]
+name = "Library"
+
+# The generators: the live examples rendered as Gherkin and JSON fixtures.
+[[lean_exe]]
+name = "fixtures"
+root = "Fixtures"
+
+# The trace checker: traces in the wire shape replayed into the model.
+[[lean_exe]]
+name = "replay"
+root = "Replay"

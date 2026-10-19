@@ -1,0 +1,9 @@
+{
+ "cell": "circulation",
+ "steps": [
+  { "command": { "kind": "checkOut", "key": "a", "item": "b-1" },
+    "outcome": { "ok": [ { "kind": "checkedOut", "key": "a", "item": "b-1", "onLoan": 1 } ] } },
+  { "command": { "kind": "borrow", "key": "b", "item": "b-2" },
+    "outcome": { "ok": [] } }
+ ]
+}
