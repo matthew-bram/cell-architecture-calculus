@@ -1,8 +1,8 @@
 # The style guide
 
-The standard a model in the cell calculus is held to, for humans and agents alike, written against version 2 of `cell-calculus`.
+The standard a model in the cell calculus is held to.
 
-The purpose is consistency: two people, or two agents, given the same design produce the same model, and a reader who did not write the model can tell what every name means without opening the sources. The examples are from the worked example, [examples/library](../examples/library/).
+The purpose is consistency: two authors given the same design produce the same model, and a reader who did not write the model can tell what every name means without opening the sources. The examples are from the worked example, [examples/library](../examples/library/).
 
 ## 1. What goes where
 
