@@ -1,0 +1,27 @@
+name: Report a second project
+description: You modeled a system that is not the example. What did the calculus lack, and what did the method find?
+title: "Project: "
+labels: [project]
+body:
+  - type: textarea
+    id: system
+    attributes:
+      label: The system
+      description: The domain in a paragraph, how many cells and journeys, and which steps of the getting-started guide you reached.
+    validations:
+      required: true
+  - type: textarea
+    id: lacked
+    attributes:
+      label: What the calculus lacked
+      description: Each shape you needed and did not have, with the design row that needed it. Each becomes a proposal.
+  - type: textarea
+    id: found
+    attributes:
+      label: What the method found
+      description: Decisions the tables showed were unmade, breaks the gate found that no example noticed, traces the model rejected.
+  - type: textarea
+    id: transcription
+    attributes:
+      label: Transcription
+      description: Where two transcriptions of the same tables differed, if you tried more than one.

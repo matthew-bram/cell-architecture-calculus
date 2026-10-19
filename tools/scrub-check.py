@@ -21,6 +21,8 @@ PATTERNS = [
 ]
 # The repository's own address is the one place a name belongs.
 REPOSITORY = "github.com/matthew-bram/cell-architecture-calculus"
+# The maintainers' handles are operational, not authorship, and appear only where GitHub reads them.
+ALLOWED = [REPOSITORY, "@matthew-bram"]
 SKIP_DIRS = {".git", ".lake", "__pycache__"}
 SKIP_FILES = {os.path.join("tools", "scrub-check.py")}
 TEXT = {".md", ".lean", ".py", ".json", ".toml", ".yml", ".yaml", ".feature", ".txt", ""}
@@ -42,7 +44,10 @@ def main(argv):
             except (UnicodeDecodeError, OSError):
                 continue
             for number, line in enumerate(lines, 1):
-                match = pattern.search(line.replace(REPOSITORY, ""))
+                scrubbed = line
+                for allowed in ALLOWED:
+                    scrubbed = scrubbed.replace(allowed, "")
+                match = pattern.search(scrubbed)
                 if match:
                     hits += 1
                     print(f"{rel}:{number}: {match.group(0)!r} in: {line.strip()[:120]}")

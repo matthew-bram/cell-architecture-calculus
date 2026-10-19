@@ -1,0 +1,24 @@
+name: Report a defect
+description: A build, a gate, a generator or a document is wrong.
+title: "Defect: "
+labels: [defect]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened, and what you expected
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: How to reproduce it
+      description: The commands from a clean checkout, and the tag or commit.
+      render: shell
+    validations:
+      required: true
+  - type: textarea
+    id: output
+    attributes:
+      label: The output
+      render: text

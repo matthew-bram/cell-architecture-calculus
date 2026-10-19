@@ -1,0 +1,35 @@
+name: Propose a shape to the calculus
+description: A model needs a shape the generic package lacks.
+title: "Shape: "
+labels: [proposal]
+body:
+  - type: textarea
+    id: shape
+    attributes:
+      label: The shape
+      description: What it is, in a sentence, and the Lean signature you expect.
+    validations:
+      required: true
+  - type: textarea
+    id: theorem
+    attributes:
+      label: The universal theorem it would carry
+      description: What holds for every cell, every history or every command that uses it. A shape without a theorem is a project's, not the calculus's.
+    validations:
+      required: true
+  - type: textarea
+    id: need
+    attributes:
+      label: The project that needs it
+      description: Which design row the existing shapes could not carry, and what you modeled instead.
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Additive or a supersession
+      options:
+        - Additive, a new module or declaration
+        - A supersession, replacing an existing shape, which keeps its old name deprecated
+    validations:
+      required: true

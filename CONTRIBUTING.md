@@ -30,6 +30,16 @@ python3 impl/record_trace.py                                   # traces/circulat
 
 A warning in a build is a defect to fix, not to report around: the missing-docs linter is on in both packages, and an undocumented constructor fails review the same as an undocumented type.
 
+## Branches, pull requests and releases
+
+`main` is protected. Nothing is pushed to it; every change arrives as a pull request from a branch named `feature/<name>`, and a pull request from any other branch fails its first check. A pull request merges when a maintainer has approved it, every conversation on it is resolved, and the four CI jobs are green: the branch name, the scrub gate, the calculus and the example. Merges are squashes, so one pull request is one commit on `main` and one step in the repository's history; write the pull request's title and description as the commit message, in prose, saying what changed and why. The merged branch is deleted.
+
+A pull request that changes a public shape of the calculus is a supersession, never an edit: the old name stays, deprecated with the date and its successor, the version in `cell-calculus/lakefile.toml` moves, and `CHANGELOG.md` gets its row. A pull request that adds a shape is additive and carries its universal theorem, its doc comments and a mutant its theorem kills. A pull request that changes the example follows the style guide and leaves every gate green, with the generated views and the recorded trace regenerated if the model or the implementation changed.
+
+A release is a tag. When `main` holds what the next release should, a maintainer adds the row to `CHANGELOG.md`, tags the commit `v<major>.<minor>.<patch>` and pushes the tag; the release workflow publishes the GitHub release with notes generated from the merged pull requests. Only maintainers can create a `v*` tag. The repository's version moves by the usual rule: the major for a change a project building on a tag must act on, the minor for a shape added or a document rewritten, the patch for a fix. The calculus's own version in its build file moves independently, by supersession. A project requires the calculus at a tag, never a branch, so a release without its tag on the remote cannot be built on.
+
+Maintainers are listed in `.github/CODEOWNERS`. A maintainer may merge their own pull request once the checks are green, which is the one bypass the protection allows; everything else goes through review.
+
 ## Adding a cell to the example
 
 1. Write its design to the tables of style guide section 8, under `examples/library/designs/`, with a sentence in the prose for every row.

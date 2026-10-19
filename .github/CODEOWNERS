@@ -1,0 +1,8 @@
+# Every change is reviewed by a maintainer before it merges. The calculus
+# and the gates are owned most closely: a change to a public shape is a
+# supersession with a changelog row, and a change to a gate is a change to
+# what every build is held to.
+*                       @matthew-bram
+/cell-calculus/         @matthew-bram
+/tools/                 @matthew-bram
+/.github/               @matthew-bram

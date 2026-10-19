@@ -1,9 +1,11 @@
-# The build. Two jobs: the calculus, checked by its own theorems and gated
-# by its mutants; then the example, where the kernel checks every theorem,
-# the generators render the views, the review line is checked against the
-# design, the mutation score gates, the trace checker accepts the good
-# traces and rejects the bad, and the reference implementation is tested
-# against the fixtures and its trace replayed.
+# The build. Four jobs: the branch name, since a pull request to main comes
+# from a feature branch and nowhere else; the scrub gate; the calculus,
+# checked by its own theorems and gated by its mutants; and the example,
+# where the kernel checks every theorem, the generators render the views,
+# the review line is checked against the design, the mutation score gates,
+# the trace checker accepts the good traces and rejects the bad, and the
+# reference implementation is tested against the fixtures and its trace
+# replayed. All four are required to merge.
 name: ci
 
 on:
@@ -12,17 +14,31 @@ on:
   pull_request:
 
 jobs:
-  scrub:
-    runs-on: ubuntu-latest
+  branch:
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - name: A pull request to main comes from a feature branch
+        env:
+          HEAD: ${{ github.head_ref }}
+          EVENT: ${{ github.event_name }}
+        run: |
+          if [ "$EVENT" != "pull_request" ]; then echo "not a pull request"; exit 0; fi
+          case "$HEAD" in
+            feature/*) echo "branch $HEAD" ;;
+            *) echo "a pull request to main must come from a branch named feature/<name>; this one is $HEAD"; exit 1 ;;
+          esac
+
+  scrub:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
       - name: Check that nothing names a tool, a host, a person or another project's domain
         run: python3 tools/scrub-check.py
 
   calculus:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Install Lean's version manager
         run: |
           curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
@@ -34,12 +50,12 @@ jobs:
         run: python3 tools/mutants.py cell-calculus/mutants.json
 
   example:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     defaults:
       run:
         working-directory: examples/library
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Install Lean's version manager
         run: |
           curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none

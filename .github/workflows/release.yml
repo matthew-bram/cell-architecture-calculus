@@ -1,0 +1,25 @@
+# A release is a tag. A maintainer tags a commit on main as v<major>.<minor>.<patch>
+# and pushes the tag; this workflow publishes the GitHub release for it, with
+# the notes generated from the pull requests merged since the previous tag.
+# Only maintainers can create a v* tag, by the repository's tag ruleset.
+name: release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - name: Publish the release for the tag
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          gh release view "$TAG" >/dev/null 2>&1 && { echo "release $TAG exists"; exit 0; }
+          gh release create "$TAG" --title "$TAG" --generate-notes --verify-tag

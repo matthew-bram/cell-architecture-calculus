@@ -1,0 +1,28 @@
+name: Report a rejected trace
+description: Running code took a path the model has no edge for. This is the one artifact the method cannot produce for itself.
+title: "Trace: "
+labels: [trace]
+body:
+  - type: textarea
+    id: verdict
+    attributes:
+      label: The checker's verdict line
+      description: The line `lake exe replay` printed, with the step, what the model expected and what the code reported.
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: trace
+    attributes:
+      label: The trace
+      description: The trace file in the wire shape, or the steps up to the rejected one.
+      render: json
+    validations:
+      required: true
+  - type: textarea
+    id: row
+    attributes:
+      label: The design row
+      description: The Decide or React row the model's expectation comes from, and whether you read the rejection as a defect in the code or a learning for the design.
+    validations:
+      required: true
