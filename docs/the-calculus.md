@@ -46,7 +46,7 @@ In the example, `circulation` decides checkouts, returns, renewals and the close
 3. A saga records its intent before its first remote effect and its result after its last, and is resumable from the intent between the two.
 4. Events are published from the same record as the state, never from memory: the outbox.
 5. Queries create no obligation and carry no window.
-6. Non-determinism lives at the roots. People, time, partners and any automated judgement are sources of facts. A judgement is an event carried in a published schema; everything downstream is a pure reaction, testable with the judgement as a Given. This is the rule that lets a language model, or any heuristic, sit inside a deterministic architecture.
+6. Non-determinism lives at the roots. People, time and any automated judgement are sources of facts. A judgement is an event carried in a published schema; everything downstream is a pure reaction, testable with the judgement as a Given. This is the rule that lets a language model, or any heuristic, sit inside a deterministic architecture.
 
 ## Journeys
 

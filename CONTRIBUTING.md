@@ -1,6 +1,6 @@
 # Contributing
 
-How work in this repository is done. The [README](README.md) is the index; [docs/style-guide.md](docs/style-guide.md) is the standard every contributor is held to.
+How work in this repository is done. The [README](README.md) is the index; [docs/style-guide.md](docs/style-guide.md) is the standard every model is held to.
 
 ## The rules
 
