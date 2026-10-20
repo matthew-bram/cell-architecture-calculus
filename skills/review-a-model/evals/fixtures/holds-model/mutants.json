@@ -1,0 +1,100 @@
+{
+ "package": "library",
+ "root": "../..",
+ "cwd": "examples/library",
+ "target": "Library",
+ "mutants": [
+  {
+   "name": "retry lends again",
+   "file": "examples/library/Library/Circulation.lean",
+   "old": "else if s.seen.contains key then .ok []\n        else if s.onLoan.length",
+   "new": "else if false then .ok []\n        else if s.onLoan.length"
+  },
+  {
+   "name": "limit off by one",
+   "file": "examples/library/Library/Circulation.lean",
+   "old": "if s.onLoan.length \u2265 loanLimit",
+   "new": "if s.onLoan.length > loanLimit"
+  },
+  {
+   "name": "closed card still lends",
+   "file": "examples/library/Library/Circulation.lean",
+   "old": "| .checkOut key item, s =>\n        if s.closed then .error .cardClosed",
+   "new": "| .checkOut key item, s =>\n        if false then .error .cardClosed"
+  },
+  {
+   "name": "return of a stranger's copy",
+   "file": "examples/library/Library/Circulation.lean",
+   "old": "else if !s.onLoan.contains item then .error .notOnLoan\n        else .ok [.checkedIn key item]",
+   "new": "else if false then .error .notOnLoan\n        else .ok [.checkedIn key item]"
+  },
+  {
+   "name": "terminal flag flipped",
+   "file": "examples/library/Library/Circulation.lean",
+   "old": "isTerminal := fun s => s.closed",
+   "new": "isTerminal := fun _ => false"
+  },
+  {
+   "name": "closing a closed card publishes again",
+   "file": "examples/library/Library/Circulation.lean",
+   "old": "if s.closed then .ok [] else .ok [.cardClosed]",
+   "new": "if s.closed then .ok [.cardClosed] else .ok [.cardClosed]"
+  },
+  {
+   "name": "warning at the level",
+   "file": "examples/library/Library/Circulation.lean",
+   "old": "if onLoan > s.warnAt then [.limitWarning item onLoan]",
+   "new": "if onLoan \u2265 s.warnAt then [.limitWarning item onLoan]"
+  },
+  {
+   "name": "notices warns on the close",
+   "file": "examples/library/Library/Circulation.lean",
+   "old": "| .cardClosed, _     => []",
+   "new": "| .cardClosed, _     => [.limitWarning \"closed\" 0]"
+  },
+  {
+   "name": "fine compares backwards",
+   "file": "examples/library/Library/Inputs.lean",
+   "old": "else if i.now.day \u2264 dueDay then .error (.notOverdue item)",
+   "new": "else if i.now.day \u2265 dueDay then .error (.notOverdue item)"
+  },
+  {
+   "name": "pickup readies on one fact",
+   "file": "examples/library/Library/Journeys.lean",
+   "old": "| .returned item, s => if s.held then",
+   "new": "| .returned item, s => if true then"
+  },
+  {
+   "name": "retry places again",
+   "file": "examples/library/Library/Holds.lean",
+   "old": "if s.seen.contains key then .ok []\n        else if s.waiting.contains patron then .error .alreadyWaiting",
+   "new": "if false then .ok []\n        else if s.waiting.contains patron then .error .alreadyWaiting"
+  },
+  {
+   "name": "already waiting still places",
+   "file": "examples/library/Library/Holds.lean",
+   "old": "else if s.waiting.contains patron then .error .alreadyWaiting",
+   "new": "else if false then .error .alreadyWaiting"
+  },
+  {
+   "name": "cancel of a stranger",
+   "file": "examples/library/Library/Holds.lean",
+   "old": "else if !s.waiting.contains patron then .error .notWaiting",
+   "new": "else if false then .error .notWaiting"
+  },
+  {
+   "name": "position off by one",
+   "file": "examples/library/Library/Holds.lean",
+   "old": "(s.waiting.length + 1)]",
+   "new": "s.waiting.length]"
+  }
+ ],
+ "ignore": [
+  "generated",
+  "docs",
+  "impl",
+  "tools",
+  ".git",
+  ".github"
+ ]
+}

@@ -1,0 +1,36 @@
+{
+  "skill_name": "map-the-journeys",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "The town is joining the consortium's interlibrary loan service and the vision gains two journeys. Map journey 8, 'Request an item from the consortium', so we can check it: the vision excerpt with the new journey sections is at evals/fixtures/corpus/vision-journeys-8-9.md and the capability map's new matrix rows at evals/fixtures/corpus/capability-map-journeys-8-9.md; the rest of the corpus is the example project's, under examples/library/corpus/. Add the journey to JourneyMap.lean in a copy of the example project, get it building, and write the map to <workdir>/map.md.",
+      "expected_output": "JourneyMap.lean in the copy gains journey 8 as a Transcribed value whose five steps carry the cells the table names and wait only on earlier steps, with a theorem that it is a DAG by decide; matrix row 8 from the excerpt (catalog, holds, pickup, notices) compared to the journey's named cells by sameSet, with its theorem holding; the build green with no warnings; a map with the cells, the journey's step table, the paths table, the checks table and the gaps, which report that step 3 waiting on step 1 implies an arrow from catalog to pickup that the paths table has no row for, and that the journey's reference to 9 as composition points at a journey not on the map; a report.",
+      "files": ["evals/fixtures/corpus/vision-journeys-8-9.md", "evals/fixtures/corpus/capability-map-journeys-8-9.md"],
+      "assertions": [
+        "build.log shows a successful lake build with no errors and no warnings",
+        "JourneyMap.lean in the copy defines journey 8 as a Transcribed value with exactly five steps whose caps name cells from the capability map and whose needs reference only earlier steps, step 3 needing 1 and 2",
+        "a theorem states that journey 8 is well formed (a DAG) and is proved by decide",
+        "a value for the capability map's matrix row 8 exists and a theorem compares it to the journey's named cells with sameSet and holds",
+        "map.md's gaps section says the arrow from catalog to pickup, implied by step 3 waiting on step 1, has no row in the paths table, and the paths table in the copy was not changed to add one",
+        "map.md or report.md says that journey 8's reference to journey 9 as composition names a journey not on the map, without inventing journey 9's steps",
+        "map.md has a cells table, a step table for journey 8 with a waits-on column, a paths table with a kind column, a checks table naming each theorem, and a gaps section",
+        "no step, cell or arrow absent from the corpus was added: every step in the table corresponds to a row of the journey's Steps table in the excerpt",
+        "report.md names the sections read, says whether the owner was asked for a domain source outside the corpus, gives the counts, says which claims hold, and says what comes next"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Map journeys 8 and 9 together with what each references, from the vision excerpt at evals/fixtures/corpus/vision-journeys-8-9.md and the matrix rows at evals/fixtures/corpus/capability-map-journeys-8-9.md, the rest of the corpus being the example project's under examples/library/corpus/, in a copy of the example project's JourneyMap.lean. I want to know whether the two journeys as written compose cleanly with the rest. Write the map to <workdir>/map.md.",
+      "expected_output": "Both journeys as Transcribed values with their DAG theorems and their matrix row theorems; composition over the eight journeys plus 8 and 9, as their References tables read it, shown by a theorem to have a cycle, 8 composing 9 and 9 composing 8, rather than silently dropped or reordered; the map's checks table reporting the cycle as the corpus's defect, with the DAG rule's reading, that each journey's prose describes the other as what happens afterwards, a succession and not a composition, offered as the resolution for the owner, and composition shown acyclic under that reading; the build green.",
+      "files": ["evals/fixtures/corpus/vision-journeys-8-9.md", "evals/fixtures/corpus/capability-map-journeys-8-9.md"],
+      "assertions": [
+        "build.log shows a successful lake build with no errors and no warnings",
+        "both journeys 8 and 9 are Transcribed values with well-formedness theorems proved by decide",
+        "the composition relation with 8 and 9 added as their References tables read it is represented and a theorem shows it has a cycle (hasCycle = true), or the map and report name the 8-to-9-to-8 composition cycle explicitly as found",
+        "neither journey's reference to the other was dropped, changed to succession or reordered in the transcription to make a theorem hold, and the report says the cycle is the corpus's to resolve",
+        "map.md's checks table lists the cycle finding with its theorem and points at the DAG rule's distinction between composition and succession, proposing that both references read as succession, as each journey's prose describes",
+        "the existing theorem composition_isAcyclic over the original eight journeys was not edited"
+      ]
+    }
+  ]
+}

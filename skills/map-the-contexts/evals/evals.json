@@ -1,0 +1,32 @@
+{
+  "skill_name": "map-the-contexts",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "We've got the journey map for the library (the example project in the cell-calculus checkout, examples/library, has the cells and the paths table in JourneyMap.lean, and the corpus under corpus/). Work in a copy of the example project from which ContextMap.lean has been removed, so the map is drawn fresh. Please draw the context map: which context each cell is, what kind of subdomain, and who's upstream and downstream of whom with the usual DDD patterns, checked in Lean like the journey map is. Write the map to <workdir>/context-map.md.",
+      "expected_output": "A context map with one context per cell and the four outside parties of the partner-calls table, kinds from the capability map's core, supporting and generic table, one relationship per pair of contexts in the direction the kind of path gives with each pattern traced to the architecture's sentences, notices as an anti-corruption layer on every fact it reacts to because it puts the name back and every other reactor a conformist, the outside parties as suppliers translated at the edge; a ContextMap.lean in the copy's Maps library whose coverage, partner-translation and heuristic theorems build; the owner asked for domains and subdomains and the answer recorded; the gaps listed, among them the session from the terminals having no context; nothing invented.",
+      "files": [],
+      "assertions": [
+        "a ContextMap.lean exists in the copy with a Context inductive of the eleven cells and the four outside parties, a kind function, a contextMap list of relationships using the calculus's Upstream and Downstream patterns, and theorems named for coverage of the paths table's arrows and for every external upstream translating, and lake build is green with no warnings",
+        "the map's relationships put the gateway's owner upstream of its callers (circulation upstream of membership, renewals, holds, fines and reports; catalog upstream of reports; renewals and membership upstream of operations) and the fact's publisher upstream of its reactors, with the outside parties upstream and the cells translating at their edges",
+        "notices takes every fact it reacts to as an anti-corruption layer, with the architecture's sentence about putting the name back as the provenance, and the other reactors are conformists",
+        "the heuristic that a core context should not conform to a generic one is computed from the map and pinned by a theorem as broken nowhere, not assumed",
+        "the report says the owner was asked for domains and subdomains from outside the corpus and records the answer",
+        "no relationship or pattern appears without a provenance line pointing at the corpus's sentence, and the gaps list the unstated readings, including that the session from the terminals has no context"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Same corpus as before, the example project's under examples/library/corpus/ with its JourneyMap.lean, in a copy from which ContextMap.lean has been removed, but this time we have an enterprise domain model from the town's IT office at <workdir>/enterprise-domains.md that names our domains and subdomains. Draw the context map with the contexts placed in those domains, and tell me where the two disagree. Write the map to <workdir>/context-map.md.",
+      "expected_output": "The context map with domain and subdomain columns from the enterprise document, the capability map's names kept as constructors with the enterprise names in the doc comments, and the three disagreements recorded as gaps: the enterprise model's Lending subdomain holding circulation and holds together where the capability map keeps two cells; its Recommendations and Renewal proposals subdomains splitting the reading assistant the map keeps in one cell; and its placement of notices under a core Member relations domain where the capability map calls notices generic; no cell renamed, merged or split; the relationships the same as without the document; the Lean builds.",
+      "files": ["evals/fixtures/enterprise-domains.md"],
+      "assertions": [
+        "the contexts table carries a domain and a subdomain column filled from the enterprise document, and the map's header names the document as a source beside the corpus",
+        "the constructors keep the capability map's names and the enterprise names appear in doc comments or a column, not as renames",
+        "the gaps name the Lending subdomain's merging of circulation and holds, the split of the reading assistant into Recommendations and Renewal proposals, and notices' placement under a core Member relations domain against the capability map's generic, each as a question for the owner",
+        "no cell was merged or split to fit a subdomain, the kind function still reads notices as generic from the capability map, and the relationships are the same as without the enterprise document",
+        "lake build is green with the coverage and partner-translation theorems"
+      ]
+    }
+  ]
+}

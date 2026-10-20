@@ -1,0 +1,39 @@
+{
+  "skill_name": "start-a-project",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "We're starting to model our clinic scheduling system on the cell calculus. From the architecture notes: staff act in the system as either a clinician or a receptionist, and each staff member has a staff id issued by the identity service. Patient records live in the clinic boundary and invoices in the billing boundary; a patient has a different id in each, and the ids must never cross. The first design we'll model is the appointments design, which will live at designs/appointments.md. Please set up the package, called Clinic, at <workdir>/clinic, using the calculus at <workdir>/cell-architecture-calculus/cell-calculus, and get it building cleanly.",
+      "expected_output": "A package at clinic/ requiring cell-calculus by relative path; Architecture.lean with a Role sum (clinician, receptionist), a Principal of staff id and role, a Boundary sum (clinic, billing) and a bounded patient id abbreviation, every declaration documented; Governance.lean with an unreviewed review line naming designs/appointments.md; JourneyMap.lean and ContextMap.lean empty; Fixtures.lean and Replay.lean with empty registration lists; mutants.json with no mutants; the build clean with no warnings, the generators creating an empty generated/, the review check warning, the gate 0/0; no cell modelled; a report naming the source of each of the five things.",
+      "files": [],
+      "assertions": [
+        "build.log shows a successful lake build with no error lines and no warning lines",
+        "lakefile.toml requires cell-calculus with a relative path (no absolute path) and declares a Maps lean_lib, a Clinic lean_lib, a fixtures lean_exe and a replay lean_exe",
+        "Architecture.lean declares an inductive with constructors clinician and receptionist, and a structure Principal whose fields are a staff id and that role",
+        "Architecture.lean declares a boundary inductive with constructors clinic and billing and an abbrev over BoundedId for the patient id indexed by it",
+        "Architecture.lean has a doc comment above every inductive, structure, def and abbrev",
+        "Governance.lean has a projectHeader whose review line names designs/appointments.md with designHash unreviewed",
+        "Fixtures.lean has an empty cells list and a main that calls Render.run; Replay.lean has an empty checkers list and a main that calls Replay.run",
+        "mutants.json has an empty mutants list and target Clinic",
+        "gate.log shows the generators ran, the review check warned (not failed), and the mutation score 0/0",
+        "no Cell value, Example value or domain theorem is defined anywhere in the package (no cell was modelled)",
+        "report.md names the source for the package name, the calculus source, the principal, the boundaries and the first design, and says what the owner must confirm"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Set up a package for our notes app on the cell calculus. It's a single-user product: whoever signs in acts under their account id, that's the whole identity model. We don't have trust boundaries or separate zones, everything is one service. Call the package Notes, put it at <workdir>/notes, the calculus is at <workdir>/cell-architecture-calculus/cell-calculus. We haven't written the first design yet; it'll be designs/notebook.md.",
+      "expected_output": "A package at notes/ with a Principal of one account id, no Boundary type and no BoundedId, an unreviewed review line naming designs/notebook.md, the build clean, the review check warning that the design does not exist yet, the gate 0/0; the report says no boundaries were declared because the corpus named none, and that the events' subject is open until the corpus names one.",
+      "files": [],
+      "assertions": [
+        "build.log shows a successful lake build with no error lines and no warning lines",
+        "Architecture.lean declares a structure Principal with a single account id field and no Role type",
+        "Architecture.lean declares no boundary inductive and uses no BoundedId",
+        "Governance.lean's review line names designs/notebook.md with designHash unreviewed",
+        "gate.log shows the review check warned that the design does not exist yet or is unreviewed, not a failure, and the mutation score 0/0",
+        "report.md says no boundaries were declared because none were named, and says what the events' subject will be or that it is open until the corpus names one",
+        "no boundary, zone or role was invented: the report does not propose boundaries and Architecture.lean has none"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+$ lake exe replay traces/circulation-good.json traces/borrow-run-good.json traces/circulation-recorded.json
+traces/circulation-good.json: conforms, 6 steps
+traces/borrow-run-good.json: conforms, 2 steps
+traces/circulation-recorded.json: conforms, 11 steps
+exit 0
+$ lake exe replay traces/circulation-retry-twice.json traces/circulation-not-understood.json traces/borrow-run-backwards.json traces/borrow-run-stray.json
+traces/circulation-retry-twice.json: rejected at step 1: the model expected nothing happens, the trace reported copy b-1 was checked out under key a, 2 on loan
+traces/circulation-not-understood.json: rejected at step 1: the command is not understood: unknown kind "borrow"
+traces/borrow-run-backwards.json: rejected at fact e2 at index 0 cites a fact not before it: [1]
+traces/borrow-run-stray.json: rejected at fact e2 is recorded under run run-2, the root's is run-1
+exit 1

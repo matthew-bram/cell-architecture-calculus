@@ -2,7 +2,7 @@
 
 A strongly typed approach to validating a cell-based architecture, in Lean 4, with functional theorems. A cell, in the sense of the [WSO2 cell-based reference architecture](https://github.com/wso2/reference-architecture/blob/master/reference-architecture-cell-based.md), is a self-contained unit with its own record and a gateway as the only way in. The calculus says what is inside one: three pure functions, a fold, and a terminal predicate. From that shape the rest follows. Journeys across cells are terms that compile to directed acyclic graphs. Every example in a design is a theorem in the model and a test in the code, under one id. The running code's traces are replayed into the model, and the model is the judge.
 
-The repository holds the generic calculus as one Lean package with no dependencies, a worked example that carries the whole round trip, the documents that state the method, and the two scripts that gate a build.
+The repository holds the generic calculus as one Lean package with no dependencies, a worked example that carries the whole round trip, the documents that state the method, the two scripts that gate a build, and nine skills, one per step of the lifecycle an agent leads or prepares, each written and evaluated against the example.
 
 ## The case for the method
 
@@ -91,7 +91,8 @@ A team's own package is a `lakefile.toml` that requires the calculus over git at
 | [cell-calculus/](cell-calculus/) | The generic package, one module per idea, carrying only universal theorems and nothing of any one project: `Cell`, `Journey`, `Contract`, `Envelope`, `Inputs`, `Boundaries`, `Policy`, `Promise`, `Wire`, `Coverage`, `Gherkin`, `Render`, `Replay`, `Governance`, `ContextMap`. Every declaration carries a doc comment, and the missing-docs linter is on so that it stays so |
 | [examples/library/](examples/library/) | The worked example: a public library's circulation system, with its design corpus, its journey and context maps checked by theorem, one design written to the method's tables, the model, the generated views, a reference implementation tested against them by example id, and its trace replayed into the model |
 | [docs/](docs/) | The documents, below |
-| [tools/](tools/) | [mutants.py](tools/mutants.py), the mutation score as a gate; [review-check.py](tools/review-check.py), the review line checked against the design's hash |
+| [skills/](skills/) | The nine skills, below: one directory each, with the procedure an agent follows, its checklists and templates, the golden answers it is held to, and its evaluations with their fixtures |
+| [tools/](tools/) | [mutants.py](tools/mutants.py), the mutation score as a gate; [review-check.py](tools/review-check.py), the review line checked against the design's hash; [scrub-check.py](tools/scrub-check.py), the rule that nothing names a tool, a host, a person or another project's domain |
 
 ## The documents
 
@@ -104,6 +105,22 @@ A team's own package is a `lakefile.toml` that requires the calculus over git at
 | [docs/the-dag-rule.md](docs/the-dag-rule.md) | Every journey is a DAG: composition against succession, `Either` as the mechanism, why the cell graph may cycle and a journey may not, and the three checks choreography must satisfy |
 | [docs/style-guide.md](docs/style-guide.md) | The standard a model is held to: what goes where, names, comments, proofs, the shapes a model may and may not use, the annotation tables a design and a journey carry, what a reviewer checks, governance |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | How changes are made: the calculus by supersession, the example by the style guide, the gates every change passes |
+
+## The skills
+
+The lifecycle has nine steps, and at seven of them an agent transcribes, prepares or checks while a person owns the meaning. Each of those is a skill under [skills/](skills/): a procedure with its acceptance test at every stage, the rule of what it never does, and the report it ends with. Every skill reads the example as its golden answer, invents nothing a design does not state, and leaves the review line for a person to sign. Each carries `evals/evals.json`, the prompts and assertions it is graded on, with fixtures written for the library; a change to a skill is followed by a run with and without it.
+
+| Skill | What it does | In the lifecycle |
+| --- | --- | --- |
+| [start-a-project](skills/start-a-project/SKILL.md) | Lays down a package on the calculus from a corpus: the build file at a release tag, the principal and the subject, an unreviewed review line, nothing modelled | Step 1, the package under the corpus |
+| [map-the-journeys](skills/map-the-journeys/SKILL.md) | Transcribes the vision's journeys, the capability map and the paths table into a module where each claim is a theorem, and reports a cycle rather than resolving it | Step 2, the journey map |
+| [map-the-contexts](skills/map-the-contexts/SKILL.md) | Draws the context map beside it: each cell's context and kind, every arrow's relationship upstream to downstream, coverage as a theorem | Step 2, the context map |
+| [annotate-a-design](skills/annotate-a-design/SKILL.md) | Turns a prose design into the tables of style guide section 8, each row traced to its sentence, every gap a question for the owner | Steps 2 and 3, the tables |
+| [model-a-cell](skills/model-a-cell/SKILL.md) | Transcribes the tables into a module that builds, covers every kind and passes the gate, one row to one definition | Step 4, the model |
+| [review-a-model](skills/review-a-model/SKILL.md) | Prepares the six checks a reviewer makes and what signing would write; never signs on its own | Step 6, the review |
+| [test-against-the-model](skills/test-against-the-model/SKILL.md) | Wires a test suite to the generated fixtures, one test per example by id | Step 7, the code |
+| [replay-a-trace](skills/replay-a-trace/SKILL.md) | Replays what the code did into the model and reads a rejection as a defect or a learning, never as a trace to edit | Step 8, the traces |
+| [change-a-model](skills/change-a-model/SKILL.md) | Carries a changed design into the model by supersession: retired, deprecated, aliased, versioned, never deleted | Step 9, the change |
 
 ## What it proves, checks, tests and assumes
 

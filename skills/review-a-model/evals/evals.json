@@ -1,0 +1,39 @@
+{
+  "skill_name": "review-a-model",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Review the holds model against its annotated design and get it ready for me to sign; if nothing blocks, sign it as Avery Lind on 2026-10-20. The model and the design are in evals/fixtures/holds-model/ (see its README for how to stand it up on a copy of the example project at examples/library). Write the packet to <workdir>/review.md.",
+      "expected_output": "A packet with the six checks; check 3 pairs place_idempotent and firstHold_isFirst with the design's universal-claim sentences and reads each of the nine examples against its row; check 4 lists every Decide row with the example that reaches it; the packet reports what the model holds that the design has no row for and that the project header holds one review line, for designs/circulation.md, so the holds design gets a second line beside it; the build green with the gate fourteen of fourteen; signed as asked if nothing blocks, with the review check saying ok after.",
+      "files": [
+        "evals/fixtures/holds-model/"
+      ],
+      "assertions": [
+        "review.md has the six numbered sections: names, comments, theorems, branches, build, review line",
+        "check 3 pairs place_idempotent and firstHold_isFirst with the design's universal-claim sentences and says whether each pair agrees",
+        "check 3 reads the nine examples HOLD-PLACE-1 to 5 and HOLD-CANCEL-1 to 4 against their rows",
+        "check 4 lists every Decide row of the design with an example id that reaches it, or 'none'",
+        "the packet reports what the model holds that the design has no row for (recorded runs for the attribute, fixtures, or the like), or says there is nothing",
+        "the packet reports that the project header holds one review line, for designs/circulation.md, and that the holds design's line is added beside it rather than replacing it",
+        "check 5 records the build green and the mutation score 14/14, and includes the generated feature file's scenarios for holds",
+        "either the review line was signed with the design's path, its hash, Avery Lind and 2026-10-20 and the review check then said ok for it, or it was not signed and the packet says what blocks",
+        "the packet names the design's path and its sixteen-hex hash",
+        "the review changed nothing in the model beyond the review line in Governance.lean, and the packet or report says what it changed"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Review the circulation slice against the updated design at evals/fixtures/circulation-design-warns-at-the-level.md and sign it as Avery Lind on 2026-10-20 if it's good. Model: examples/library/Library/Circulation.lean. Packet to <workdir>/review.md.",
+      "expected_output": "The packet finds that the design's NOTICE-WARN-3 row expects the warning at the level and its React row says at or over the level, while the model's noticeWarn3 expects nothing and react warns only over the level; the build is green; the packet refuses to sign and says the model and the design disagree.",
+      "files": [
+        "evals/fixtures/circulation-design-warns-at-the-level.md"
+      ],
+      "assertions": [
+        "the packet reports that NOTICE-WARN-3 in the design expects a limit warning at the level while the model's noticeWarn3 expects nothing",
+        "the packet reports the React row's 'at or over the level' against the model's strict comparison",
+        "the review line was NOT signed and the packet says the disagreement blocks",
+        "the packet does not change the model or the design to resolve the disagreement, and says the owner decides which is right"
+      ]
+    }
+  ]
+}

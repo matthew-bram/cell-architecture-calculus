@@ -1,0 +1,32 @@
+{
+  "skill_name": "test-against-the-model",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Here's our Python implementation of the circulation cell at <workdir>/circulation.py. Write the tests that run the model's generated examples against it (the fixtures are at <workdir>/generated/circulation-examples.json with the feature file beside it), run them, and tell me where we stand.",
+      "expected_output": "A test suite with one test per example named by its id, a stamp assertion, exact comparison of the outcome; all thirteen examples pass; a report with the stamp and the seam.",
+      "files": ["evals/fixtures/circulation.py", "evals/fixtures/circulation-examples.json", "evals/fixtures/circulation.feature"],
+      "assertions": [
+        "a test file exists that loads generated/circulation-examples.json and defines one test per example named by the example's id",
+        "the suite asserts the fixture's model stamp against a recorded value",
+        "each test replays the example's given through the implementation's fold and decides the when, comparing the whole then (events in order, or the refusal) exactly",
+        "test.log shows the suite run with thirteen example tests passing and no failures",
+        "no fixture was edited, filtered or skipped",
+        "report.md names the stamp and the seam (replay and decide) and says every example holds"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Our circulation implementation is at <workdir>/circulation.py and the model's fixtures are in <workdir>/generated/. Please write the tests that check the code against the model's examples by id and run them. If something fails, tell me what's wrong and whether it's the code or the model.",
+      "expected_output": "The suite runs and exactly LOAN-OUT-2 (retry after unknown) fails: the code books the retried checkout again where the row expects no events; the report quotes the row, shows the code's outcome, says this is the code disagreeing with the design's row and that the owner decides, and does not change the fixture.",
+      "files": ["evals/fixtures/circulation_retry_bug.py", "evals/fixtures/circulation-examples.json", "evals/fixtures/circulation.feature"],
+      "assertions": [
+        "a test file exists with one test per example named by its id and a stamp assertion",
+        "test.log shows exactly one failing example test, LOAN-OUT-2, and twelve passing",
+        "report.md names LOAN-OUT-2 as the failing row, quotes or restates its Given, When and Then, and shows that the code produced a checkedOut event where the row expects none",
+        "report.md says the failure is the code disagreeing with the design's row (the idempotent retry), without declaring the model wrong, and that the owner decides",
+        "the fixture file was not edited and no test was skipped or filtered to pass"
+      ]
+    }
+  ]
+}

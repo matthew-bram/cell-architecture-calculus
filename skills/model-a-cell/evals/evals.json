@@ -1,0 +1,43 @@
+{
+  "skill_name": "model-a-cell",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Model the holds cell from the annotated design at evals/fixtures/holds.md as a new module Library/Holds.lean in a copy of the example project at examples/library, wire it into Library.lean, register it in the generators and the trace checker, and make the build, the fixtures generator and the mutation gate pass. Report what you did and anything the design was missing.",
+      "expected_output": "A module that builds with no sorry and no warnings; nine examples named by id with _holds theorems; place_idempotent and firstHold_isFirst proved; Kinded, Describe, WireCodec, JsonEncode and JsonDecode instances; coverage theorems; the contract and the population attribute over the patron in the stacks; the cell registered in the generator and the checker; three to six mutants added for the cell and killed; names and comments per the style guide; a report.",
+      "files": [
+        "evals/fixtures/holds.md"
+      ],
+      "assertions": [
+        "build.log shows a successful lake build with no error lines and no warnings",
+        "Holds.lean contains no sorry",
+        "the nine examples are values named by their ids in camelCase (holdPlace1 to holdPlace5, holdCancel1 to holdCancel4), each with a _holds theorem",
+        "theorems named place_idempotent and firstHold_isFirst are present and proved (no sorry)",
+        "Kinded instances exist for the command, event and refusal types and the three coverage theorems (coversCommands, coversEvents, coversRefusals) are present",
+        "a WireCodec instance exists with the round-trip law discharged, and JsonEncode and JsonDecode instances exist for the wire command, the events and the refusals",
+        "Describe instances exist for the command, event and refusal types",
+        "a Contracts value with the step 'holds decides' and a population Attribute at threshold 99 over the patron in the stacks (PatronId .stacks) are present",
+        "every inductive, structure, def and abbrev carries a doc comment immediately above it, including example values, fixtures, serialize, parse and predicates",
+        "type names and type parameters are words: no single-capital-letter type parameters and types end in Command, Event, Refusal, State",
+        "gate.log shows every mutant killed with at least three mutants for the holds cell added to the project's mutants.json and run with tools/mutants.py, and the fixtures generator wrote generated/holds.feature",
+        "report.md is present and says what, if anything, the design was missing, and names the three open items as the owner's rather than resolving them",
+        "no examples beyond the design's nine rows were added to the module (exactly nine Example values)",
+        "the module is registered in the generator with one line in the cells list of Fixtures.lean and in the checker with one line in the checkers list of Replay.lean, and neither file has cell-specific rendering code"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Here is the annotated design for the catalog cell at evals/fixtures/catalog-no-decide.md. Please write the Lean for it in the Library package and get it building.",
+      "expected_output": "The agent stops at stage 3 and reports that the design has Commands and Examples but no Decide table, and that the attribute's scope is wrong (a oneRun promise with no concrete duration), without inventing branches. Stage 1 and 2 output may exist with sorry in decide.",
+      "files": [
+        "evals/fixtures/catalog-no-decide.md"
+      ],
+      "assertions": [
+        "report.md states that the design has no Decide table and stops rather than inventing branches",
+        "no decide body with invented refusal logic: Catalog.lean is absent, or its decide is sorry, or the report says the branches were not written",
+        "report.md flags that the attribute's scope or promise is unusable as written (a oneRun promise with no concrete duration)",
+        "the agent did not modify the repository, only the working copy (outputs contain the files; no mention of editing the original)"
+      ]
+    }
+  ]
+}
