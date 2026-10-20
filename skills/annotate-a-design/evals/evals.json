@@ -1,0 +1,40 @@
+{
+  "skill_name": "annotate-a-design",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Annotate the holds slice of our holds design so we can model it: placing a hold on a copy, cancelling it, and the facts the queue publishes. The hold shelf is a separate slice and is not in scope. The design is at evals/fixtures/holds-and-the-hold-shelf.md. Write the annotated design to <workdir>/annotated.md.",
+      "expected_output": "An annotated design citing the design's path and hash, with Commands rows for place and cancel whose senders are the design's (a member, or a librarian on the member's behalf), refusals from the design's checks (already waiting; not waiting), Publishes rows for a hold placed with its position and a hold cancelled, a State table with the queue and the keys honored, Decide rows each traced to a check in the design's order with the key-already-honored row first, an empty Examples table with examples proposed in the gaps one per Decide row, Terminal from the design's sentence that nothing is ever done, two universal claims from the rules, Sentences and Wire marked not stated, a population attribute at ninety-nine for the acknowledgement promise over the patron in the stacks, a provenance table, and a gaps list; a report saying what the design was missing.",
+      "files": ["evals/fixtures/holds-and-the-hold-shelf.md"],
+      "assertions": [
+        "annotated.md's header names the design's path and a sixteen-hex-character content hash",
+        "the Commands table has exactly two rows, place and cancel, each with fields key, item and patron, with senders drawn from the design's interfaces (a member, or a librarian on the member's behalf)",
+        "the refusals and Decide rows come from the design's checks: an already-waiting refusal on place, a not-waiting refusal on cancel, and a key-already-honored row for each command that produces no event, in the design's order",
+        "the Publishes table has rows for a hold placed, carrying key, item, patron and the position in the queue, and a hold cancelled, carrying key, item and patron",
+        "the State table has the queue of patron tokens with its invariant (never the same token twice, first first) and the keys honored",
+        "every Decide row has a provenance entry, and the Decide table has an otherwise row or a gap for each command",
+        "the Examples table has no rows and the gaps section proposes examples with ids, one per Decide row",
+        "the Universal claims table has rows for a hold placed once (the idempotent receiver) and the first hold being first, each restated as the sentence a theorem will stand for",
+        "the Terminal line says never, from the design's sentence that a copy's queue can always be joined again",
+        "the Attributes table has a population row at threshold 99 for a hold acknowledged within a minute, with the patron in the stacks as its subject, and no oneRun row for it",
+        "Sentences and Wire are marked not stated rather than invented",
+        "no row, table or sentence about the hold shelf (pickup) appears in the tables, since that slice was not asked for",
+        "a Provenance section with a table and a Gaps section with a numbered list are present, and the gaps include the three open items the design lists",
+        "the design file was not modified and the annotation is a separate document",
+        "report.md says what the design was missing by table"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Please annotate the reading assistant design at evals/fixtures/assistant-stub.md so we can start modelling the assistant. Put the result at <workdir>/annotated.md.",
+      "expected_output": "The agent reports that the design is a stub whose Purpose, What it owns, Interfaces, Data and Design sections are empty, and stops without writing tables; no Commands rows are invented from the stub's scope paragraph.",
+      "files": ["evals/fixtures/assistant-stub.md"],
+      "assertions": [
+        "report.md says the design is a stub or that its sections are empty, naming at least two empty sections",
+        "no Commands table row was written from the stub's scope paragraph: annotated.md is absent or has no data rows in its Commands table",
+        "the agent did not invent a Decide table, examples or sentences for the reading assistant",
+        "report.md says what must exist in the design before it can be annotated"
+      ]
+    }
+  ]
+}

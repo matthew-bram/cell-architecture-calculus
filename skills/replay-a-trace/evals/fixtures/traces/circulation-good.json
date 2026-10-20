@@ -1,0 +1,17 @@
+{
+ "cell": "circulation",
+ "model": "Library/Circulation.lean#2465870485711712215+../../cell-calculus/CellCalculus/Cell.lean#3737230006895401021",
+ "history": [],
+ "steps": [
+  { "command": { "kind": "checkOut", "key": "a", "item": "b-1" },
+    "outcome": { "ok": [ { "kind": "checkedOut", "key": "a", "item": "b-1", "onLoan": 1 } ] } },
+  { "command": { "kind": "checkOut", "key": "b", "item": "b-2" },
+    "outcome": { "ok": [ { "kind": "checkedOut", "key": "b", "item": "b-2", "onLoan": 2 } ] } },
+  { "command": { "kind": "checkIn", "key": "c", "item": "b-1" },
+    "outcome": { "ok": [ { "kind": "checkedIn", "key": "c", "item": "b-1" } ] } },
+  { "command": { "kind": "renew", "key": "d", "item": "b-2" },
+    "outcome": { "ok": [ { "kind": "renewed", "key": "d", "item": "b-2" } ] } },
+  { "command": { "kind": "checkOut", "key": "e", "item": "b-3" },
+    "outcome": { "ok": [ { "kind": "checkedOut", "key": "e", "item": "b-3", "onLoan": 2 } ] } }
+ ]
+}

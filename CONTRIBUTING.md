@@ -49,6 +49,12 @@ Maintainers are listed in `.github/CODEOWNERS`. A maintainer may merge their own
 5. Add three to six mutants for it to `mutants.json`, one per branch where a change would be plausible, and run the gate. A mutant that survives is a missing example; add the row to the design first, then the example.
 6. Add a review line for the design to `Governance.lean`, unreviewed.
 
+## Changing a skill
+
+A skill under `skills/` is a procedure an agent follows, and it is held to the same rules as a model: it reads the example as its golden answer, it invents nothing a design does not state, and it never signs a review line. Its goldens point at the example's files rather than copying them, so they cannot drift; its fixtures are written for the library, under the scrub gate like everything else, and a fixture that is a model, such as the holds cell the review skill is evaluated on, must build against the calculus as it stands.
+
+A change to a skill is followed by a new run of its evaluations in `evals/evals.json`, with the skill and without it; the baseline runs on a copy of the repository with `skills/` and `docs/` removed, so that it is genuinely without the skill. An assertion is revised only when it encoded a prediction rather than the quality owed, and the commit says so. A skill that gains a stage gains its acceptance test and the line in its report.
+
 ## Proposing a shape to the calculus
 
 A project introduces no new generic shape. If a model needs one the calculus lacks, open an issue that states the shape, the universal theorem it would carry and the project that needs it. A shape that is accepted arrives as a new module or a new declaration, additive, with its theorem, its doc comments, and a mutant in `cell-calculus/mutants.json` that its theorem kills; a shape that replaces one arrives beside the old, which is deprecated with the date and its successor's name. The version in `cell-calculus/lakefile.toml` moves, and the changelog gets its row.

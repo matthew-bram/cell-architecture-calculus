@@ -1,0 +1,19 @@
+{
+ "run": "borrow",
+ "root": {
+  "actor": { "principal": { "card": "C-1041", "role": "member" } },
+  "key": { "minted": "k5" },
+  "causation": null,
+  "correlation": "run-7",
+  "issuedAt": 1000,
+  "payload": { "kind": "checkOut", "key": "k5", "item": "b-5" }
+ },
+ "events": [
+  { "id": "e2", "causation": { "ofEvent": "e1" }, "correlation": "run-7",
+    "version": 1, "subject": "P-7", "recordedAt": 1200,
+    "payload": { "kind": "limitWarning", "item": "b-5", "onLoan": 5 } },
+  { "id": "e1", "causation": { "ofCommand": { "minted": "k5" } }, "correlation": "run-7",
+    "version": 1, "subject": "P-7", "recordedAt": 1100,
+    "payload": { "kind": "checkedOut", "key": "k5", "item": "b-5", "onLoan": 5 } }
+ ]
+}

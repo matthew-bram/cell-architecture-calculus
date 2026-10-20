@@ -1,0 +1,41 @@
+{
+  "skill_name": "change-a-model",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "The owner decided notices should warn at the level, not only over it. The circulation design is updated at evals/fixtures/circulation-design-warns-at-the-level.md (the React row now says 'onLoan at or over the level' and NOTICE-WARN-3 now expects limitWarning \"b-4\" 4). Please carry the change into the model in a copy of the example project at examples/library, keeping the build and the gate green.",
+      "expected_output": "In the copy: notices' react compares with >=; noticeWarn3 stays as a value with its original expectation, retired in the governed reaction set in Library/Governance.lean with a successor (a new id such as NOTICE-WARN-5 expecting limitWarning \"b-4\" 4), the date and the reason; the 'warning at the level' mutant in mutants.json rewritten so it still kills; the project header's superseded list has the row; the review line not re-signed; lake build green, fixtures rendered, gate 10/10, the review check still warning that the design is unreviewed, since the example's line was never signed; a report and a changelog row.",
+      "files": [
+        "evals/fixtures/circulation-design-warns-at-the-level.md"
+      ],
+      "assertions": [
+        "Circulation.lean's react for notices warns when onLoan >= warnAt",
+        "noticeWarn3 still exists as a value with its original expectation (nothing), and is retired in the governed reaction set with a successor named, a date and a reason",
+        "a new reaction example value for the at-the-level-warns case exists with a new id, expecting limitWarning \"b-4\" 4, with a _holds theorem by decide",
+        "mutants.json's 'warning at the level' mutant was rewritten (not removed) and the gate reports every mutant killed, 10/10",
+        "build.log shows a successful build whose only warnings, if any, are deprecation warnings naming a successor",
+        "Governance.lean's projectHeader.superseded has a new row for the supersession and its review line was not signed (designHash still \"unreviewed\")",
+        "gate.log shows the review check still warning that the design is unreviewed rather than saying ok, and the report says the reviewer signs next",
+        "no theorem, example or constructor was deleted: every name present in the original Circulation.lean, Journeys.lean, Envelopes.lean, Promises.lean and Governance.lean is still present",
+        "report.md lists each changed row and the move it got"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "We renamed circulation's refusal from limitReached to fiveAlreadyOnLoan so it reads like the sentence. The revised design is at evals/fixtures/circulation-design-refusal-renamed.md. Update the model in a copy of the example project at examples/library.",
+      "expected_output": "The refusal constructor is fiveAlreadyOnLoan, with the old name limitReached kept as a deprecated alias of it; every statement unchanged in meaning; no theorem or example deleted; the sentence and the wire string updated; build green with deprecation warnings only; gate green; the review check still warning that the design is unreviewed; the reviewer signs next.",
+      "files": [
+        "evals/fixtures/circulation-design-refusal-renamed.md"
+      ],
+      "assertions": [
+        "CirculationRefusal has a constructor fiveAlreadyOnLoan and the name limitReached still resolves as a deprecated alias of it",
+        "no theorem or example was deleted and no theorem's statement changed in meaning: the original theorem names are all present",
+        "the Describe instance for the refusal still says five items are already on loan, and the JsonEncode and JsonDecode instances carry the new name",
+        "build.log shows a successful build with no errors and only deprecation warnings",
+        "the gate reports every mutant killed and the review check does not say ok",
+        "report.md says the old name is kept as an alias and that the reviewer signs the new hash",
+        "a rename changes no claim: no example was retired, no successor example was added, and the review line's design path and hash were not edited"
+      ]
+    }
+  ]
+}

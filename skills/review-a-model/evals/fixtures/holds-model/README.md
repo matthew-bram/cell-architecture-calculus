@@ -1,0 +1,3 @@
+# The holds model, as the model-a-cell skill produces it
+
+Five Lean and JSON files and the annotated design they were transcribed from. To stand the model up: copy `examples/library/` to a working directory that keeps its place beside `cell-calculus/` (the package requires the calculus by the relative path `../../cell-calculus`, and the mutants file's root is the repository), then copy `Holds.lean` into its `Library/` directory and `Library.lean`, `Fixtures.lean`, `Replay.lean` and `mutants.json` over the copies at its root. It builds with no warnings, `lake exe fixtures` writes `generated/holds.feature` with nine scenarios, and the gate scores fourteen of fourteen. `design.md` is the annotated design; the review is of the model against it.

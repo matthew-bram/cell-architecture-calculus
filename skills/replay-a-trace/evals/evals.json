@@ -1,0 +1,32 @@
+{
+  "skill_name": "replay-a-trace",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Our circulation service recorded what it did during last night's test run; the traces are in <workdir>/traces/. The model is the example project at examples/library in the cell-architecture-calculus checkout. Please check the traces against the model and tell me where we stand, and if anything's wrong whether it's our code or the model.",
+      "expected_output": "The replay executable run on the three traces; two conform and circulation-retry-twice is rejected at step 1, the model expecting no events for the retried key and the code booking the checkout again; the report names the step, quotes both sides and the Decide row for the key already in seen, says it is the code disagreeing with the design's idempotent-receiver row or a learning for the design, that the owner decides, and that the trace is kept as known-bad; no trace is edited.",
+      "files": ["evals/fixtures/traces/circulation-good.json", "evals/fixtures/traces/circulation-retry-twice.json", "evals/fixtures/traces/circulation-close-then-checkout.json"],
+      "assertions": [
+        "replay.log or the report shows `lake exe replay` run on all three traces, with circulation-good.json and circulation-close-then-checkout.json conforming and circulation-retry-twice.json rejected at step 1",
+        "the report quotes the model's expectation (nothing happens) and the code's report (copy b-1 was checked out under key a, 2 on loan) for the rejected step",
+        "the report names the design's Decide row for a key already in seen, or the idempotent receiver, as what the code disagrees with",
+        "the report gives the owner two options, a code defect or a design change through change-a-model, and does not declare which side is wrong",
+        "no trace file was edited, trimmed or reordered",
+        "the report says the good traces are kept as known-good and the rejected one as known-bad"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "We recorded a whole run of the borrow slice from our shell, root command and the facts it produced, at <workdir>/traces/borrow-run.json, plus one from circulation alone at <workdir>/traces/circulation-reserve.json. Replay them against the example project's model in the cell-architecture-calculus checkout and tell me what you find.",
+      "expected_output": "The run trace is rejected on its shape: fact e2 is recorded before the fact it cites, which is the code's shell writing envelopes out of order, not a decider; the circulation trace is rejected at step 1 because the model's parse does not understand kind reserve, which is either a wire defect in the code or a command the design has that the model does not; the report says both, names the field and the kind, and gives the owner the two options for each without editing a trace.",
+      "files": ["evals/fixtures/traces/borrow-run.json", "evals/fixtures/traces/circulation-reserve.json"],
+      "assertions": [
+        "replay.log or the report shows both traces rejected, the run at fact e2 citing a fact not before it, the circulation trace at step 1 as not understood with kind reserve named",
+        "the report attributes the run's rejection to the shell's envelope ordering, not to a decider or a Decide row",
+        "the report says the unknown kind is either the code's wire or a command the design has that the model lacks, and that the owner decides",
+        "no trace file was edited to pass",
+        "the report does not claim the model is wrong"
+      ]
+    }
+  ]
+}
