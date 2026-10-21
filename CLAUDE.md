@@ -4,7 +4,7 @@ What this repository is and how work in it is done, for an agent working beside 
 
 ## What it is
 
-A method for modelling a system as cells in Lean 4 and holding the code to the model. The generic calculus is `cell-calculus/`, one `lake` package with no dependencies, carrying only universal theorems. The worked example and every skill's golden answer is `examples/library/`, a public library's circulation system written for this repository. The documents that state the method are `docs/`, and the standard every model is held to is `docs/style-guide.md`. The nine skills are `skills/`, one per step of the lifecycle `docs/the-lifecycle.md` lays out that an agent leads or prepares. The two scripts that gate a build and the scrub gate are `tools/`.
+A method for modelling a system as cells in Lean 4 and holding the code to the model. The generic calculus is `cell-calculus/`, one `lake` package with no dependencies, carrying only universal theorems. The worked example and every skill's golden answer is `examples/library/`, a public library's circulation system written for this repository. The documents that state the method are `docs/`, and the standard every model is held to is `docs/style-guide.md`. The nine skills are `skills/`, one per step of the lifecycle `docs/the-lifecycle.md` lays out that an agent leads or prepares. The two scripts that gate a build and the scrub gate are `tools/`. The research record that led here is `research/`, dated and with the trial's names replaced; the public documents supersede it where they differ.
 
 ## The rules that govern changes
 
