@@ -38,7 +38,7 @@ Keep these. The rewrite changes how things are said, not these habits.
 - **Exactness.** Every number comes from the build. Every identifier, file name and command is exact.
 - **The four words.** *Proved*, *checked*, *tested* and *assumed* mean what the [README](../../../../README.md#what-it-proves-checks-tests-and-assumes) says, and only that.
 - **Headings that state the claim.** "Outcomes have three values" tells the reader more than "Outcomes". A heading that states a claim is held to the claim: it must say no more than its section does.
-- **Pointing at the file.** "In the example this is `Circulation.lean`" lets a reader check the claim.
+- **Pointing at the file.** "In the example this is `Circulation.lean`" lets a reader check the claim. A bare pointer may become a short sentence, "It is in `Circulation.lean`", but it gains no verb the page doesn't use. "`tools/mutants.py` runs it" says what the script does, and the page never said that.
 - **The original owns meaning.** A rewrite changes how a claim is said, never what it claims. This is the documents' version of the rule that the design owns meaning.
 
 ## The rules
@@ -71,7 +71,7 @@ Don't define a term by apposition in the middle of a longer claim. If a page int
 
 Don't turn reasoning into bullets. A bullet list of "because" clauses loses the because.
 
-**Keep a table that is already there.** Its rows and columns are part of what the page says: they tell the reader which things share which attributes. Don't dissolve it into prose, split it in two, or drop a column. If a cell runs long, shorten the cell and move the rest into a sentence after the table, so every item it listed is still on the page.
+**Keep a table that is already there.** Its rows and columns are part of what the page says: they tell the reader which things share which attributes. Don't dissolve it into prose, split it in two, or drop a column. Each cell keeps what it says, word for word, even when it runs long. The reader looks for an item in its row, so moving it out of the cell loses where it was. Inside a cell you may split a semicolon into sentences, and nothing more.
 
 ### 5. Address the reader the way the page needs
 

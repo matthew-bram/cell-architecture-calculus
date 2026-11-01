@@ -29,7 +29,7 @@ A rewrite fails in two directions. It drifts back into the dense, chained style 
 1. **One idea per sentence.** Split any sentence that hangs a chain of clauses off a claim.
 2. **Lead with the point.** A paragraph's first sentence is its claim. A page's first paragraph says what it is and who it's for.
 3. **Define a term once**, in bold, in a short sentence. Then use it the same way everywhere.
-4. **Lists for parallel things, tables for attributes, prose for reasoning.** A table that is already there stays a table, with every row and column.
+4. **Lists for parallel things, tables for attributes, prose for reasoning.** A table that is already there stays a table, with every row and column, and each cell keeps what it says.
 5. ***You* in guides, *we* sparingly in papers, neither in reference pages.**
 6. **Active voice, present tense, a concrete subject.**
 7. **Plain words for ordinary English. Terms of art stay exactly as they are.**

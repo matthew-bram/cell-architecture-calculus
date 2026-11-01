@@ -48,7 +48,7 @@ Any of these changes what a page claims if it goes missing:
 | **Sources** | Chassaing, 2021; Helland; the **[H]**, **[M]** and **[L]** markers |
 | **Distinctions** | refusal against unknown; composition against succession against pointer |
 | **Non-goals** | what the method does not do; what a direction is not |
-| **Structure** | a table's rows and columns; a numbered list's order; which section a claim sits in |
+| **Structure** | a table's rows and columns, and what each cell says; a numbered list's order; which section a claim sits in |
 
 A distinction is the easiest of these to lose. Two terms that sound alike in plain English often mean different things here. Never merge them for smoothness.
 

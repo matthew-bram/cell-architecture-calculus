@@ -28,6 +28,8 @@ The prose check notes every H2 section of 400 words or more with no figure. Trea
 
 At the head of its section, right after the heading or after one sentence that introduces it. The prose that follows walks through it: "The thick box is the hard gate."
 
+A figure leads the text it draws. It never follows that text with "the figure shows the references named above". If a table or a list holds the same facts, the figure goes before it.
+
 Every figure has a sentence before or after it that says what it shows. The figure never carries a fact the text doesn't, so a reader who can't see it loses nothing.
 
 ## Which diagram
@@ -56,9 +58,10 @@ Stay with these three kinds. They render on GitHub, read well in light and dark 
 
 A figure is a view of the method, and the lifecycle's rule holds for views: generated views own nothing. A hand-drawn figure owns nothing either.
 
-- **Draw only what a page already states.** Every node and edge points at a sentence in this repository or at the example's code.
-- **Use the example's real names** when a figure shows the example: its cells, files and journeys.
+- **Draw only what the page states.** Every node and edge points at a sentence on the page the figure is drawn for. The rest of the repository and the example's code can check a figure, but they never add to it.
+- **Name things as the page names them.** If the page says "journey 3", the node is "Journey 3", not the title the vision gives that journey.
 - **Check a figure of the example against the example's own maps.** A journey figure is checked against `examples/library/JourneyMap.lean` and the journey map golden in `skills/map-the-journeys/references/golden/`. Where the page and the map disagree, draw only what both say, and report the disagreement.
+- **Leave out an edge the page leaves open.** "A checkout's loan runs late, journey 5" names where the edge ends but not where it starts. The map may say, but the page doesn't, so the edge stays out and the report asks.
 - **A figure of the model matches the model.** If the model changes, the figure changes with it.
 - **If you can't draw it faithfully, don't.** Report the section as one that wants a figure, and say what you couldn't settle.
 
