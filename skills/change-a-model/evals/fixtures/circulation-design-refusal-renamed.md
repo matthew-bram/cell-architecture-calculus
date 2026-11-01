@@ -243,7 +243,7 @@ The parse is the identity up to shape: membership forwards the member's request 
 
 | field | type | invariant |
 | --- | --- | --- |
-| open | List String | the items with a fine open, newest first |
+| owed | List String | the items with a fine open, newest first |
 
 ### Decide
 
@@ -341,7 +341,7 @@ The state is terminal when the copy has come in and a hold is waiting.
 
 | id | name | sender | fields | refusals |
 | --- | --- | --- | --- | --- |
-| propose | propose a renewal | the reading assistant, as a policy cell | the renewal, as circulation's command | |
+| propose | propose a renewal | the reading assistant, by succession from its fact | the renewal, as circulation's command | |
 | approve | approve a held renewal | a member | the renewal | notHeld |
 | setRung | set the rung | the operator | rung : shadow, review or autonomous | |
 
@@ -365,7 +365,7 @@ Sequence: circulation decides, then notices reacts on what it published. The jou
 
 ### Attributes
 
-| name | scope | subject | promise | threshold |
+| name | scope | subject | promise or relation or measure | threshold |
 | --- | --- | --- | --- | --- |
 | a limit warning within a minute of the checkout that reached it | population | the patron in the stacks | withinDuration isCheckOut isWarning 60000 | 99 |
 | a closed card takes no new loan | artifact | the patron in the stacks | closed_refusesCheckOut | |
