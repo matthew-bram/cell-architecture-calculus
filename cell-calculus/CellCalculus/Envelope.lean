@@ -138,8 +138,8 @@ inductive GatedRefusal (Refusal : Type)
   | domain (reason : Refusal)
   deriving Repr, DecidableEq
 
-/-- A cell's actor policy: may this actor issue this command? One row of the
-    design's Decide table per answer. -/
+/-- A cell's actor policy: may this actor issue this command? One answer per
+    sender the design's Commands table names. -/
 def ActorPolicy (Command : Type) := Actor → Command → Bool
 
 /-- Lift a cell to the envelope. The actor check becomes the first branch of

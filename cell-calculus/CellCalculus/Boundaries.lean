@@ -10,7 +10,7 @@ boundaries; re-identification is its inverse.
 
 This module is opt-in. A project with trust boundaries enumerates them in
 its own package and makes a bounded ID the subject of its events; a project
-without them never imports this module and its subject is whatever it is.
+without them never uses this module and its subject is whatever it is.
 -/
 
 /-- An identifier indexed by the boundary that knows it. Only the IDs the
