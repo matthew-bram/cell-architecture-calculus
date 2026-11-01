@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: rewrite-keeps-every-detail
+expected_outcome: |
+  The section is rewritten in place in short sentences, with the Lean code block unchanged and every identifier, number, qualifier, distinction and source of the original still present. Coverage and mutation stay two distinct ideas, and the run reports what it changed and how it checked that nothing was lost.
+context:
+  scaffold_script: place-files.sh
