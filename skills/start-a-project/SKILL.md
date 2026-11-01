@@ -15,7 +15,7 @@ Paths below are relative to this skill's directory; the package root, two levels
 
 ## The procedure
 
-### Stage 1: five things from the corpus
+### Stage 1: six things from the corpus
 
 Read the design corpus you are given, the architecture document, the capability map, the product vision, whatever exists, for exactly these, and write down where each came from:
 
@@ -42,7 +42,7 @@ It writes `lakefile.toml` in the shape `docs/getting-started.md` gives, requirin
 
 ### Stage 3: the architecture
 
-Open `<Package>/Architecture.lean` and replace the placeholder principal with the corpus's: the fields with their dictionary comments, a sum type for each field that is one of a fixed few things, declared above `Principal` with its own comment. If boundaries were given, rename `SubjectId` to what the corpus calls the thing an event is about, `PatronId`, `PatientId`, and keep its comment true. Every declaration carries a doc comment; the reviewer counts them.
+Open `<Package>/Architecture.lean` and replace the placeholder principal with the corpus's: the fields with their dictionary comments, a sum type for each field that is one of a fixed few things, declared above `Principal` with its own comment. If boundaries were given, rename `SubjectId` to what the corpus calls the thing an event is about, `PatronId`, `PatientId`, and keep its comment true. Every declaration other than a theorem carries a doc comment; the reviewer counts them.
 
 Then the four commands, from the package's directory; the tools are the package's own:
 
@@ -67,4 +67,4 @@ Acceptance: the build succeeds with no warnings; the generators create `generate
 
 ## The report
 
-End with a short report, in prose: the six things and where each came from, the calculus release among them, or that the corpus did not give it; what remains a placeholder for the owner to confirm; the four commands' outcomes; and what comes next, which is annotating the first design.
+End with a short report, in prose: the six things and where each came from, the calculus release among them, or that the corpus did not give it; what remains a placeholder for the owner to confirm; the four commands' outcomes; and what comes next, which is mapping the journeys and the contexts, then annotating the first design.
