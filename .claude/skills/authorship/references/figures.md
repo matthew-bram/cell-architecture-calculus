@@ -59,7 +59,7 @@ A figure is a view of the method, and the lifecycle's rule holds for views: gene
 - **Draw only what a page already states.** Every node and edge points at a sentence in this repository or at the example's code.
 - **Use the example's real names** when a figure shows the example: its cells, files and journeys.
 - **Check a figure of the example against the example's own maps.** A journey figure is checked against `examples/library/JourneyMap.lean` and the journey map golden in `skills/map-the-journeys/references/golden/`. Where the page and the map disagree, draw only what both say, and report the disagreement.
-- **A figure of the model matches the model.** If the model changes, the figure changes in the same commit.
+- **A figure of the model matches the model.** If the model changes, the figure changes with it.
 - **If you can't draw it faithfully, don't.** Report the section as one that wants a figure, and say what you couldn't settle.
 
 ## Formats
@@ -74,16 +74,15 @@ The README's opening says that every example is a theorem in the model and a tes
 
 ```mermaid
 flowchart LR
-    D["Design<br/>prose and tables"] -->|transcribed into| M["Model<br/>checked by the Lean kernel"]
-    M -->|generates| F["Fixtures and<br/>feature files"]
-    F -->|consumed by| C["The code's tests<br/>one per example id"]
-    C -->|records| T["Traces"]
+    D["An example<br/>in a design"] -->|a theorem in| M["The model<br/>the judge"]
+    D -->|a test in, under one id| C["The code"]
+    C -->|running, leaves| T["Traces"]
     T -->|replayed into| M
     style M stroke-width:3px
 ```
 
 The walk-through that follows it would read:
 
-> A design's tables are transcribed into the model, where the Lean kernel checks them. The model generates the fixtures and feature files, and nothing there is written by hand. The code's tests consume the fixtures, one test per example id. The running code records traces, and the traces are replayed into the model. The model is the judge.
+> Every example in a design is a theorem in the model and a test in the code, under one id. The running code leaves traces, and the traces are replayed into the model. The model is the judge.
 
-Each node is a noun the README uses. Each edge is a verb from the README or the lifecycle. The model has the one emphasis, because the text says it is the judge.
+Each node and each edge is a phrase from those two sentences, and nothing else. The model has the one emphasis, because the text says it is the judge. The rest of the repository says more: the fixtures and feature files the model generates, the tables a design is transcribed from. They stay out of this figure, because this page doesn't say them. A figure drawn for a page holds only what that page states.

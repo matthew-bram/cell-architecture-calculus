@@ -1,6 +1,6 @@
 ---
 name: authorship
-description: Write and revise this repository's prose in its one house voice, plain, exact and led by figures, modeled on the WSO2 cell-based reference architecture page, without losing a single technical detail. Covers the READMEs, CONTRIBUTING, CLAUDE.md, the documents under docs/, the white paper and executive summary, directory guides, changelog rows, commit messages and pull request titles and descriptions. Use this skill whenever you write, rewrite, edit, tighten, shorten, simplify, restructure, proofread or review any Markdown document in this repository; add a section, an example or a diagram to one; draft a commit message, a pull request or a changelog row; or when someone says the docs are dense, too technical, hard to read or inconsistent, or should read more like the reference architecture, even if the words voice, style or authorship are never said. It changes how a document says things, never what it claims.
+description: Write and revise this repository's prose in its one house voice, plain, exact and led by figures, modeled on the WSO2 cell-based reference architecture page, without losing a single technical detail. Covers the READMEs, CONTRIBUTING, CLAUDE.md, the documents under docs/, the white paper and executive summary, directory guides, changelog rows, commit messages and pull request titles and descriptions. Use this skill whenever you write, rewrite, edit, tighten, shorten, simplify, restructure, proofread or review any Markdown document in this repository outside the skills; add a section, an example or a diagram to one; draft a commit message, a pull request or a changelog row; or when someone says the docs are dense, too technical, hard to read or inconsistent, or should read more like the reference architecture, even if the words voice, style or authorship are never said. It changes how a document says things, never what it claims. It never writes the skills under skills/ or .claude/skills/, which are technical procedures, not documents for readers.
 argument-hint: "[file or directory]"
 allowed-tools: Bash(python3 ${CLAUDE_SKILL_DIR}/scripts/prose-check.py *) Bash(python3 ${CLAUDE_SKILL_DIR}/scripts/detail-check.py *) Bash(python3 tools/scrub-check.py)
 ---
@@ -20,7 +20,7 @@ Every piece of writing here has two goals, and they weigh the same:
 
 One rule settles any conflict between them: **the original owns meaning.** You change how a claim is said, never what it claims. A sentence that can't get shorter without losing a detail keeps the detail. Where you can't tell what a sentence means, keep its wording and ask.
 
-The rule holds even when the original is wrong. A sentence that disagrees with the build, a table or another document is rewritten as it stands and reported. The fix goes in its own pull request, never inside a voice change, so that a reviewer of a rewrite has only to check that nothing moved.
+The rule holds even when the original is wrong. A sentence that disagrees with the build, a table or another document is rewritten as it stands and reported. The fix is made apart from the voice change, never inside it, so that a reviewer of a rewrite has only to check that nothing moved.
 
 A rewrite fails in two directions. It drifts back into the dense, chained style that technical writing defaults to. Or it simplifies a *never*, an *only* or an *until* out of existence, and the page reads well and is now wrong. The second failure is the worse one. [references/details.md](references/details.md) names both and says how to catch them.
 
@@ -43,13 +43,13 @@ The rules, the reasons and five rewrites from this repository are in [references
 
 ## What this skill writes, and what it leaves alone
 
-Every public-facing document is in scope, so that the whole repository reads in one voice.
+Every public-facing document outside the skills is in scope, so that the whole repository reads in one voice. The skills are not documents for readers. They are technical procedures, and this skill never writes them.
 
-| Writes and revises | Leaves alone unless the owner says otherwise |
+| Writes and revises | Leaves alone |
 | --- | --- |
 | `README.md`, `CONTRIBUTING.md`, `CLAUDE.md`, `SECURITY.md`, `CODE_OF_CONDUCT.md` | Lean files and their doc comments. `docs/style-guide.md` governs them. |
 | Every page under `docs/` | `examples/library/` designs and corpus. They are the model's sources and the method skills' golden answers, and the review line hashes each design. |
-| `white-paper.md`, `executive-summary.md` | `skills/`. A change to a method skill's text means re-running its evaluations. |
+| `white-paper.md`, `executive-summary.md` | The skills, under `skills/` and `.claude/skills/`. Each is a technical procedure, not a document for readers. |
 | Directory READMEs, such as `future/README.md` and `research/README.md` | Anything under `generated/`. It is generated, never written. |
 | Research notes under `research/` and problem statements under `future/`. Rewrite them in the voice, by the rules for [dated records](#dated-records) | |
 | `CHANGELOG.md` rows, `.github/` templates and issue forms | |
@@ -143,17 +143,15 @@ End with a short report:
 - **Figures added**, and what each shows.
 - **Headings renamed**, and the links fixed.
 - **Questions for the owner:** terms used two ways, claims that read as wrong or unclear, sections that want a figure you couldn't draw faithfully, and anything in scope you left alone.
-- **Facts that look wrong**, each with the sentence, what it disagrees with and where. Each is a fix for its own pull request.
-
-Then stop. Don't commit or push unless asked. When asked, write the message by [commits.md](references/commits.md).
+- **Facts that look wrong**, each with the sentence, what it disagrees with and where. Each is a fix made apart from the rewrite.
 
 ## What this skill never does
 
 - **Never changes what a document claims.** That includes a qualifier, a number, an identifier, a theorem's name, a distinction between two terms, or the meaning of a rule.
-- **Never fixes a fact inside a rewrite**, even a wrong one. It reports the fact, and the fix goes in its own pull request.
+- **Never fixes a fact inside a rewrite**, even a wrong one. It reports the fact, and the fix is made apart from the rewrite.
 - **Never trades a detail for a shorter sentence.**
 - **Never invents** a fact, a citation, an example or a figure's node. A gap goes in the report as a question.
 - **Never edits inside a code block.**
 - **Never updates a dated record** to what is known now. It rewrites the voice and keeps the record.
 - **Never copies text or figures** from the reference architecture or any other source.
-- **Never commits or pushes** unless asked.
+- **Never writes a skill**, under `skills/` or `.claude/skills/`.

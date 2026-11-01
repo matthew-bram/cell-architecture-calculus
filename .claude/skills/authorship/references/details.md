@@ -122,4 +122,4 @@ When you can't tell what a sentence means, don't guess. Keep its wording, mark i
 
 When a sentence is clear and wrong, the same holds. Take a heading that disagrees with its section. The white paper's section 4.2 was once headed "A cell is three pure functions". Its text said a cell is an initial state, three pure functions, one of which is the fold, and a terminal predicate.
 
-A rewrite keeps such a heading's claim as it stands and reports the gap. The fix is a change of meaning, so it goes in its own pull request, before or after the rewrite. A voice pull request that also fixes a fact makes its reviewer hunt for the one sentence that moved among hundreds that didn't.
+A rewrite keeps such a heading's claim as it stands and reports the gap. The fix is a change of meaning, so it is made apart from the rewrite, before or after it. A voice change that also fixes a fact makes its reviewer hunt for the one sentence that moved among hundreds that didn't.
