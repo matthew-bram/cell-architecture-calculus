@@ -16,6 +16,7 @@ Every change passes all of them, and CI runs them on every push.
 
 ```
 export PATH="$HOME/.elan/bin:$PATH"
+python3 tools/scrub-check.py                                   # clean
 cd cell-calculus && lake build && cd ..                        # the calculus, no warnings
 python3 tools/mutants.py cell-calculus/mutants.json            # 7 of 7
 cd examples/library
