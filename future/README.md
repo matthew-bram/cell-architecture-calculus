@@ -8,7 +8,7 @@ The forward record. [research/](../research/) holds the notes that led to the me
 2. **Experiments as packages beside the statement.** Each is a `lake` package under the direction's directory requiring the calculus, and the example where it needs it, by path. Each reports a cost column and a value column, in the terms its statement fixed, and its working notes are dated, one per experiment.
 3. **The four words keep their places.** Proved, checked, tested and assumed mean what the [README](../README.md#what-it-proves-checks-tests-and-assumes) says they mean, here as everywhere. A sentence in a problem statement is a proposal until an experiment's note says which of the four words it earned.
 4. **Graduation.** A shape proved here does not move; a copy arrives in the calculus, additive, and the direction's statement records the date and the version it arrived in. A shape that fails stays here with the note that says how it failed, because a recorded failure is what the next attempt starts from.
-5. **The scrub gate holds here too.** Nothing in this directory names a tool, a host, a person or another project's domain. A direction seeded by private working notes says so in neutral terms and does not carry them.
+5. **The scrub gate holds here too.** Nothing in this directory names a tool, a host, a person or another project's domain, and every claim in a statement points at this repository's own documents and build or at plain reasoning.
 
 ## The directions
 

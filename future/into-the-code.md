@@ -95,12 +95,11 @@ When a syntax mutant survives the generated tests, a search over the input types
 
 ## What is already known
 
-Four things are known before any proof of concept runs, and each shapes the plan.
+Three things are known before any proof of concept runs, and each shapes the plan.
 
 - **Levels 0 to 2 are built.** The example carries them, with every number in the white paper's evidence section taken from its build.
 - **The gate today mutates the model, not the code.** The example's ten mutants, in its `mutants.json`, are hand-written edits to its Lean files, each killed by an example or a theorem. Nothing in the repository mutates the implementation, so the measure this statement proposes has no baseline yet. P1 builds it, and that is why it comes first.
 - **The example's implementation is a pure fold and a decider and nothing else.** Its state is the model's three fields as a dictionary, and its own header says storage and transport would wrap it and never reach inside. So P4 needs nothing the example lacks, and P5 needs a shell that does not exist yet; the open question on the axis leans on that.
-- **The direction was seeded by private notes.** A separate project, by the same author, held a reimplementation of an existing program to a model in Lean. It arrived at a refinement under a declared abstraction function and a named list of what the model assumes. Its notes are not published, and nothing here rests on them. Every claim in this statement points at this repository or at plain reasoning, as the directory's [README](README.md) requires. P3 is the first test of whether that shape carries over to a cell.
 
 ## What this is not
 
