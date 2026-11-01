@@ -4,7 +4,7 @@
     {
       "id": 1,
       "prompt": "The owner decided notices should warn at the level, not only over it. The circulation design is updated at evals/fixtures/circulation-design-warns-at-the-level.md (the React row now says 'onLoan at or over the level' and NOTICE-WARN-3 now expects limitWarning \"b-4\" 4). Please carry the change into the model in a copy of the example project at examples/library, keeping the build and the gate green.",
-      "expected_output": "In the copy: notices' react compares with >=; noticeWarn3 stays as a value with its original expectation, retired in the governed reaction set in Library/Governance.lean with a successor (a new id such as NOTICE-WARN-5 expecting limitWarning \"b-4\" 4), the date and the reason; the 'warning at the level' mutant in mutants.json rewritten so it still kills; the project header's superseded list has the row; the review line not re-signed; lake build green, fixtures rendered, gate 10/10, the review check still warning that the design is unreviewed, since the example's line was never signed; a report and a changelog row.",
+      "expected_output": "In the copy: notices' react compares with >=; noticeWarn3 stays as a value with its original expectation, retired in the governed reaction set in Library/Governance.lean with a successor (a new id such as NOTICE-WARN-5 expecting limitWarning \"b-4\" 4), the date and the reason; the 'warning at the level' mutant in mutants.json rewritten so it still kills; noticeWarn3_holds, which the change makes false, removed outright, with no deprecated or _retired theorem in its place; the project header's superseded list has the row; the review line not re-signed; lake build green, fixtures rendered, gate 10/10, the review check still warning that the design is unreviewed, since the example's line was never signed; a report and a changelog row.",
       "files": [
         "evals/fixtures/circulation-design-warns-at-the-level.md"
       ],
@@ -16,7 +16,7 @@
         "build.log shows a successful build whose only warnings, if any, are deprecation warnings naming a successor",
         "Governance.lean's projectHeader.superseded has a new row for the supersession and its review line was not signed (designHash still \"unreviewed\")",
         "gate.log shows the review check still warning that the design is unreviewed rather than saying ok, and the report says the reviewer signs next",
-        "no theorem, example or constructor was deleted: every name present in the original Circulation.lean, Journeys.lean, Envelopes.lean, Promises.lean and Governance.lean is still present",
+        "no example or constructor was deleted, and no theorem the change leaves true: every name present in the original Circulation.lean, Journeys.lean, Envelopes.lean, Promises.lean and Governance.lean is still present, except noticeWarn3_holds and any other theorem the change makes false, each removed outright, not deprecated, restated under its name or replaced by a theorem that it now fails, such as noticeWarn3_retired",
         "report.md lists each changed row and the move it got"
       ]
     },

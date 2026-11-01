@@ -5,7 +5,7 @@ description: Carry a change in an annotated design into its model in the cell ca
 
 # Change a model
 
-A model under this method is never edited in the way code is edited, because every theorem and example in it is a claim someone reviewed and a test someone's code passes by id. Deleting one deletes the evidence; changing one in place changes what an id means. So a change is a supersession: the new claim arrives beside the old, the old says what replaced it and when and why, and everything that cited the old keeps working while it warns. The review line, which certified the old model against the old design, is not yours to re-sign; the design's hash changed, the check fails, and the reviewer signs again after reading what changed.
+A model under this method is never edited in the way code is edited, because every theorem and example in it is a claim someone reviewed and a test someone's code passes by id. Deleting one deletes the evidence; changing one in place changes what an id means. A statement the change makes false is not one of them: it is no longer a theorem, the build rejects it, and it is removed, while the example it proved stays, retired, as the evidence. So a change is a supersession: the new claim arrives beside the old, the old says what replaced it and when and why, and everything that cited the old keeps working while it warns. The review line, which certified the old model against the old design, is not yours to re-sign; the design's hash changed, the check fails, and the reviewer signs again after reading what changed.
 
 Paths below are relative to this skill's directory; the package root, two levels up, holds `docs/`, `tools/` and `examples/`. Read first, every time:
 
@@ -27,6 +27,7 @@ For each row, the move the checklist gives its kind, and no other:
 
 - **An added row** is new code: a constructor, a branch, an example with its theorem, written as model-a-cell writes them.
 - **A changed row** is a successor. A changed example gets a new id and a new value with its `_holds` theorem; the old example stays, retired in its `GovernedExample` with `supersededBy`, `retiredOn` and `because`. A changed universal claim gets a new theorem; the old keeps its name and statement and gets `attribute [deprecated <successor> (since := "<date>")]` beside it. A changed Decide branch changes the body of `decide`, which is what the examples and mutants then judge; the example that pinned the old branch is retired for one that pins the new.
+- **A statement the change makes false** is not a theorem any more, and the build says so. Remove it flatly: never deprecate it, restate it under its name, keep the old cell to keep it true, or replace it with a theorem that it now fails. The retired example and its successor's `_holds` theorem carry what it stood for, and the header's `superseded` list records it. The same holds for a theorem the design never named that the change makes false; a `deprecated` attribute that named it as a successor names the theorem that replaces it, or, where the design states none, keeps its date and carries a message saying so in place of a successor, since a bare `deprecated` warns, and the gap is reported.
 - **A removed row** is retired the same way, with no successor named and the reason given. The coverage theorems then say whether the live set still reaches every kind; if not, that is the design's gap, reported.
 - **A renamed thing** keeps its old name as a deprecated alias of the new, never a changed statement.
 - **A changed event's fields** are a new event version: the old version type stays, the sum over versions gains a constructor, and the upcaster stays total, which the build checks by exhaustiveness.
@@ -43,7 +44,7 @@ The review line is the reviewer's. Report the design's new hash and what signing
 
 ## What you never do
 
-- Delete a theorem, an example, a constructor or an event version. Retire, deprecate, alias, version.
+- Delete a theorem the build still proves, an example, a constructor or an event version. Retire, deprecate, alias, version. A statement the change makes false is the one thing removed, because it is no longer a theorem.
 - Edit an example's expectation in place, or a theorem's statement in place.
 - Re-sign the review line, or change the recorded hash to make the check pass.
 - Make a change the design does not state, including the plausible consequence of the one it does.

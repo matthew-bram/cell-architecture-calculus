@@ -72,7 +72,7 @@ inductive Exception (Reason : Type)
 
 Every gateway returns `Either[Ex, B]`, and `Ex` is itself a sum, `Either[Refused, Unknown]`. **Refused** is the cell's invariants saying no: deterministic, final, the journey stops at a named outcome. **Unknown** is the window: the effect may or may not have landed. The two sides come from different places, and the types say so. A cell's own result is the inner `Either[Refused, B]`; the window is added only where a result crosses the wire, and `liftToWire` is that lift, which turns a refusal into `refused` and never produces `unknown`. That is the theorem `model_never_unknown`: the model never produces unknown, only the world does. The model's job is to say what the caller may do on it: retry with the same key, never decide as if the effect did not happen. Conflating the two is the specific bug the window produces, a timeout treated as a refusal and an effect that landed compensated away.
 
-### 4.2 A cell is three pure functions
+### 4.2 A cell is an initial state, three pure functions and a terminal predicate
 
 A **cell** in this method is the cell of the cell-based architecture: a self-contained unit with its own data, a gateway as the only way in, and the facts it publishes as the only way its data reaches anyone else [19]. What the reference architecture leaves open is what happens inside the gateway, and that is where teams diverge. We close it with a definition. A cell is an initial state, **three pure functions**, one of which is a fold, and a terminal predicate.
 
@@ -207,7 +207,7 @@ A quality **attribute** is checkable only once it says what it ranges over, so t
 
 ### 4.16 Governance of the model
 
-The changelog rule applied to the model. A theorem is never deleted; it is superseded by name with Lean's `deprecated` attribute, so a use of the old one warns and names its successor. An example is never deleted; it is marked superseded with the date and the reason, and the coverage theorems run over the live set, so that retiring an example without a successor fails coverage, `hole_isNamed`. An event version is never removed; the upcaster from every version ever published is total by exhaustiveness. The project's header carries one **review line** per design, the design's path and its content hash at review, and the build checks it: a warning while unreviewed, a failure when the design changes under a signed line.
+The changelog rule applied to the model. A theorem is never deleted; it is superseded by name with Lean's `deprecated` attribute, so a use of the old one warns and names its successor. A statement that a change to the model makes false is not a theorem: the build rejects it, and it is removed, while the example it proved is retired with its successor. An example is never deleted; it is marked superseded with the date and the reason, and the coverage theorems run over the live set, so that retiring an example without a successor fails coverage, `hole_isNamed`. An event version is never removed; the upcaster from every version ever published is total by exhaustiveness. The project's header carries one **review line** per design, the design's path and its content hash at review, and the build checks it: a warning while unreviewed, a failure when the design changes under a signed line.
 
 ### 4.17 The context map
 
