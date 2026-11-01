@@ -93,6 +93,7 @@ A team's own package is a `lakefile.toml` that requires the calculus over git at
 | [docs/](docs/) | The documents, below |
 | [skills/](skills/) | The nine skills, below: one directory each, with the procedure an agent follows, its checklists and templates, the golden answers it is held to, and its evaluations with their fixtures |
 | [research/](research/) | The research record that led here: eight dated notes from the earlier trial on a private architecture, with the trial's names replaced, and five literature notes on quality attributes as mathematics; its [README](research/README.md) says what was changed for publication |
+| [future/](future/) | The forward record: the directions being explored now, each stated as a problem before anything is built, with its experiments beside it once there are any; nothing there changes the calculus or the example until a shape graduates. The first asks [how far below the cell the model can go](future/into-the-code.md) |
 | [tools/](tools/) | [mutants.py](tools/mutants.py), the mutation score as a gate; [review-check.py](tools/review-check.py), the review line checked against the design's hash; [scrub-check.py](tools/scrub-check.py), the rule that nothing names a tool, a host, a person or another project's domain |
 
 ## The documents
