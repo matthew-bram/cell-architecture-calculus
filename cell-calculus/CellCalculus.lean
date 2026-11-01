@@ -25,8 +25,10 @@ promises from what is here.
 
 One module per idea, in the order a reader should meet them:
 
-- `Cell`: a cell as three pure functions and a fold; the example as a type;
-  trace conformance.
+- `Architecture`: the one class a project instantiates, with its principal.
+- `Cell`: a cell as an initial state, three pure functions, one of which is
+  the fold, and a terminal predicate; the example as a type; trace
+  conformance.
 - `Journey`: journeys as terms that compile to a directed acyclic graph;
   operational delivery.
 - `Contract`: a step's non-functional guarantees and how they fold along
@@ -35,13 +37,14 @@ One module per idea, in the order a reader should meet them:
   actor gate; the per-run causation check.
 - `Inputs`: query answers and the clock as arguments a decider never fetches.
 - `Boundaries`, opt-in: identifiers indexed by a trust boundary; the alias
-  map; the scrub as a parse. A project without boundaries never imports it.
+  map; the scrub as a parse. A project without boundaries never uses it.
 - `Policy`: the one place a fact may become a command.
 - `Promise`: service promises as predicates over runs, and attributes that
   name what they quantify over: one run, a pair, a population, a
   distribution, or the artifact.
-- `Wire`, `Coverage`, `Gherkin`: the three classes a project's types
-  implement so that fixtures, coverage and readable scenarios are generic.
+- `Wire`, `Coverage`, `Gherkin`: the four classes, `WireCodec`, `JsonEncode`,
+  `Kinded` and `Describe`, a project's types implement so that fixtures,
+  coverage and readable scenarios are generic.
 - `Render`: the generators over those instances; a project's fixtures
   executable is a list of registered cells and one call.
 - `Replay`: the trace checker over the same instances and `JsonDecode`,

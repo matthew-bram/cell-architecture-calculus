@@ -6,8 +6,8 @@ import CellCalculus.Gherkin
 A project's fixtures executable renders every registered cell's live
 examples from the one Lean value, two ways: Gherkin for the reader, and
 JSON fixtures in the wire shape for the code's tests, each stamped with the
-hash of the cell's module and of the calculus so that a view without a
-stamp is not a view. The rendering is generic over the `Describe`,
+hash of the cell's module and of the calculus's `Cell` module, the file the
+project passes, so that a view without a stamp is not a view. The rendering is generic over the `Describe`,
 `WireCodec` and `JsonEncode` instances a cell's module gives its types;
 registering a cell is one line in the project's `cells` list, and the
 project's `main` is one call to `Render.run`.

@@ -243,7 +243,7 @@ The parse is the identity up to shape: membership forwards the member's request 
 
 | field | type | invariant |
 | --- | --- | --- |
-| open | List String | the items with a fine open, newest first |
+| owed | List String | the items with a fine open, newest first |
 
 ### Decide
 
@@ -341,7 +341,7 @@ The state is terminal when the copy has come in and a hold is waiting.
 
 | id | name | sender | fields | refusals |
 | --- | --- | --- | --- | --- |
-| propose | propose a renewal | the reading assistant, as a policy cell | the renewal, as circulation's command | |
+| propose | propose a renewal | the reading assistant, by succession from its fact | the renewal, as circulation's command | |
 | approve | approve a held renewal | a member | the renewal | notHeld |
 | setRung | set the rung | the operator | rung : shadow, review or autonomous | |
 
@@ -365,7 +365,7 @@ Sequence: circulation decides, then notices reacts on what it published. The jou
 
 ### Attributes
 
-| name | scope | subject | promise | threshold |
+| name | scope | subject | promise or relation or measure | threshold |
 | --- | --- | --- | --- | --- |
 | a limit warning within a minute of the checkout that reached it | population | the patron in the stacks | withinDuration isCheckOut isWarning 60000 | 99 |
 | a closed card takes no new loan | artifact | the patron in the stacks | closed_refusesCheckOut | |
@@ -384,3 +384,7 @@ Sequence: circulation decides, then notices reacts on what it published. The jou
 - **The due day.** Circulation does not keep due days in this draft; the schedule carries the due day on the assessment. Whether circulation should publish the due day on each checkout, so that fines keeps its own projection, is a question for the holds and fines designs.
 - **A hold on a renewed item.** The assistant proposes a renewal only when no hold waits; whether circulation should also refuse a renewal when a hold waits, with a query of holds, is open.
 - **Grace days.** None in this draft: an item is late the day after its due day.
+- **Fines and circulation's facts.** The architecture's facts table and the maps give fines circulation's "checked out" and "checked in"; this design's Subscribes table says none, and fines reads whether an item is still out by a stamped query. Which it is, a subscription or a query, is a question for the fines design.
+- **Who closes a card.** Here closing a card is a librarian's command; the vision's journey 7 has the member's leaving close it, and the architecture carries membership's "card closed" to circulation both as a command and as a fact, beside circulation's own "card closed". Whose command it is, and whether "card closed" is one fact or two, is a question for the membership design.
+- **The assessment at a return.** The vision's journey 3 assesses a late return after the check-in; `assess` here is the timer's and refuses an item that is back. Whether fines assesses at the return, by a branch or a command of its own, or journey 3 points at journey 5, is a question for the fines design.
+- **The write-off's route.** The workflows table, the vision and `settle` here put the write-off in fines; the architecture's control table sends it from operations to membership. Which cell takes it is a question for the operations design.

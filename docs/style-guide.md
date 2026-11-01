@@ -11,7 +11,7 @@ The purpose is consistency: two authors given the same design produce the same m
 | `cell-calculus` | The generic shapes and their universal theorems, generic over a project's principal through the `Architecture` class and over the subject of an event as a type parameter | Anything about one project; any theorem discharged by `decide` or `rfl` on a value; Mathlib |
 | A project's package | The project's `Architecture` instance, its cells, examples, journeys, contracts, attributes, runs and governance, and every theorem that is a computation on its values | A new generic shape. A shape a project needs proposes it to the generic package, with a changelog row |
 
-One idea per module, named for the idea: `Cell`, `Journey`, `Contract`, `Envelope`, `Inputs`, `Boundaries`, `Policy`, `Promise`, `Wire`, `Coverage`, `Gherkin`, `Render`, `Replay`, `Governance`, `ContextMap`. A project mirrors the split by concern: `Architecture`, then one module per cell or slice, then `Journeys`, `Envelopes`, `Inputs`, `Policy`, `Promises`, `Boundaries`, `Governance`.
+One idea per module, named for the idea: `Architecture`, `Cell`, `Journey`, `Contract`, `Envelope`, `Inputs`, `Boundaries`, `Policy`, `Promise`, `Wire`, `Coverage`, `Gherkin`, `Render`, `Replay`, `Governance`, `ContextMap`. A project mirrors the split by concern: `Architecture`, then one module per cell or slice, then `Journeys`, `Envelopes`, `Inputs`, `Policy`, `Promises`, `Boundaries`, `Governance`.
 
 Imports come first in a file, before the module comment. The root module of each package imports every module and carries the package's overview.
 
@@ -23,7 +23,7 @@ Imports come first in a file, before the module comment. The root module of each
 
 **Fields are words.** `expect`, not `then_`; `command`, not `cmd`; `subject`, not `subj`; `issuedAt` and `recordedAt`, which are two fields because they are two clocks.
 
-**Values are named by what they are.** A cell by its name in the capability map: `circulation`, `notices`, `fines`, `pickup`, `clock`. An example by its id in the design: `loanOut2` for `LOAN-OUT-2`, `noticeWarn3` for `NOTICE-WARN-3`. A fixture by its meaning: `epoch`, `firstRun`, `patronToken`. A recorded run by what it shows: `goodRun`, `backwardsRun`, `strayRun`. Never `ex1`, `t0`, `run1`, `q`, `at_`.
+**Values are named by what they are.** A cell by its name in the capability map: `circulation`, `notices`, `fines`, `pickup`; the calculus's own cell by what it is, `clock`. An example by its id in the design: `loanOut2` for `LOAN-OUT-2`, `noticeWarn3` for `NOTICE-WARN-3`. A fixture by its meaning: `epoch`, `firstRun`, `patronToken`. A recorded run by what it shows: `goodRun`, `backwardsRun`, `strayRun`. Never `ex1`, `t0`, `run1`, `q`, `at_`.
 
 **Functions are verbs or the noun of what they return.** `replay`, `handle`, `scrub`, `reidentify`, `succeed`, `envelope`; `latencyBound`, `unavailabilityBudget`, `toNodes`, `toGherkin`.
 
@@ -33,7 +33,7 @@ Imports come first in a file, before the module comment. The root module of each
 
 ## 3. Comments
 
-Every declaration carries a doc comment, `/-- ... -/`, that a reader sees on hover. It says what the thing is, what it is for, and, where the shape has a published name, what it is called in the sources: "the Decider", "the idempotent receiver", "Kleisli composition", "a reference monitor". A field in a structure gets its own doc comment when its meaning is not obvious from its name; the envelopes are the model.
+Every declaration other than a theorem carries a doc comment, `/-- ... -/`, that a reader sees on hover. It says what the thing is, what it is for, and, where the shape has a published name, what it is called in the sources: "the Decider", "the idempotent receiver", "Kleisli composition", "a reference monitor". A field in a structure gets its own doc comment when its meaning is not obvious from its name; the envelopes are the model.
 
 Every module opens, after its imports, with a module comment, `/-! # Title ... -/`, that says what the module is about and names its sources. A section inside a module is `/-! ## Title -/`.
 
@@ -63,7 +63,7 @@ A model is built only from the generic package's shapes. A project introduces no
 
 | Use | Never |
 | --- | --- |
-| `Cell` with its three functions and the fold | A function from an event to a command, anywhere |
+| `Cell` with its initial state, its three functions, one of which is the fold, and its terminal predicate | A function from an event to a command, anywhere |
 | `Journey.step`, `seq`, `par` | A loop, a retry in place, a step that re-enters an earlier step |
 | `CommandEnvelope` and `EventEnvelope` with their fixed fields | A header map, a field a cell reads that the type does not name |
 | `Inputs` for a decider that needs an answer or the clock | A call to a gateway or a clock inside `decide` |
@@ -73,7 +73,7 @@ A model is built only from the generic package's shapes. A project introduces no
 | `RunPromise` and `Attribute` with its scope | An attribute with no scope; a service level written as a single example; a confidentiality claim checked on one run |
 | `StepContract` and the folds | An end-to-end number nobody derived |
 | `GovernedExample`, `deprecated`, the review line | A deleted theorem or example; an edited proof that was in the way |
-| `Actor`'s five kinds: a principal, a policy cell, a timer, a partner, the operator | A sixth kind added in a project; a project that needs one proposes it to the generic package, with a changelog row |
+| `Actor`'s five kinds: a principal, a cell acting by succession, a timer, a partner, the operator | A sixth kind added in a project; a project that needs one proposes it to the generic package, with a changelog row |
 
 ## 6. The data dictionary is the acceptance test for the types
 
@@ -92,10 +92,15 @@ Fixed headings and columns in a design document, prose elsewhere. The model is t
 | Commands | id, name, sender, fields, refusals | `XCommand`, `XRefusal`, and the senders as the actor policy |
 | Subscribes | event, from cell | the `ForeignEvent` parameter |
 | Publishes | id, name, fields | `XEvent` |
-| State | field, type, invariant | `XState`, and a theorem per invariant |
+| State | field, type, invariant | `XState`, with each invariant in its field's doc comment |
 | Decide | command, reads, branch, outcome, one row per branch | the body of `decide`; "reads" names the queries, and an empty "reads" earns a no-reads theorem |
 | React | foreign event, branch, outcome | the body of `react` |
+| Terminal | one sentence: the state in which a run of the cell is over | `isTerminal` |
 | Examples | id, given, with, when, expect | `Example` values, each with its `_holds` theorem |
+| Universal claims | name, sentence | a theorem per row, named as the row, by `simp`, `cases` or induction |
+| Sentences | value, sentence | the `Describe` instances the Gherkin renderer reads |
+| Wire | command, kind, fields | the `WireCodec` instance and its round-trip law |
+| The journey | step, cell, archetype, reads | the journey term, with its steps' cells |
 | Contracts | step, latencyMs, unavailabilityPpm, costMicros, peakUnits | `Contracts` |
 | Attributes | name, scope, subject, promise or relation or measure, threshold | `Attribute` values, each over the subject its row names: what the run's events are about and, where the project has boundaries, in which one |
 
@@ -112,7 +117,7 @@ Fixed headings and columns in each journey section of the vision document, prose
 
 The columns:
 
-- **cells** holds the capability map's names and nothing else: never a role, a surface or a team. "The desk" is not a cell; membership is. A platform cell is named on the step where it acts, the terminals on the step that shows the receipt, because the capability map's "in every journey" is a claim checked step by step, not a reason to leave it off. A step whose cell is not decided says "not stated", and the map records the gap; a role in the column is read to a cell and recorded as a gap too.
+- **cells** holds the capability map's names and nothing else: never a role, a surface or a team. "The desk" is not a cell; membership is. A platform cell is named on the step where it acts, because a platform cell the map claims for a journey is a claim checked step by step, not a reason to leave it off. A step whose cell is not decided says "not stated", and the map records the gap; a role in the column is read to a cell and recorded as a gap too.
 - **waits on** holds step numbers, all earlier. Fan-out is two steps waiting on the same one; fan-in is one step waiting on several. A step that waits on a later step is a cycle, which the map reports and never reorders.
 - **publishes** is the fact that moves the journey on, in the design's words where a design exists and in the journey's own words where it does not. The step with no fact is the last.
 - **partner** names a party that is not a cell, the message provider, the payment provider, so that the arrow is a partner call and not a missing cell.
@@ -129,7 +134,7 @@ The checks, one theorem each in the journey map, which an author writes the tabl
 | The capability map's matrix row equals the cells on the steps | `matrixRow<n>_matchesJourney` |
 | Every arrow the steps imply is a row of the paths table with a kind, and no path breaks the architecture's direction rule | the rule's theorem, named as the architecture names the rule |
 | Composition between journeys is acyclic | `composition_isAcyclic` |
-| A platform cell the map claims for every journey is on a step of this one | `journey<n>_passesThrough<cell>` |
+| A platform cell the map claims for this journey is on a step of it | `journey<n>_passesThrough<cell>` |
 
 A journey whose Steps table names a role in the cells column, or whose References table has no kind, fails the same check as a design with Commands and no Decide rows.
 

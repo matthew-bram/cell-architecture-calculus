@@ -2,7 +2,7 @@
 
 The shapes of the method, each with its theorem, its source and the file it lives in. The generic shapes are the package [`cell-calculus`](../cell-calculus/), one module per idea, carrying only universal theorems, generic over a project's principal through one class and over the subject an event is about as a type parameter, with trust boundaries as an opt-in module. One project's instantiation is the package [`Library`](../examples/library/) in the worked example, and every claim below is shown on it.
 
-Stated in Lean, because the statement is also the check. Type parameters are words, not letters, and every declaration carries a comment saying what it is and what the shape is called in the sources.
+Stated in Lean, because the statement is also the check. Type parameters with a role are words and a genuinely arbitrary one is a Greek letter, and every declaration other than a theorem carries a comment saying what it is and what the shape is called in the sources.
 
 ## The problem the calculus answers
 
@@ -24,7 +24,7 @@ inductive Exception (Reason : Type)
 
 `Either[Ex, B]` at every gateway, and `Ex` is itself a sum, `Either[Refused, Unknown]`. *Refused* is the cell's invariants saying no: deterministic, final, the journey stops at a named outcome. *Unknown* is the failure window: the effect may or may not have landed. The two sides come from different places, and the types say so. A cell's `decide` returns `Except Refusal (List Event)`, the inner `Either[Refused, B]`, so a cell can say yes or a deterministic no and nothing else. The third value is added only where a result crosses the wire: `liftToWire` maps a cell's result into `Except (Exception Refusal) B`, turning a refusal into `refused` and never producing `unknown`, which is the theorem `model_never_unknown`. Only the world produces it. The model's job is to say what the caller may do on it: retry with the same key, never decide as if the effect did not happen. Conflating the two is the specific bug the window produces, a timeout treated as a refusal and an effect that landed compensated away.
 
-**A cell is three pure functions.** `Cell.lean`.
+**A cell is an initial state, three pure functions, one of which is the fold, and a terminal predicate.** `Cell.lean`.
 
 ```lean
 structure Cell (Command ForeignEvent Event State Refusal : Type) where
@@ -50,7 +50,7 @@ In the example, `circulation` decides checkouts, returns, renewals and the close
 
 ## Journeys
 
-**A journey is a DAG by construction, two ways.** `Journey.lean`, and `JourneyMap.lean` in the example. A journey transcribed from a design's tables is a list of steps, each naming the earlier steps it waits on, and `wellFormed` checks that every edge points backwards. A journey written as code is a `do` block in `Except` whose steps are the cells' `handle` and `handleForeign`. Lean accepts only total functions, so a journey that re-entered an earlier step would need recursion it cannot prove terminating, and is rejected with "fail to show termination".
+**A journey is a DAG by construction, two ways.** `Journey.lean`, and `JourneyMap.lean` in the example. A journey transcribed from the vision's Steps table is a list of steps, each naming the earlier steps it waits on, and `wellFormed` checks that every edge points backwards. A journey written as code is a `do` block in `Except` whose steps are the cells' `handle` and `handleForeign`. Lean accepts only total functions, so a journey that re-entered an earlier step would need recursion it cannot prove terminating, and is rejected with "fail to show termination".
 
 **A journey is a term, and every term compiles to a DAG.** The two ways meet in an algebra with three constructors and no loop:
 
@@ -61,7 +61,7 @@ inductive Journey (State Refusal : Type)
   | par  (left right : Journey State Refusal) (merge : State → State → State)
 ```
 
-`run` is its denotation, one function; `run_seq` and `run_par` say the composite is the composition, by definition. `compile` numbers a term's steps and records what each waits on. The theorem `compile_wellFormed`, by structural induction over the three constructors, says every term's compiled graph satisfies the same `nodesOk` rule the transcribed journeys are held to, so a journey from the vision document and a journey composed in the algebra are checked by one rule. The borrow journey of the example, circulation deciding then notices reacting, is such a term, and `borrowJourneyTerm_warns` says it runs to the same outcome as the hand-written `do` block.
+`run` is its denotation, one function; `run_seq` and `run_par` say the composite is the composition, by definition. `compile` numbers a term's steps and records what each waits on. The theorem `compile_wellFormed`, by structural induction over the three constructors, says every term's compiled graph satisfies the same `nodesOk` rule the transcribed journeys are held to, so a journey from the vision document and a journey composed in the algebra are checked by one rule. The borrow journey of the example, circulation deciding then notices reacting, is such a term, and `borrowJourneyTerm_warns` pins its outcome, the checkout and the warning, beside `borrowJourney_warns` for the hand-written `do` block it supersedes.
 
 **A journey is a cell.** The composite of a `decide` and a `react` has the decider's signature: a root command in, the product of histories as state, a refusal or events out. Composition is closed, so journeys compose into journeys under the same rules and the whole system is one cell. Two consequences. The composite's state is a product and never a merge, so a cell seeing only its own state is visible in the type of every journey. And function composition is associative, so where the cut between cells falls is a parenthesization and the composite is the same under every choice: a boundary can move without the behaviour changing.
 
@@ -73,7 +73,7 @@ inductive Journey (State Refusal : Type)
 
 ## The wire, and the examples
 
-**The wire is a projection, and the parse is in the model.** `Wire.lean`. Proto, JSON Schema and Avro cannot say what the model's sum types say: no invariants, loose fields. So the wire shape is a projection of the model's type, and what the projection loses is a list per schema, every item of which is one thing, a refusal at parse time. A command type's codec is a class, `WireCodec`, whose third field is the round-trip law, so an instance cannot exist without the proof that every command survives the wire. The gateway, parse then decide, is generic over the class, its refusal type is the sum of the two kinds, and `gateway_serialize` says that for every cell, history and command, the gateway on a serialized command is the cell's own decision. The same pair serializes every example into a fixture and parses every trace back, so the model and the tests share bytes rather than a description of the data. Two more classes make the rest generic: `Kinded` numbers a sum type's constructors so the coverage checks are one definition for every project, and `Describe` gives each constructor a sentence so the Gherkin renderer is too.
+**The wire is a projection, and the parse is in the model.** `Wire.lean`. Proto, JSON Schema and Avro cannot say what the model's sum types say: no invariants, loose fields. So the wire shape is a projection of the model's type, and what the projection loses is a list per schema, every item of which is one thing, a refusal at parse time. A command type's codec is a class, `WireCodec`, whose third field is the round-trip law, so an instance cannot exist without the proof that every command survives the wire. The gateway, parse then decide, is generic over the class, its refusal type is the sum of the two kinds, and `gateway_serialize` says that for every cell, history and command, the gateway on a serialized command is the cell's own decision. The same pair serializes every example into a fixture and parses every trace back, so the model and the tests share bytes rather than a description of the data. Three more classes make the rest generic: `JsonEncode` renders a value as JSON for the fixtures, `Kinded` numbers a sum type's constructors so the coverage checks are one definition for every project, and `Describe` gives each constructor a sentence so the Gherkin renderer is too.
 
 **Specification by example is a type.** `Cell.lean`.
 
@@ -120,7 +120,7 @@ No property-bag headers: a cell reads only the fields the type names, and a deci
 
 ## Where a fact may become a command
 
-`Policy.lean`. In exactly one place: at a journey boundary, as succession. A journey ends with a fact; the fabric lifts the fact into a command to the one cell that subscribes to it as a root, mechanically, with the key derived from the fact, the fact as the cause and a fresh run, so that a retry of the lift is the same command, `succeed_sameKey`. That cell is a policy cell, whose `decide` is the one place a proposal becomes a downstream command and whose every branch names its rung: in shadow a proposal is recorded and never issues, in review it is held until a person approves it, in autonomous it issues, and an approval issues only what was held, each a theorem for every proposal and state. Any automation, a recommender, a scheduler, an agent, is this one shape, and the gated policy cell refuses an approval from the wrong actor before it looks at the ladder. In the example the reading assistant's renewal proposal runs through the three rungs, a member's approval issues it and a guest's is refused at the gate.
+`Policy.lean`. In exactly one place: at a journey boundary, as succession. A journey ends with a fact; the fabric lifts the fact into a command to the one cell that subscribes to it as a root, mechanically, with the key derived from the fact, the fact as the cause and a fresh run, so that a retry of the lift is the same command, `succeed_sameKey`. That cell is a policy cell, whose `decide` is the one place a proposal becomes a downstream command and whose every branch names its rung: in shadow a proposal is recorded and never issues, in review it is held until a person approves it, and an approval issues only what was held, each a theorem for every proposal and state; in autonomous it issues, checked on the example's proposal. Any automation, a recommender, a scheduler, an agent, is this one shape, and the gated policy cell refuses an approval from the wrong actor before it looks at the ladder. In the example the reading assistant's renewal proposal runs through the three rungs, a member's approval issues it and a guest's is refused at the gate.
 
 ## Promises, and what an attribute quantifies over
 

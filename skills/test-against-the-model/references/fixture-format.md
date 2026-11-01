@@ -24,4 +24,4 @@
 - `when` is the command in the wire shape, serialized by the model's own serializer, so it is exactly what the gateway receives.
 - `then` is one of two shapes: `{"ok": [events]}` or `{"refused": reason}`. The events are in order; an empty list means the command was accepted and nothing new happened, which is the idempotent receiver's answer to a retry.
 
-What a test does with one example: replay `given` through the code's fold to a state, hand `when` to the code's decider in that state, and compare the outcome to `then` exactly: the same events in the same order, or the same refusal. A reaction example (`ReactionExample` in the model) has a foreign event in `when` and a list of events in `then` with no refusal branch.
+What a test does with one example: replay `given` through the code's fold to a state, hand `when` to the code's decider in that state, and compare the outcome to `then` exactly: the same events in the same order, or the same refusal. Reaction examples (`ReactionExample` in the model) are not rendered: the generator writes command examples only, so a suite tests reactions against the model's theorems, not a fixture.

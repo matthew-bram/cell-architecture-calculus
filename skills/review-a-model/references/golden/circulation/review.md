@@ -1,6 +1,6 @@
 # Review: the circulation slice against its design
 
-Oct 20, 2026 · prepared by the review-a-model skill for the reviewer · design `examples/library/designs/circulation.md` at hash `6f77916800865b09` · model `examples/library/Library/Circulation.lean`, circulation and notices, with `Envelopes.lean` for the gated rows and `Governance.lean` for the governed set
+Oct 20, 2026 · prepared by the review-a-model skill for the reviewer · design `examples/library/designs/circulation.md` at hash `6f77916800865b09` · model `examples/library/Library/Circulation.lean`, circulation and notices, with `Envelopes.lean` for the gated rows and `Governance.lean` for the governed set. The design has since changed and its hash with it; the two findings below are about Decide rows that did not change
 
 **Scope.** The two cells `Circulation.lean` holds and the rows of the design that transcribe into them: the circulation and notices sections, the four actor rows that `Envelopes.lean` carries, and the governed set. The design's fines, pickup and renewals sections, the journey, the contracts and the attributes are modelled in `Inputs.lean`, `Journeys.lean`, `Policy.lean` and `Promises.lean` and are a second packet's.
 

@@ -10,7 +10,7 @@ rule, `Journey.nodesOk`, as the calculus's journey terms; `Journey` is
 the calculus's name for the term algebra.
 
 Everything checked here is decidable, finite lists, so every theorem is
-discharged by `decide`: Lean computes the answer and the kernel certifies
+discharged by `decide` or `rfl`: Lean computes the answer and the kernel certifies
 it. A human proof is never needed for this class of property.
 -/
 
@@ -67,7 +67,7 @@ def Cap.zone : Cap → Zone
   | .terminals => .lobby
   | .telemetry => .fabric
 
-/-- Platform capabilities: in every journey, left out of the matrix rows. -/
+/-- Platform capabilities: named on the steps where they act, left out of the matrix rows. -/
 def Cap.isPlatform : Cap → Bool
   | .terminals | .telemetry => true
   | _ => false
@@ -229,8 +229,8 @@ theorem matrixRow5_matchesJourney : sameSet runsLate.capsNamed      (matrixRow 5
 theorem matrixRow6_matchesJourney : sameSet renew.capsNamed         (matrixRow 6) = true := by decide
 theorem matrixRow7_matchesJourney : sameSet leave.capsNamed         (matrixRow 7) = true := by decide
 
-/-- The map's claim: the terminals are in every journey a member starts,
-    checked step by step for journey 2. -/
+/-- The map's claim for journey 2: the terminals are on a step of it, checked
+    step by step. -/
 theorem journey2_passesThroughTerminals :
     borrowAnItem.steps.any (fun s => s.caps.contains .terminals) = true := by decide
 
@@ -335,12 +335,15 @@ structure Presented where
   /-- Whether the card is a guest's, which membership knows. -/
   guest : Bool
   deriving Repr, DecidableEq
-/-- What membership resolved: the token in place of the card, and the copy. -/
+/-- What membership resolved: the token in place of the card, the copy, and
+    whether the card is a guest's. -/
 structure Resolved where
   /-- The patron token. -/
   token : String
   /-- The copy's ID. -/
   item  : String
+  /-- Whether the card is a guest's, which circulation's gate refuses. -/
+  guest : Bool
   deriving Repr, DecidableEq
 /-- What circulation booked: the copy and how many are on loan after it. -/
 structure Loan where
@@ -358,12 +361,15 @@ structure Receipt where
   deriving Repr, DecidableEq
 
 -- Each step: a Kleisli arrow. The cell that owns the step is in the comment.
-/-- Step 0, membership: the card is resolved; a guest stops here. -/
+/-- Step 0, membership: the card is resolved to its token. -/
 def resolve (p : Presented) : Except Ex Resolved :=                   -- membership
-  if p.guest then .error .guestCard else .ok { token := "P-7", item := p.item }
-/-- Step 1, circulation: the item is checked out; the sixth is refused. -/
+  .ok { token := "P-7", item := p.item, guest := p.guest }
+/-- Step 1, circulation: a guest is refused at the gate; the item is checked
+    out; the sixth is refused. -/
 def checkOutStep (held : Nat) (r : Resolved) : Except Ex Loan :=      -- circulation
-  if held ≥ 5 then .error .limitReached else .ok { item := r.item, onLoan := held + 1 }
+  if r.guest then .error .guestCard
+  else if held ≥ 5 then .error .limitReached
+  else .ok { item := r.item, onLoan := held + 1 }
 /-- Step 2, the catalog: the copy is marked on loan. -/
 def markCopy (l : Loan) : Except Ex Loan := .ok l                      -- catalog
 /-- Steps 3 and 4, notices: the warning if over the level, and the receipt. -/

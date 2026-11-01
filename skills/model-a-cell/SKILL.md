@@ -1,6 +1,6 @@
 ---
 name: model-a-cell
-description: Turn an annotated design document into a checked model in the cell calculus, the Lean 4 scaffolding in `cell-calculus`: the cell as three pure functions, its examples as theorems, its journey as a term, its contracts, attributes, actor policy, wire codec and sentences, in a module of the project's package that builds, covers every kind, and passes the mutation gate. Use this skill whenever someone asks to model, transcribe, encode, formalize or "write the Lean for" a cell, a capability, a bounded context, a journey, a slice or a design, whenever a design document with Commands, Decide, React or Examples tables appears, whenever a new cell is to be added to a project package such as `Library`, and whenever examples, contracts, promises or quality attributes are to be derived for a design, even if the word "Lean" or "calculus" is never said.
+description: Turn an annotated design document into a checked model in the cell calculus, the Lean 4 scaffolding in `cell-calculus`: the cell as an initial state, three pure functions, one of which is the fold, and a terminal predicate, its examples as theorems, its journey as a term, its contracts, attributes, actor policy, wire codec and sentences, in a module of the project's package that builds, covers every kind, and passes the mutation gate. Use this skill whenever someone asks to model, transcribe, encode, formalize or "write the Lean for" a cell, a capability, a bounded context, a journey, a slice or a design, whenever a design document with Commands, Decide, React or Examples tables appears, whenever a new cell is to be added to a project package such as `Library`, and whenever examples, contracts, promises or quality attributes are to be derived for a design, even if the word "Lean" or "calculus" is never said.
 ---
 
 # Model a cell
@@ -23,7 +23,7 @@ The round trip's first four stages, each with an acceptance test you run before 
 
 ### Stage 1: the cell's I/O
 
-From the design's Commands, Subscribes and Publishes tables, write the five type parameters: the command type, the foreign event type, the event type, the state type, the refusal type. Each is a sum type whose constructors are the table's rows, named by the row's id, carrying the row's fields with their types. Name them `XCommand`, `XEvent`, `XRefusal`, `XState` for the cell `x`. Derive `Repr, DecidableEq` on commands and refusals and `Repr, DecidableEq, BEq` on events, as the answer does.
+From the design's Commands, Subscribes and Publishes tables, write the five type parameters: the command type, the foreign event type, the event type, the state type, the refusal type. Each is a sum type whose constructors are the table's rows, named by the row's id, carrying the row's fields with their types. Name them `XCommand`, `XEvent`, `XRefusal`, `XState` for the cell `x`. Derive `Repr, DecidableEq` on commands and `Repr, DecidableEq, BEq` on events and refusals, as the answer does.
 
 If the design has no Subscribes rows, the foreign event type is `Unit`. If it has no refusals, the refusal type is `Empty`.
 
@@ -67,8 +67,8 @@ Acceptance: every example holds; coverage holds; `lake exe fixtures` renders the
 
 The style guide's rules are the rules. The ones that matter most while writing:
 
-- Type parameters and types are words. Values are named by what they are, examples by their id. Theorems are named subject then claim: `checkOut_idempotent`, `loanOut1_holds`.
-- Every declaration carries a doc comment that says what it is and, where the shape has a published name, what it is called: the Decider, the idempotent receiver, a reference monitor. Every one: each example value, each fixture envelope and recorded run, the serializer, the parser and every predicate. The reviewer counts declarations against the comments above them, and one undocumented helper fails the module the same as an undocumented type.
+- Type parameters with a role and types are words; a genuinely arbitrary parameter is a Greek letter. Values are named by what they are, examples by their id. Theorems are named subject then claim: `checkOut_idempotent`, `loanOut1_holds`.
+- Every declaration other than a theorem carries a doc comment that says what it is and, where the shape has a published name, what it is called: the Decider, the idempotent receiver, a reference monitor. Every one: each example value, each fixture envelope and recorded run, the serializer, the parser and every predicate. The reviewer counts declarations against the comments above them, and one undocumented helper fails the module the same as an undocumented type.
 - Imports first, then the module comment with the design's path and the sources.
 
 ## What you never do

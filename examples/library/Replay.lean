@@ -6,9 +6,11 @@ import Library
 checker its `cell` or `run` field names, prints one line per trace, and
 exits non-zero if any is rejected. The checker is `Replay` in the calculus
 and is generic over the instances a cell's module gives its types; a new
-cell adds one line to `checkers`. The traces under `traces/` are the runs
-`Circulation.lean` and `Envelopes.lean` hold as values, in the wire shape,
-and the one `impl/record_trace.py` records from the reference implementation.
+cell adds one line to `checkers`. Of the traces under `traces/`, four are
+the runs `Circulation.lean` and `Envelopes.lean` hold as values, in the wire
+shape; two, the stray fact and the command not understood, are written for
+the checker alone; and one is what `impl/record_trace.py` records from the
+reference implementation.
 -/
 
 /-- Every cell and run whose traces the checker accepts. -/

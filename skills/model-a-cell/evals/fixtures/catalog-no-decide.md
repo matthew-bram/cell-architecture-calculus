@@ -47,6 +47,6 @@ Never.
 
 ### Attributes
 
-| name | scope | subject | promise | threshold |
+| name | scope | subject | promise or relation or measure | threshold |
 | --- | --- | --- | --- | --- |
 | a copy's status follows the loan within a short while | oneRun | | withinDuration isCheckedOut isStatusChanged | |

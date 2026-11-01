@@ -129,9 +129,10 @@ import {P}.Governance
 
 One project's instantiation of the cell calculus: its principal{", its boundaries" if bounds else ""}
 and, as they are modelled, its cells with their examples as theorems, its
-journeys, envelopes, inputs, policy, promises and governance. Every theorem
+journeys, envelopes, inputs, policy, promises and governance. Every example
 here is a computation on this project's values, discharged by `decide` or
-`rfl`; the universal theorems are in the calculus.
+`rfl`; a theorem about this project's cells that holds for every input is by
+`simp`, `cases` or induction; the generic theorems are in the calculus.
 -/
 ''')
     bound_block = ""

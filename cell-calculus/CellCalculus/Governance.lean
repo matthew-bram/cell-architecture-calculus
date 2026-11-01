@@ -16,7 +16,8 @@ header carries the review line, and the build checks it against the design.
 structure ReviewLine where
   /-- The design document's path, relative to the project. -/
   design     : String
-  /-- The design's content hash at review time, the first sixteen hex digits of its SHA-256. -/
+  /-- The design's content hash at review time, the first sixteen hex digits of its SHA-256;
+      the word "unreviewed" before the first review, which the review check warns on. -/
   designHash : String
   /-- Who signed, by name; empty while unreviewed. -/
   reviewer   : String

@@ -4,7 +4,7 @@ Run from the new package's directory. `Package` is the package's name; `tools/` 
 
 | Check | Command | Pass means |
 | --- | --- | --- |
-| The five things are sourced | read the corpus beside your notes | Each of package name, calculus source, principal, boundaries and first design has a sentence in the corpus, or is marked not given |
+| The six things are sourced | read the corpus beside your notes | Each of package name, calculus source, principal, boundaries, first design and calculus release has a sentence in the corpus, a default the report names, or is marked not given |
 | The require names a release | read `lakefile.toml` | `rev` is a tag, `v<version>`, the newest on the repository unless the owner named another; never a branch |
 | The package builds | `lake build` | Success, no warnings, no `sorry`; the first build fetches the calculus at that tag |
 | The generators run | `lake exe fixtures` | `generated/` exists and is empty: nothing registered yet |

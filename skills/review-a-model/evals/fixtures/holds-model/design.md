@@ -105,7 +105,7 @@ Sequence: one step; the copy readying on the hold shelf is pickup's reaction in 
 
 ### Attributes
 
-| name | scope | subject | promise | threshold |
+| name | scope | subject | promise or relation or measure | threshold |
 | --- | --- | --- | --- | --- |
 | a hold acknowledged within a minute of the request | population | the patron in the stacks | withinDuration isPlace isPlaced 60000 | 99 |
 | a write from a guest is refused | artifact | the patron in the stacks | the gate's theorem, gated_refusesActor, with the sender column as the policy | |

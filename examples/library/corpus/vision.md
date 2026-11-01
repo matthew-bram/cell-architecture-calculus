@@ -4,7 +4,7 @@ The design corpus of the worked example, part one of three · the other two are 
 
 A town's public library lends items to its members: books, films, tools, a telescope. The circulation system is what keeps the loans: who has what, when it is due, what is waiting on the hold shelf, what is owed. It runs at the desk, in the self-service terminals, and in the members' app.
 
-What makes it worth modelling is not the arithmetic. It is that a reading record is private, that a loan must be booked exactly once however many times a flaky terminal retries, and that a dozen journeys, from joining to leaving, pass through the same handful of capabilities and must agree on what each one does.
+What makes it worth modelling is not the arithmetic. It is that a reading record is private, that a loan must be booked exactly once however many times a flaky terminal retries, and that eight journeys, from signing in to leaving, pass through the same handful of capabilities and must agree on what each one does.
 
 ## Principles
 
@@ -24,7 +24,9 @@ What makes it worth modelling is not the arithmetic. It is that a reading record
 | The stacks | Loans, holds, fines and renewals, keyed by patron token; the catalog | Runs circulation, one patron at a time | Sees a name, a contact detail or a card number; asks the desk who a token is ([principle 2](#principles)) |
 | The office | Counts, reports and the staff console; the rung every automation runs at | Runs the library | Sees a member's loans by name |
 | The lobby | The desk terminals, the self-service kiosks and the members' app: fronts over the desk, with no record of their own | Signs members in; shows and collects | Holds anything after the session ends |
-| Outside | The consortium's interlibrary loan service, the message provider, the payment provider, the town's identity provider | Answers the one call each is made for | Sees more than that call carries |
+| The fabric | Telemetry: what every cell emits, the audit trail, the kill switch | Carries read-only feeds to the office | Holds a member's record |
+
+The consortium's interlibrary loan service, the message provider, the payment provider and the town's identity provider are partners outside every zone: each answers the one call it is made for and sees no more than that call carries.
 
 **Coming in.** A terminal signs the member in through the town's identity provider and the desk opens a session. Every request the member makes carries the card; the desk swaps the card for the patron token and passes the request to the stacks.
 
@@ -41,7 +43,7 @@ What makes it worth modelling is not the arithmetic. It is that a reading record
 
 **Foundation**
 
-0. Sign in, at a terminal or in the app. Every other journey starts from here.
+0. Sign in, at a terminal or in the app. Journeys 1, 2, 4 and 7 start from here.
 
 **Joining**
 
@@ -66,7 +68,7 @@ Each journey section carries two tables beside its prose: the steps, each with t
 
 ## Journey 0: sign in
 
-The member signs in at a terminal, a kiosk or the app, through the town's identity provider, and the desk opens a session on the card. Every other journey starts here and names this one.
+The member signs in at a terminal, a kiosk or the app, through the town's identity provider, and the desk opens a session on the card. Journeys 1, 2, 4 and 7 start here and name this one.
 
 | # | step | cells | waits on | publishes | partner |
 | --- | --- | --- | --- | --- | --- |
@@ -95,11 +97,11 @@ The everyday loop. The member presents the card and the item, or scans both at a
 
 ### Steps
 
-1. **The card is presented.** The desk resolves it to the patron token. A guest card, which may use the reading room and not borrow, stops here.
-2. **The item is checked out.** The loan is booked once, whatever the terminal retried ([principle 4](#principles)). A card holds at most five items; the sixth is refused. A closed card takes no new loans.
-3. **The copy is marked on loan** in the catalog, so the next search says so.
-4. **The limit warning,** if this was the fifth item: a notice that one more will be refused.
-5. **The receipt reaches the member,** on the terminal or in the app.
+0. **The card is presented.** The desk resolves it to the patron token. A guest card, which may use the reading room and not borrow, is refused at the next step, by circulation's gate.
+1. **The item is checked out.** The loan is booked once, whatever the terminal retried ([principle 4](#principles)). A card holds at most five items; the sixth is refused. A closed card takes no new loans.
+2. **The copy is marked on loan** in the catalog, so the next search says so.
+3. **The limit warning,** if this was the fifth item: a notice that one more will be refused.
+4. **The receipt reaches the member,** on the terminal or in the app.
 
 | # | step | cells | waits on | publishes | partner |
 | --- | --- | --- | --- | --- | --- |

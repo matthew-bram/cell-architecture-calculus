@@ -16,8 +16,9 @@ journey across the two cells and the hold shelf's fan-in, the envelopes on
 circulation's commands, fines deciding on circulation's answer and the
 clock, the renewals policy through the ladder, the promise on the slice,
 the desk's alias map with the scrub across it, and the model's governance.
-Every theorem here is a computation on this project's values, discharged
-by `decide` or `rfl`; the universal theorems are in the calculus.
+Every example and map here is a computation on this project's values,
+discharged by `decide` or `rfl`; ten theorems about this project's cells
+are universal, by `simp`; the generic theorems are in the calculus.
 
 The design the model is transcribed from is `designs/circulation.md`; the
 corpus it serves is under `corpus/`.

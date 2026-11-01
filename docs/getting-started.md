@@ -29,7 +29,7 @@ The columns are fixed by [style guide section 9](style-guide.md#9-the-annotation
 
 ## 2. Start the package
 
-A package is a `lakefile.toml` that requires the calculus over git at a tag, a pinned toolchain, a root module, and an `Architecture` module. Nothing else yet.
+A package is a `lakefile.toml` that requires the calculus over git at a tag, a pinned toolchain, a root module, an `Architecture` module, a `Governance` module with an unreviewed review line, the two map modules and the two executables empty, an empty mutants file, the gate scripts and a workflow. No cell yet.
 
 ```toml
 name = "clinic"

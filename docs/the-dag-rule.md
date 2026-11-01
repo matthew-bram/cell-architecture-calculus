@@ -18,7 +18,7 @@ A first reading of most journey maps finds cycles. Journey 3 of the example, a r
 
 | Relation | Meaning | In the example | May cycle? |
 | --- | --- | --- | --- |
-| Composition | A journey runs another journey as one of its steps, in the same run | Picking up a held copy, journey 4's last step, is a checkout as in journey 2; every journey opens with sign-in, journey 0 | Never. A cycle here is a journey that contains itself |
+| Composition | A journey runs another journey as one of its steps, in the same run | Picking up a held copy, journey 4's last step, is a checkout as in journey 2; journeys 1, 2, 4 and 7 open with sign-in, journey 0 | Never. A cycle here is a journey that contains itself |
 | Succession | A journey's last fact is the trigger of a new run of another journey | A return, journey 3, readies a hold, journey 4; a checkout's loan runs late, journey 5 | Yes. Each edge is a new fact and a new run. The everyday loop is a succession of DAG runs |
 | Pointer | The section sends the reader elsewhere | "Renewing instead is journey 6" | No edge |
 
