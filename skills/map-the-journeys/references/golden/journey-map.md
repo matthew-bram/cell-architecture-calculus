@@ -8,7 +8,7 @@ Golden answer · from the three corpus documents of the worked example, `../../e
 
 ## The cells
 
-From the capability map's list, one constructor per capability, and the technology architecture's "cells by zone" table for the zone. Platform capabilities are in every journey and left out of the matrix rows. The terminals are channel applications with a zone and no cell of their own; telemetry is a plane, not a cell.
+From the capability map's list, one constructor per capability, and the technology architecture's "cells by zone" table for the zone. Platform capabilities are named on the steps where they act and left out of the matrix rows. The terminals are channel applications with a zone and no cell of their own; telemetry is a plane, not a cell.
 
 | cell | capability map's name | zone | platform |
 | --- | --- | --- | --- |
@@ -161,12 +161,12 @@ From the technology architecture's three paths tables: sessions and control, com
 | --- | --- | --- |
 | Each journey's steps form a DAG: every step waits only on earlier steps | `signIn_isDag`, `join_isDag`, `borrowAnItem_isDag`, `returnAnItem_isDag`, `holdAndPickUp_isDag`, `runsLate_isDag`, `renew_isDag`, `leave_isDag` | holds, all eight |
 | The capability map's matrix row names the same cells the journey's table names, platform cells aside | `matrixRow0_matchesJourney` to `matrixRow7_matchesJourney` | holds, all eight |
-| The map's claim that the terminals are in every journey a member starts, checked step by step for journey 2 | `journey2_passesThroughTerminals` | holds |
+| The map's claim for journey 2, that the terminals are on a step of it, checked step by step | `journey2_passesThroughTerminals` | holds |
 | A DAG of steps runs as a left fold: journey 2 touches membership, circulation, catalog, notices, notices, terminals in that order | `borrowAnItem_touches` | holds |
 | Composition between journeys is acyclic | `composition_isAcyclic` | holds |
 | Succession cycles: a return readies a hold, a pickup can run late, a late item is returned | `succession_cycles` | holds, by design: each edge is a new fact starting a new run |
 | Read with the kind column dropped, the references cycle | `referencesWithoutKinds_cycle` | holds, which is why the kind column is required |
-| Journey 2 as a pipeline in `Except` runs to its outcome: the fifth item warns, the first is quiet, a guest stops at the desk, the sixth is refused | `journey2_warns`, `journey2_quiet`, `journey2_guestStops`, `journey2_sixthRefused` | holds, all four, by `rfl` |
+| Journey 2 as a pipeline in `Except` runs to its outcome: the fifth item warns, the first is quiet, a guest is refused at circulation's gate, the sixth is refused | `journey2_warns`, `journey2_quiet`, `journey2_guestStops`, `journey2_sixthRefused` | holds, all four, by `rfl` |
 | No query and no command opens from the stacks toward the desk | `stacks_never_ask_the_desk` | holds |
 | A query from circulation to membership, added to the table, would break the rule | `badPath_breaksTheRule` | holds: the check bites |
 | Cells form a cyclic graph, circulation and fines each way; the acyclic thing is each journey, and the direction rule is on the zones | `cellGraph_hasCycle` | holds, by design |
@@ -181,5 +181,5 @@ Every arrow a journey's waits-on column implies, from the cells of the step wait
 4. **Journey 6, step 0.** The assistant and renewals share the step, and the architecture says the assistant's proposals reach circulation only through renewals. The paths table has no row from assistant to renewals; the lift from the assistant's fact to renewals' proposal is the one succession the architecture describes in prose and nowhere in a table.
 5. **Journey 7, steps 2 and 3.** Fines waits on membership's "leaving requested", and membership waits on circulation's "card closed" and fines' "fine settled". The table has no row from membership to fines, from circulation to membership or from fines to membership. The last two are facts flowing from the stacks to the desk, which the direction rule allows for facts, but the table does not list them.
 6. **The partner calls.** The architecture's partner-calls table, membership to the identity provider, notices to the message provider, fines to the payment provider, catalog to the consortium, is not transcribed into the Lean's `paths` list, so the direction rule is not checked over it and the context map's coverage theorem does not read it. The journeys name the partners on their steps as the vision does.
-7. **Platform capabilities on steps.** The capability map says the terminals and telemetry are in every journey. The terminals are named on journey 0's step and journey 2's last step and nowhere else; telemetry is named on no step. The theorem checks the claim for journey 2 only.
+7. **Platform capabilities on steps.** The capability map said the terminals and telemetry are in every journey, and now says they are named on the steps where they act. The terminals are named on journey 0's step and journey 2's last step and nowhere else; telemetry is named on no step. The theorem checks the claim for journey 2 only.
 8. **Journey 2, step 0.** Membership publishes "card resolved", which the facts-on-the-fabric table does not list; the arrow to circulation is read as the command row, "on the member's behalf, with the token in place of the card".
