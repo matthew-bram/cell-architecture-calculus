@@ -156,7 +156,7 @@ structure Example (Command Event Refusal : Type) where
   expect : Except Refusal (List Event)
 ```
 
-`Example.holds cell ex` is a Boolean the kernel evaluates. The `id` is the row in the design document and the name of the test in the code. A `ReactionExample` is the same with a foreign fact as its When. An example set is a Lean value, and the coverage theorems hold over it: every command kind, every event kind and every refusal reason appears in some example, or the file does not compile. A **trace**, a list of command and outcome steps the implementation reported, is replayed by `Cell.conforms`, and a trace the model rejects names the step. A Gherkin rendering of each example is a fold over the same value, for the reader who reviews sentences.
+`Example.holds cell ex` is a Boolean the kernel evaluates. The `id` is the row in the design document and the name of the test in the code. A `ReactionExample` is the same with a foreign fact as its When and the facts the cell emits as its Expect, since a reaction cannot be refused. An example set is a Lean value, and the coverage theorems hold over it: every command kind, every event kind and every refusal reason appears in some example, or the file does not compile. A **trace**, a list of command and outcome steps the implementation reported, is replayed by `Cell.conforms`, which says whether the model allows it, and for a trace the model rejects, `Cell.firstRejection` names the step. A Gherkin rendering of each example is a fold over the same value, for the reader who reviews sentences.
 
 ### 4.10 The envelopes
 

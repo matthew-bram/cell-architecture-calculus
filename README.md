@@ -37,7 +37,7 @@ def loanOut2 : Example CirculationCommand CirculationEvent CirculationRefusal :=
 theorem loanOut2_holds : loanOut2.holds circulation = true := by decide
 ```
 
-The same example, rendered from that value and never written by hand, is what a reviewer reads and what the implementation's test suite runs:
+The same example, rendered from that value and never written by hand, is what the implementation's test suite runs as a JSON fixture and what a reviewer reads as Gherkin:
 
 ```gherkin
 Scenario: LOAN-OUT-2 (retry after unknown)
