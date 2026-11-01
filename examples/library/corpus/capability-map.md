@@ -44,7 +44,7 @@ Each capability is one line on its purpose and one on its edge; its design owns 
 | The terminals | The desk terminals, the kiosks and the members' app: fronts over the desk with no record of their own | the lobby |
 | Telemetry | What every cell emits about itself, and the enumerated commands it accepts from the office | the fabric |
 
-Platform capabilities are in every journey and are left out of the journey matrix.
+Platform capabilities are named on the steps where they act and are left out of the journey matrix.
 
 ## Core, supporting and generic
 
@@ -74,7 +74,7 @@ One row per journey, the capabilities its steps name, platform capabilities asid
 | Capability | Design | Journeys |
 | --- | --- | --- |
 | Membership | the membership design, not yet written | 0, 1, 2, 4, 7 |
-| Notices | the circulation design, as the reactor it models | 1, 2, 3, 4, 5, 6 |
+| Notices | the circulation design, as the reactor it models, for the limit warning; the other notices are not yet designed | 1, 2, 3, 4, 5, 6 |
 | Catalog | the catalog design, not yet written | 2, 3 |
 | Circulation | [designs/circulation.md](../designs/circulation.md) | 2, 3, 4, 6, 7 |
 | Holds | the holds design, not yet written | 4 |

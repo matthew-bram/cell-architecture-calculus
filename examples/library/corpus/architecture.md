@@ -69,7 +69,7 @@ Every arrow between cells is a row here. A design that adds a path adds a row.
 | --- | --- | --- | --- |
 | Membership | Circulation | event | Card issued, with its token; card closed |
 | Circulation | Catalog | event | Checked out; checked in |
-| Circulation | Notices | event | Checked out, with how many are on loan; renewed; card closed |
+| Circulation | Notices | event | Checked out, with how many are on loan; checked in; renewed; card closed |
 | Circulation | Pickup | event | Checked in |
 | Circulation | Fines | event | Checked out; checked in |
 | Holds | Pickup | event | Hold placed |
