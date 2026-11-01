@@ -20,6 +20,8 @@ Every piece of writing here has two goals, and they weigh the same:
 
 One rule settles any conflict between them: **the original owns meaning.** You change how a claim is said, never what it claims. A sentence that can't get shorter without losing a detail keeps the detail. Where you can't tell what a sentence means, keep its wording and ask.
 
+The rule holds even when the original is wrong. A sentence that disagrees with the build, a table or another document is rewritten as it stands and reported. The fix goes in its own pull request, never inside a voice change, so that a reviewer of a rewrite has only to check that nothing moved.
+
 A rewrite fails in two directions. It drifts back into the dense, chained style that technical writing defaults to. Or it simplifies a *never*, an *only* or an *until* out of existence, and the page reads well and is now wrong. The second failure is the worse one. [references/details.md](references/details.md) names both and says how to catch them.
 
 ## The voice in brief
@@ -141,12 +143,14 @@ End with a short report:
 - **Figures added**, and what each shows.
 - **Headings renamed**, and the links fixed.
 - **Questions for the owner:** terms used two ways, claims that read as wrong or unclear, sections that want a figure you couldn't draw faithfully, and anything in scope you left alone.
+- **Facts that look wrong**, each with the sentence, what it disagrees with and where. Each is a fix for its own pull request.
 
 Then stop. Don't commit or push unless asked. When asked, write the message by [commits.md](references/commits.md).
 
 ## What this skill never does
 
 - **Never changes what a document claims.** That includes a qualifier, a number, an identifier, a theorem's name, a distinction between two terms, or the meaning of a rule.
+- **Never fixes a fact inside a rewrite**, even a wrong one. It reports the fact, and the fix goes in its own pull request.
 - **Never trades a detail for a shorter sentence.**
 - **Never invents** a fact, a citation, an example or a figure's node. A gap goes in the report as a question.
 - **Never edits inside a code block.**

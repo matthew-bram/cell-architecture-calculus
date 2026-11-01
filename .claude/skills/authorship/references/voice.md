@@ -37,7 +37,7 @@ Keep these. The rewrite changes how things are said, not these habits.
 
 - **Exactness.** Every number comes from the build. Every identifier, file name and command is exact.
 - **The four words.** *Proved*, *checked*, *tested* and *assumed* mean what the [README](../../../../README.md#what-it-proves-checks-tests-and-assumes) says, and only that.
-- **Headings that state the claim.** "A cell is three pure functions" tells the reader more than "Cells".
+- **Headings that state the claim.** "Outcomes have three values" tells the reader more than "Outcomes". A heading that states a claim is held to the claim: it must say no more than its section does.
 - **Pointing at the file.** "In the example this is `Circulation.lean`" lets a reader check the claim.
 - **The original owns meaning.** A rewrite changes how a claim is said, never what it claims. This is the documents' version of the rule that the design owns meaning.
 
