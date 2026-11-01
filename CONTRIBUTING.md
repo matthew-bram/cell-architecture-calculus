@@ -7,7 +7,7 @@ How work in this repository is done. The [README](README.md) is the index; [docs
 - **The style guide is the standard.** Names, comments, proofs, the shapes a model may use, the annotation grammar, what a reviewer checks. A change to a model follows it; a change to the guide is a decision with a changelog row.
 - **The calculus changes by supersession, never by edit.** A public shape that changes keeps its old name, deprecated with its successor and the date; a new shape is additive. The version is in `cell-calculus/lakefile.toml` and moves with each supersession. The calculus's own mutants, in `cell-calculus/mutants.json`, gate it on its own.
 - **The design owns meaning.** A model never invents a row, a field type, an example or a sentence its design does not state; a gap is reported in the design's open items. The example's corpus and design are in-repository so that every row the model carries has a sentence to point at.
-- **A review is a person's.** The review line in a project's header is signed by a reviewer who has read the model against the design, never by a build and never by an agent. The example's line stays unsigned on purpose: the line and the check are there for a project's designs, where the gate is a person's.
+- **The review line records a review.** The review line in a project's header is signed by a reviewer who has read the model against the design, never by a build. The example's line stays unsigned on purpose: the line and the check are there for a project's designs.
 - **Documents are written with the authorship skill.** A new or changed document, commit message or pull request description follows [`.claude/skills/authorship/`](.claude/skills/authorship/SKILL.md), so that the repository reads in one voice.
 - **Commit as the work goes.** A branch takes as many commits as the work needs, each with a message that says what changed and why, in prose. The squash merge makes the pull request one commit on `main`.
 
@@ -53,15 +53,15 @@ Maintainers are listed in `.github/CODEOWNERS`. A maintainer may merge their own
 
 ## Changing a skill
 
-A skill under `skills/` is a procedure an agent follows, and it is held to the same rules as a model: it reads the example as its golden answer, it invents nothing a design does not state, and it never signs a review line. Its goldens point at the example's files rather than copying them, so they cannot drift; its fixtures are written for the library, under the scrub gate like everything else, and a fixture that is a model, such as the holds cell the review skill is evaluated on, must build against the calculus as it stands.
+A skill under `skills/` is the procedure for a step of the lifecycle, and it is held to the same rules as a model: it reads the example as its golden answer, and it invents nothing a design does not state. Its goldens point at the example's files rather than copying them, so they cannot drift; its fixtures are written for the library, under the scrub gate like everything else, and a fixture that is a model, such as the holds cell the review skill is evaluated on, must build against the calculus as it stands.
 
 A change to a skill is followed by a new run of its evaluations in `evals/evals.json`, with the skill and without it; the baseline runs on a copy of the repository with `skills/` and `docs/` removed, so that it is genuinely without the skill. An assertion is revised only when it encoded a prediction rather than the quality owed, and the commit says so. A skill that gains a stage gains its acceptance test and the line in its report.
 
 ## Contributor skills
 
-The skills under `.claude/skills/` are for people writing this repository, not for people using the method. The first is `authorship`. It writes and revises the documents, commit messages and pull request descriptions so that the repository reads in one voice. It also carries a prose check that measures sentences, paragraphs and figures against the voice's targets. The check warns; it never fails a build.
+The skills under `.claude/skills/` are for work on this repository, not for using the method. The first is `authorship`. It writes and revises the documents, commit messages and pull request descriptions so that the repository reads in one voice. It also carries a prose check that measures sentences, paragraphs and figures against the voice's targets. The check warns; it never fails a build.
 
-These skills sit outside the scrub gate and outside the rules for the method's skills above. They may name the agent and its tools, and they take no goldens from the example. What they write into the repository is still under the gate. A change to one is followed by a run of its evaluations, the case folders under its `evals/`, with the skill and without it.
+These skills sit outside the scrub gate and outside the rules for the method's skills above. They may name the tools they run with, and they take no goldens from the example. What they write into the repository is still under the gate. A change to one is followed by a run of its evaluations, the case folders under its `evals/`, with the skill and without it.
 
 ## Proposing a shape to the calculus
 
