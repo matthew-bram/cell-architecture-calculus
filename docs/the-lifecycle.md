@@ -2,7 +2,7 @@
 
 This page shows how the calculus is used, from a design corpus to running code and back.
 
-The risk it answers is not that any one journey is hard. The risk is that several teams, or one team over several months, will make the same design decisions their own way, and find out when the journeys meet:
+The risk the lifecycle answers is not that any one journey is hard. The risk is that several teams, or one team over several months, will make the same design decisions their own way, and find out when the journeys meet:
 
 - how a journey's state is carried;
 - which re-entry choices to offer;
@@ -59,7 +59,7 @@ flowchart TB
 
 ### 1. Draw the design corpus
 
-People and an agent draw it together, as teams work today. The corpus is the technology architecture, the capability map and the journey map. It owns what every journey means.
+People and an agent together, as teams work today, draw the technology architecture, the capability map and the journey map. The corpus owns what every journey means.
 
 Each journey section carries two tables beside its prose:
 
@@ -142,19 +142,19 @@ The schemas, the storage DDL and the diagrams are the same shape of generator, a
 
 This is the hard gate.
 
-A reader who cannot read the model reads the feature files. They either send comments back to the design or sign off on them.
+A reader who cannot read the model reads the feature files. The reader either sends comments back to the design or signs off on the feature files.
 
-The reviewer who signs reads the model against the design: the names, the comments and each theorem's statement, as section 10 of the style guide says. Signing records the review line in the model: the design's path, its content hash and the reviewer. From then on, the build fails the day the design changes without a new review.
+The reviewer who signs reads the model against the design, the names, the comments and each theorem's statement, as section 10 of the style guide says. Signing records the review line in the model: the design's path, its content hash and the reviewer. From then on, the build fails the day the design changes without a new review.
 
 ### 7. Build against the specs
 
-People and an agent write the code. Its tests consume the generated fixtures by example id. They replay each example's history through the code's fold, and hand its command to the code's decider. So a failing test names a row of the design.
+People and an agent write the code. Its tests consume the generated fixtures by example id, so a failing test names a row of the design. They replay each example's history through the code's fold and hand its command to the code's decider.
 
 In the example this is [impl/](../examples/library/impl/).
 
 ### 8. Replay the traces
 
-Running code records what it did, in test and in production, as a trace in the same wire shape. The machine parses each trace with the same parser, and replays it against the model. It rejects a run at the step where it went wrong, naming what the model expected there and what the code reported.
+Running code records what it did, in test and in production, as a trace in the same wire shape. The machine parses each trace with the same parser and replays it against the model. It rejects a run at the step where it went wrong, naming what the model expected there and what the code reported.
 
 This is where the code is validated against the model everywhere it ran, not only where the examples looked.
 
@@ -162,13 +162,13 @@ This is where the code is validated against the model everywhere it ran, not onl
 
 A rejected run, a new requirement or a comment from step 6 re-enters at step 1 or step 3, never in the code alone.
 
-A theorem or an example is never deleted. It is superseded or retired, with a successor named. An event version is never removed, and the review line is signed again.
+A theorem or an example is never deleted. It is superseded or retired, with a successor named. An event version is never removed. The review line is signed again.
 
 A statement the change makes false is not a theorem. The build rejects it, and it is removed while the example it proved is retired.
 
 Everything below the change regenerates.
 
-### Validation happens four times
+### The four validations against the model
 
 Validation against the model happens four times, and each catches a different thing:
 
@@ -181,17 +181,21 @@ Validation against the model happens four times, and each catches a different th
 
 The same lifecycle can be read as six stages. Each has the artifact it produces, the direction of generation and the acceptance test.
 
-The figure draws the Direction column of the table below. Each edge carries its stage's number. The one unnumbered edge is where the traces come from: stage 6's input.
+The figure draws each stage's input and direction from the table below. Each numbered edge belongs to its stage. The two unnumbered edges are stage 6's input: the running tests, then production.
 
 ```mermaid
 flowchart LR
-    MP["The journey map<br/>and the context map"] -->|"1 · through the paths, to the<br/>type parameters of each Cell"| L["Lean"]
+    M["The journey map<br/>and the context map"] -->|1| P["The paths"]
+    P -->|1| TP["The type parameters<br/>of each Cell"]
+    TP -->|2| L["Lean"]
     D["Each design's tables"] -->|2| L
+    DA["The data"] -->|3| L
     L -->|3| W["Wire schemas"]
     L -->|4| FX["Fixtures"]
     L -->|4| FT["Feature files"]
-    FX -->|5| T["The implementation<br/>and its tests"]
-    T -->|"running, in test<br/>then in production"| R["Traces"]
+    FX -->|5| T["Tests"]
+    T -->|running| R["Traces"]
+    PR["Production"] --> R
     R -->|6| L
 ```
 
@@ -243,7 +247,7 @@ A journey a user can leave part-way and resume on another channel is the test ca
 - **Channels that disagree.** The channel is an input to the decision, not a separate design. If the app offers a choice the web does not, either a row says so, or the app's trace is rejected at the step where it differs.
 - **Questions answered once.** One row per branch forces "what if the user resumes on two channels at once?" to be answered in the design, once, instead of in each team's code.
 - **The wrong person resuming.** Who is acting rides on the command. So "a helper may view but not resume" is one row in the table and one refusal, checked before the cell looks at the journey's state.
-- **A trace that does not hang together.** If the record shows a step reacting to a fact recorded after it, or to one from a different run, the run is rejected. It is rejected on its shape alone, before any step is replayed.
+- **A trace that does not hang together.** If the record shows a step reacting to a fact recorded after it, or to one from a different run, the run is rejected on its shape alone, before any step is replayed.
 
 ## The guarantees
 

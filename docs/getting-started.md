@@ -74,15 +74,15 @@ root = "Replay"
 
 Copy `lean-toolchain` from the calculus, so the two agree. The example requires the calculus by path instead, in its [lakefile.toml](../examples/library/lakefile.toml), because it lives in the same repository.
 
-## 3. Define the two types the calculus is generic over
+## 3. Supply the two types the calculus is generic over
 
-The calculus is generic over exactly two types, which your project supplies. Both are algebraic data types that you define from your corpus.
+The calculus is generic over exactly two types that your project supplies. Both are algebraic data types that you define from your corpus.
 
 **The principal** is who a person or system is when they act, as your identity capability answers it. It is a structure whose fields each have a meaning and a domain. A field that is one of a fixed few things is a sum type, not a string. Declare the `Architecture` instance with it.
 
 **The subject** is what an event is about: the one identifier its record is keyed by.
 
-- **Where your architecture has trust boundaries**, enumerate the zones. Make the subject a `BoundedId` indexed by the zone that knows it. Then the kernel refuses a record in one zone built with another zone's ID.
+- **Where your architecture has trust boundaries**, enumerate the zones. Make the subject a `BoundedId` indexed by the zone that knows it. So the kernel refuses a record in one zone built with another zone's ID.
 - **Where it has none**, the subject is a plain ID, or `Unit` until the corpus says.
 
 Here is a principal for a clinic, with the `Architecture` instance declared with it:
@@ -139,11 +139,7 @@ The context map holds:
 
 A publisher is upstream of its reactors. A gateway's owner is upstream of its callers. An outside party is upstream of the cell that calls it.
 
-The theorems say that:
-
-- every arrow is covered;
-- every outside party is translated at the edge;
-- where a heuristic is broken, it is named. One such heuristic is "a core context should not conform to a generic one".
+The theorems say that every arrow is covered, and that every outside party is translated at the edge. Where a heuristic such as "a core context should not conform to a generic one" is broken, the theorems name it.
 
 In the example this is [ContextMap.lean](../examples/library/ContextMap.lean).
 
@@ -175,7 +171,7 @@ Each cell gets one module, transcribed one row to one definition.
    - `isTerminal`, from the Terminal line.
 
    A cell whose decision needs another cell's answer or the clock takes `Inputs` instead of a bare command.
-3. **The examples**, as values named by their id. Each has its `_holds` theorem, by `decide`. The universal claims are theorems by `simp`.
+3. **The examples**, as values named by their id, each with its `_holds` theorem by `decide`. The universal claims are theorems by `simp`.
 4. **The instances**:
    - `Kinded`, for coverage;
    - `WireCodec`, with the round trip proved by cases;
@@ -213,7 +209,7 @@ In the example: [impl/circulation.py](../examples/library/impl/circulation.py) f
 
 Register the cell in `Replay.lean`. Then record what your code did, in test or in production, as a trace in the same wire shape. A trace holds each command the code was handed and the outcome it produced.
 
-`lake exe replay` parses each command with the model's own parse, and replays the trace. It names the step where the code took a path the model has no edge for.
+`lake exe replay` parses each command with the model's own parse and replays the trace. It names the step where the code took a path the model has no edge for.
 
 A trace that conformed is kept with the tests, as a known-good trace. A trace that found a defect is kept as a known-bad trace until the fix lands.
 
@@ -239,7 +235,7 @@ A change after that is never an edit:
 - **A changed theorem** gets a successor. The old one is deprecated by name.
 - **A changed event** gets a new version, with the upcaster kept total.
 
-The coverage theorems run over the live set. So retiring without a successor fails the build, by name.
+The coverage theorems run over the live set. So retiring without a successor fails the build by name.
 
 In the example this is [Library/Governance.lean](../examples/library/Library/Governance.lean).
 
@@ -251,6 +247,7 @@ Wire in the same commands the example's [README](../examples/library/README.md) 
 2. the fixtures, with a check that the committed views did not change;
 3. the review check;
 4. the mutation gate;
-5. the traces that must conform, and the traces that must be rejected;
-6. the tests;
-7. the recorded trace, replayed.
+5. the traces that must conform;
+6. the traces that must be rejected;
+7. the tests;
+8. the recorded trace, replayed.

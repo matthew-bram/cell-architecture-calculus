@@ -28,7 +28,7 @@ Nothing here is a real library's. The corpus was written for this repository, so
 
 ## The commands
 
-Run these from this directory, with Lean's version manager installed once, as the repository's README says.
+Run these from this directory, with Lean's version manager installed once as the repository's README says.
 
 ```
 lake build                                                   # every theorem checked, no warnings
