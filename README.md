@@ -36,6 +36,37 @@ Two papers at the root of the repository make the argument, for two readers.
 | [White paper](white-paper.md) | Architects and engineers | The hypothesis, the prior art each shape stands on, the calculus shape by shape with its theorems, the method as documents and a round trip, the evidence from the worked example with every number taken from the build, the ten places the method can fail with a proposal for each, the seven problems that had to be decided with what each leaves open, and a call to contribute |
 | [Executive summary](executive-summary.md) | Technology leaders | The problem from the leader's seat, what the method changes for an organization, what it removes from the daily work, what it costs, what it does not do, the evidence in one table, and how to start with a one-journey pilot |
 
+## How a claim becomes a theorem
+
+In a formal method like this one, a machine checks every step of every proof. In Lean, that machine is the **kernel**. An argument has five roles, and each has a standard name. If formal methods are new to you, these five are worth knowing before the code below. The table shows each role for a claim small enough to check in your head, 2 + 2 = 4, and where the same role appears in this repository.
+
+| Role | Standard name | In Lean, for 2 + 2 = 4 | In this repository |
+| --- | --- | --- | --- |
+| The rulebook | The calculus | A version of the Calculus of Inductive Constructions, in Lean's kernel | The same rulebook and kernel, for every theorem in `cell-calculus` and the example |
+| The givens | Axioms and definitions | How `Nat` and `+` are defined: `Nat` as zero and successor, `+` by recursion | The shapes of `cell-calculus`, such as the `Cell` structure, and a project's definitions transcribed from its design, such as `circulation` and `loanOut2` |
+| The claim | The proposition | `2 + 2 = 4` | `loanOut2.holds circulation = true`, an example from the next section |
+| The variable, the thing checked | The proof | `rfl`, checked by computing both sides | `by decide`, checked by computing the example |
+| The outcome | The theorem | The claim, once the kernel accepts its proof | `loanOut2_holds` |
+
+In Lean, the claim and its proof fit on one line:
+
+```lean
+theorem two_add_two : 2 + 2 = 4 := rfl
+```
+
+The claim comes after the colon, and the proof after `:=`. Once the kernel accepts the proof, `two_add_two` is a theorem. Change the claim to `2 + 2 = 5` and Lean rejects it, because the two sides don't compute to the same number.
+
+The rulebook and the givens are fixed before a claim is made. For one claim, the proof is the part that can vary: `rfl` and `by decide` both prove 2 + 2 = 4. The kernel accepts any proof that follows the rules and rejects any that doesn't.
+
+So to trust a theorem, you trust the kernel and the givens, and you read the claim. You don't have to trust whoever wrote the proof. The kernel can't catch a proof of the wrong claim. That is why a person reads the model against its design, which the [four words](#what-it-proves-checks-tests-and-assumes) at the end of this page call *assumed*.
+
+This repository calls its package `cell-calculus` *the calculus*. It is not a second rulebook. It is written under Lean's, so its shapes are givens and its theorems are outcomes.
+
+Two of the four words sort theorems by what they cover:
+
+- `loanOut2_holds` is *checked*. It is a claim about one example's values, and the kernel computes it.
+- `replay_append`, in `cell-calculus`, is *proved*. It holds for every cell and every history.
+
 ## In twenty lines
 
 A cell decides on commands, reacts to other cells' facts, and folds its own facts into its state. No function returns a command, so one cell cannot quietly trigger another. That wiring cannot be written.
