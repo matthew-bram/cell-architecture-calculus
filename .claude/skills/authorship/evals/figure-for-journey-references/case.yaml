@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: figure-for-journey-references
+expected_outcome: |
+  The section gains a Mermaid diagram at the head of the part it illustrates, drawing only the journeys and references the text states, with composition and succession told apart. The prose walks through the diagram, and every theorem name, term, strength word and table row of the original survives.
+context:
+  scaffold_script: place-files.sh

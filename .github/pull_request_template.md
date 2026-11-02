@@ -1,6 +1,6 @@
 ## What changed, and why
 
-<!-- One or two sentences in prose. The merged commit message is taken from here, and the repository keeps one commit per step. -->
+<!-- One or two sentences in prose. The merged commit message is taken from here. -->
 
 ## Which kind of change
 

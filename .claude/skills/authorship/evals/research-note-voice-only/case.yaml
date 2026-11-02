@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: research-note-voice-only
+expected_outcome: |
+  The note is rewritten in place in short sentences and keeps the record exactly: the date line, the confidence key and every marker against its claim, the vocabulary of its day, the code block, the fields table, the four answers with their strength, the open items as open, and the document edits as unconfirmed proposals. Nothing known later is added and nothing is corrected. The rewrite is recorded in research/README.md, or the report says it must be.
+context:
+  scaffold_script: place-files.sh

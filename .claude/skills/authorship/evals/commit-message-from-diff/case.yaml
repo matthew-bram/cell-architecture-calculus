@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: commit-message-from-diff
+expected_outcome: |
+  commit-message.txt holds a short title saying what is now true and a wrapped prose body saying what changed and why, accounting for every change in the diff, with the owner's decision named and no attribution lines.
+context:
+  scaffold_script: place-files.sh

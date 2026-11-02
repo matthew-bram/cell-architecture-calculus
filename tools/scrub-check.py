@@ -6,6 +6,11 @@ a tool, a host, a person or another project's domain. This check reads
 every tracked text file and fails on any pattern below, naming the file
 and the line. It runs in CI so that the rule holds after every change.
 
+One folder is outside it. `.claude/` holds the contributor skills, which
+serve people writing this repository rather than people using the method,
+and may name the agent and the tools they run on. What those skills write
+into the repository is still checked here.
+
 Usage: python3 tools/scrub-check.py [root]
 """
 import os
@@ -22,10 +27,11 @@ PATTERNS = [
 # The repository's own address is the one place a name belongs.
 REPOSITORY = "github.com/matthew-bram/cell-architecture-calculus"
 # The maintainers' handles are operational, not authorship, and appear only where GitHub reads them.
-ALLOWED = [REPOSITORY, "@matthew-bram"]
-SKIP_DIRS = {".git", ".lake", "__pycache__"}
+# The contributor skills' folder may be named by path, so that the guides can point at it.
+ALLOWED = [REPOSITORY, "@matthew-bram", ".claude/"]
+SKIP_DIRS = {".git", ".lake", "__pycache__", ".claude"}
 SKIP_FILES = {os.path.join("tools", "scrub-check.py")}
-TEXT = {".md", ".lean", ".py", ".json", ".toml", ".yml", ".yaml", ".feature", ".txt", ""}
+TEXT = {".md", ".lean", ".py", ".json", ".toml", ".yml", ".yaml", ".feature", ".txt", ".svg", ""}
 
 
 def main(argv):

@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: front-page-opening
+expected_outcome: |
+  The opening is rewritten in place in short sentences, says what the repository is with the reference architecture link kept, adds a round-trip figure drawn only from the README's own claims, and keeps every claim, count, table row and code block of the original.
+context:
+  scaffold_script: place-files.sh
