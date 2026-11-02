@@ -27,6 +27,8 @@ The repository holds:
 - the two scripts that gate a build, and the scrub gate;
 - nine skills over the seven steps of the lifecycle an agent leads or prepares, each written and evaluated against the example.
 
+[The case for the method](#the-case-for-the-method), below, points architects and engineers at one paper and technology leaders at the other.
+
 ## The case for the method
 
 Two papers at the root of the repository make the argument, for two readers.
