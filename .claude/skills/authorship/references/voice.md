@@ -132,10 +132,10 @@ Software documentation has three defects it can't cure on its own:
 - Nothing shows that it is accurate.
 - Nothing shows that the code built from it went where it pointed.
 
-Documents make claims about structure: which capabilities exist, which journeys use them, and which zones may talk to which. Those claims are kept by hand, in several places, and the places drift apart. Once the code exists, nothing but a person's memory says whether it went where the documents pointed.
+The documents make claims about structure: which capabilities exist, which journeys use them, and which zones may talk to which. Those claims are kept by hand in several places that drift. Once the code exists, nothing but a person's memory says whether it went where the documents pointed.
 ```
 
-The three defects were parallel, so they became a list. The claims about structure were a list inside a sentence, so they moved behind a colon. "Several places that drift" became its own sentence.
+The three defects were parallel, so they became a list. The claims about structure were a list inside a sentence, so they moved behind a colon. "Kept by hand in several places that drift" became its own sentence, in the original's words.
 
 ### A term defined at first use
 
@@ -146,7 +146,7 @@ The word is the cell-based reference architecture's: a cell is a self-contained 
 ```
 
 ```markdown
-The word *cell* comes from the cell-based reference architecture. A **cell** is a self-contained unit of components. It keeps its own record, and its gateway is the only way in. It can be deployed and observed on its own. It talks to other cells through its gateway and through the facts it publishes.
+The word *cell* is the cell-based reference architecture's. A **cell** is a self-contained unit of components. It keeps its own record, and its gateway is the only way in. It can be deployed and observed on its own. It talks to other cells through its gateway and through the facts it publishes.
 
 The calculus takes that unit and says what is inside it.
 ```
@@ -162,16 +162,16 @@ From `docs/the-calculus.md`, *Outcomes have three values*:
 ```
 
 ```markdown
-Every gateway returns `Either[Ex, B]`: a value, or an exception `Ex`. `Ex` is itself a sum, `Either[Refused, Unknown]`.
+Every gateway returns `Either[Ex, B]`, and `Ex` is itself a sum, `Either[Refused, Unknown]`.
 
 - **Refused** is the cell's invariants saying no. It is deterministic and final, and the journey stops at a named outcome.
 - **Unknown** is the failure window. The effect may or may not have landed.
 
-The two come from different places, and the types keep them apart. A cell's `decide` returns `Except Refusal (List Event)`, which is the inner `Either[Refused, B]`. So a cell can say yes or a deterministic no, and nothing else.
+The two sides come from different places, and the types say so. A cell's `decide` returns `Except Refusal (List Event)`, which is the inner `Either[Refused, B]`, so a cell can say yes or a deterministic no, and nothing else.
 
-The third value appears only where a result crosses the wire. `liftToWire` maps a cell's result into `Except (Exception Refusal) B`. It turns a refusal into `refused` and never produces `unknown`; that is the theorem `model_never_unknown`. Only the world produces *unknown*. The model's job is to say what the caller may do about it: retry with the same key, and never decide as if the effect didn't happen.
+The third value is added only where a result crosses the wire. `liftToWire` maps a cell's result into `Except (Exception Refusal) B`. It turns a refusal into `refused` and never produces `unknown`; that is the theorem `model_never_unknown`. Only the world produces *unknown*. The model's job is to say what the caller may do about it: retry with the same key, and never decide as if the effect didn't happen.
 
-Mixing the two up is the bug the failure window produces. A timeout gets treated as a refusal, and an effect that did land is compensated away.
+Mixing the two up is the specific bug the failure window produces. A timeout gets treated as a refusal, and an effect that did land is compensated away.
 ```
 
 Every identifier is unchanged. The two kinds of exception were parallel, so they became a list with the terms in bold. The one long paragraph became four, each with one job.
@@ -214,6 +214,8 @@ Nothing here changes [cell-calculus/](../cell-calculus/) or [examples/library/](
 The fragment "The forward record." became a sentence that says what the page is. The contrast with `research/` got its own sentence, and so did each rule. The *until* stays in the same sentence as what it limits.
 
 The first drafts of these rewrites lost three details: the identifier `Ex`, the *until* in this last pair, and a *nothing but* that became *only*. The detail check caught all three. [details.md](details.md) says what counts as a detail and how to keep it.
+
+An independent reading later found six more in the first three pairs, each a word that moved the meaning: *documents* for *the documents*, *drift apart* for *drift*, *comes from* for *is the reference architecture's*, *keep them apart* for *say so*, *appears* for *is added*, and a dropped *specific*. The pairs above are corrected. The detail check can't see changes like these, because no identifier, number or strength word moves. Only a reading against the original catches them.
 
 ## Words
 

@@ -62,6 +62,8 @@ BRITISH = {
     r"favour(s?|ed|ing|ite)": r"favor\1",
     r"centre(s?)": r"center\1",
     r"judgement(s?)": r"judgment\1",
+    r"honour(s?|ed|ing|able)": r"honor\1",
+    r"per cent": r"percent",
 }
 
 SKIP_DIRS = {".git", ".lake", "__pycache__", "node_modules"}
