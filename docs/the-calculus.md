@@ -1,6 +1,6 @@
 # The calculus
 
-This page covers the shapes of the method, each with its theorem, its source and the file it lives in. Each entry's heading states its claim. Where an entry names the file its shape lives in, the file comes first.
+This page covers the shapes of the method, each with its theorem, its source and the file it lives in. Where an entry names the file its shape lives in, the file comes first.
 
 The generic shapes are the package [`cell-calculus`](../cell-calculus/). It has one module per idea and carries only universal theorems. It is generic over a project's principal through one class, and over the subject an event is about as a type parameter. Trust boundaries are an opt-in module.
 
@@ -17,9 +17,7 @@ The page defines these terms, each in the entry linked beside it.
 | **Cell** | A self-contained unit of components, with its own record and a gateway as the only way in | [The cell](#the-cell) |
 | **Refused** | The cell's invariants saying no, deterministic and final | [Outcomes have three values](#outcomes-have-three-values) |
 | **Unknown** | The failure window: the effect may or may not have landed | [Outcomes have three values](#outcomes-have-three-values) |
-| **Journey** | A term in an algebra with three constructors and no loop. Every term compiles to a DAG | [A journey is a term](#a-journey-is-a-term-and-every-term-compiles-to-a-dag) |
-| **Composition** | A journey running another as a step. The relation must be acyclic | [Composition and succession](#composition-must-be-acyclic-and-succession-may-cycle) |
-| **Succession** | A journey's last fact as the trigger of a new run of another. The relation may cycle | [Composition and succession](#composition-must-be-acyclic-and-succession-may-cycle) |
+| **Succession** | A journey's last fact as the trigger of a new run of another. The relation may cycle | [Composition must be acyclic, and succession may cycle](#composition-must-be-acyclic-and-succession-may-cycle) |
 | **Contract** | A step's non-functional contract: one assumption and a guarantee per viewpoint | [Contracts fold along a journey](#contracts-fold-along-a-journey) |
 | **Mutant** | One deliberate change to the model, which the examples, traces and theorems must notice | [Coverage has a second half](#coverage-has-a-second-half-and-it-is-mutation) |
 | **Envelope** | One of the two types, defined once, that wrap every command and every event | [Two envelopes](#two-envelopes-wrap-every-command-and-every-event) |
@@ -36,7 +34,7 @@ Software documentation has three defects it can't cure on its own:
 - Nothing shows that it is accurate.
 - Nothing shows that the code built from it went where it pointed.
 
-Documents make claims about structure: which capabilities exist, which journeys use them, and which zones may talk to which. Those claims are kept by hand, in several places, and the places drift apart. Once the code exists, nothing but a person's memory says whether it went where the documents pointed.
+The documents make claims about structure: which capabilities exist, which journeys use them, and which zones may talk to which. Those claims are kept by hand in several places that drift. Once the code exists, nothing but a person's memory says whether it went where the documents pointed.
 
 The calculus is the answer in four steps, each feeding the next:
 
@@ -51,7 +49,7 @@ Prose owns meaning. Lean owns structure and behavior. Generated views own nothin
 
 ## The cell
 
-The word *cell* comes from the cell-based reference architecture. A **cell** is a self-contained unit of components. It keeps its own record, and its gateway is the only way in. It can be deployed and observed on its own. It talks to other cells through its gateway and through the facts it publishes.
+The word *cell* is the cell-based reference architecture's. A **cell** is a self-contained unit of components. It keeps its own record, and its gateway is the only way in. It can be deployed and observed on its own. It talks to other cells through its gateway and through the facts it publishes.
 
 The calculus takes that unit and says what is inside it.
 
@@ -59,26 +57,30 @@ The calculus takes that unit and says what is inside it.
 
 **File:** `Cell.lean`
 
+The `Exception` type has two constructors, `refused` with its reason and `unknown`:
+
 ```lean
 inductive Exception (Reason : Type)
   | refused (reason : Reason)
   | unknown
 ```
 
-Every gateway returns `Either[Ex, B]`: a value, or an exception `Ex`. `Ex` is itself a sum, `Either[Refused, Unknown]`.
+Every gateway returns `Either[Ex, B]`, and `Ex` is itself a sum, `Either[Refused, Unknown]`.
 
 - **Refused** is the cell's invariants saying no. It is deterministic and final, and the journey stops at a named outcome.
 - **Unknown** is the failure window. The effect may or may not have landed.
 
-The two come from different places, and the types keep them apart. A cell's `decide` returns `Except Refusal (List Event)`, which is the inner `Either[Refused, B]`. So a cell can say yes or a deterministic no, and nothing else.
+The two sides come from different places, and the types say so. A cell's `decide` returns `Except Refusal (List Event)`, which is the inner `Either[Refused, B]`, so a cell can say yes or a deterministic no, and nothing else.
 
-The third value appears only where a result crosses the wire. `liftToWire` maps a cell's result into `Except (Exception Refusal) B`. It turns a refusal into `refused` and never produces `unknown`; that is the theorem `model_never_unknown`. Only the world produces *unknown*. The model's job is to say what the caller may do about it: retry with the same key, and never decide as if the effect didn't happen.
+The third value is added only where a result crosses the wire. `liftToWire` maps a cell's result into `Except (Exception Refusal) B`. It turns a refusal into `refused` and never produces `unknown`; that is the theorem `model_never_unknown`. Only the world produces *unknown*. The model's job is to say what the caller may do about it: retry with the same key, and never decide as if the effect didn't happen.
 
-Mixing the two up is the bug the failure window produces. A timeout gets treated as a refusal, and an effect that did land is compensated away.
+Mixing the two up is the specific bug the failure window produces. A timeout gets treated as a refusal, and an effect that did land is compensated away.
 
 ### A cell is an initial state, three pure functions, one of which is the fold, and a terminal predicate
 
 **File:** `Cell.lean`
+
+The `Cell` structure holds the initial state, the three functions and the terminal predicate:
 
 ```lean
 structure Cell (Command ForeignEvent Event State Refusal : Type) where
@@ -89,25 +91,26 @@ structure Cell (Command ForeignEvent Event State Refusal : Type) where
   isTerminal : State → Bool
 ```
 
-The figure draws the same structure as a flow. A command and a foreign event go in, the cell's own events fold into the state through `evolve`, and no arrow ends at a command.
+The figure draws the same structure as a flow. A command and a foreign event go in. The cell's own events pass through `evolve`, the fold, into the state, and no arrow ends at a command.
 
 ```mermaid
-flowchart LR
+flowchart TB
     C["A command"] --> D["decide"]
     F["A foreign event"] --> R["react"]
-    S["The state"] --> D
-    S --> R
     D -->|a deterministic no| N["A refusal"]
     D -->|yes| E["The cell's own events"]
     R --> E
-    E -->|evolve, the fold| S
-    I["initial"] --> S
+    E --> V["evolve<br/>the fold"]
+    I["initial"] --> V
+    V --> S["The state"]
+    S --> D
+    S --> R
     S --> T["isTerminal"]
 ```
 
 The parameters are the cell's commands, the foreign events it subscribes to, its own events, its state and its refusal reasons.
 
-The `Cell` structure is the Decider of functional event sourcing, with a reaction added and the command sink removed. No function returns a command. `Event => Command` is not forbidden by a rule. It is unrepresentable, and an attempt to write it is rejected at the type.
+The `Cell` structure is the Decider of functional event sourcing with a reaction added and the command sink removed. No function returns a command. `Event => Command` is not forbidden by a rule. It is unrepresentable, and an attempt to write it is rejected at the type.
 
 State is the fold of the cell's own events and nothing else: `replay history = history.foldl evolve initial`. Determinism is not a property to test. The functions are pure by construction.
 
@@ -167,12 +170,12 @@ The composite of a `decide` and a `react` has the decider's signature:
 - the product of histories as state;
 - a refusal or events out.
 
-Composition is closed. So journeys compose into journeys under the same rules, and the whole system is one cell.
+Composition is closed, so journeys compose into journeys under the same rules, and the whole system is one cell.
 
 There are two consequences:
 
-1. **The composite's state is a product and never a merge.** So a cell seeing only its own state is visible in the type of every journey.
-2. **Function composition is associative.** So where the cut between cells falls is a parenthesization, and the composite is the same under every choice. A boundary can move without the behavior changing.
+1. **The composite's state is a product and never a merge**, so a cell seeing only its own state is visible in the type of every journey.
+2. **Function composition is associative**, so where the cut between cells falls is a parenthesization, and the composite is the same under every choice. A boundary can move without the behavior changing.
 
 ### Choreography realizes composition
 
@@ -197,7 +200,7 @@ stateDiagram-v2
 
 ### Composition must be acyclic, and succession may cycle
 
-A journey may run another as a step. That is **composition**, and that relation must be acyclic.
+A journey may run another as a step. That is composition, and that relation must be acyclic.
 
 A journey's last fact may be the trigger of a new run of another. That is **succession**, and that relation may cycle, because each edge is a new fact and a new run.
 
@@ -229,21 +232,23 @@ The sources are Benveniste and others on contracts for system design, and networ
 
 Proto, JSON Schema and Avro cannot say what the model's sum types say: no invariants, loose fields. So the wire shape is a projection of the model's type. What the projection loses is a list per schema, and every item on it is one thing, a refusal at parse time.
 
-A command type's codec is a class, `WireCodec`, whose third field is the round-trip law. So an instance cannot exist without the proof that every command survives the wire.
+A command type's codec is a class, `WireCodec`, whose third field is the round-trip law, so an instance cannot exist without the proof that every command survives the wire.
 
 The gateway, parse then decide, is generic over the class. Its refusal type is the sum of the two kinds. `gateway_serialize` says that for every cell, history and command, the gateway on a serialized command is the cell's own decision.
 
-The same pair serializes every example into a fixture and parses every trace back. So the model and the tests share bytes rather than a description of the data.
+The same pair serializes every example into a fixture and parses every trace back, so the model and the tests share bytes rather than a description of the data.
 
 Three more classes make the rest generic:
 
 - `JsonEncode` renders a value as JSON for the fixtures.
 - `Kinded` numbers a sum type's constructors, so the coverage checks are one definition for every project.
-- `Describe` gives each constructor a sentence, so the Gherkin renderer is too.
+- `Describe` gives each constructor a sentence, so the Gherkin renderer is one definition for every project too.
 
 ### Specification by example is a type
 
 **File:** `Cell.lean`
+
+An `Example` carries an id, a Given, a When and an Expect:
 
 ```lean
 structure Example (Command Event Refusal : Type) where
@@ -257,7 +262,7 @@ structure Example (Command Event Refusal : Type) where
 
 A `ReactionExample` is the same, with a foreign fact as its When and the facts the cell emits as its Expect, since a reaction cannot be refused.
 
-An example set is a Lean value, and the coverage theorems hold over it. Every command kind, every event kind and every refusal reason appears in some example, or the file does not compile.
+An example set is a Lean value, and the coverage theorems hold over it: every command kind, every event kind and every refusal reason appears in some example, or the file does not compile.
 
 A trace is a list of command and outcome steps the implementation reported. It is replayed by `Cell.conforms`, which says whether the model allows it. For a trace the model rejects, `Cell.firstRejection` names the step.
 
@@ -273,7 +278,7 @@ The coverage theorems say every kind is reached. They do not say every branch is
 
 A **mutant** is one deliberate change to the model, and the examples, traces and theorems must notice. A mutant that builds has found a part of the model nothing pins, and that is a failing test.
 
-The example's ten mutants include:
+The example's 10 mutants include:
 
 - the limit off by one;
 - the warning at the level rather than over it;
@@ -289,7 +294,7 @@ The source is coverage for formal verification as Chockler, Kupferman and Vardi 
 
 **File:** `Envelope.lean`
 
-Nothing so far said what a command or an event carries besides its payload. Two envelopes, defined once, wrap every command and every event:
+Nothing so far said what a command or an event carries besides its payload. Two **envelopes**, defined once, wrap every command and every event:
 
 ```lean
 structure CommandEnvelope (Payload : Type) where
@@ -312,7 +317,7 @@ structure EventEnvelope (Payload Subject : Type) where
 
 There are no property-bag headers. A cell reads only the fields the type names, and a decider that reaches for a header the envelope lacks is rejected at the type. The fold never sees an envelope. The shell wraps what a decider emits.
 
-`Actor` is a sum over the five kinds of sender any system has:
+**`Actor`** is a sum over the five kinds of sender any system has:
 
 - a principal in the project's own terms;
 - a policy cell;
@@ -328,13 +333,16 @@ So a decider's actor branch is a `match` the kernel checks is total.
 - an allowed actor gets exactly the inner decision;
 - the fold is untouched.
 
-A policy written as permits and forbids carries Cedar's trio as theorems: a forbid overrides every permit, a permit is required, an empty set of permits denies everything, and the rules are a set. So their order and duplicates do not matter.
+A policy written as permits and forbids carries Cedar's trio as theorems: a forbid overrides every permit, a permit is required, an empty set of permits denies everything, and the rules are a set, so their order and duplicates do not matter.
 
-A derived key names its issuer and its cause. So a retry derives the same key without remembering anything.
+A derived key names its issuer and its cause, so a retry derives the same key without remembering anything.
 
 With causation and correlation on every event, a run's shape is checkable without replaying it. The events become nodes needing the event they cite. `Run.conforms` is `nodesOk` again, the rule the compiled journeys are held to. `envelope_conforms` says that what the shell publishes on any command, for any cell, subject, clock reading and minting function, is a run that conforms.
 
-In the example, a guest's checkout is refused before circulation is consulted, `loanActor1_holds`. A run in which the warning was recorded before the checkout it cites is rejected on shape alone, `backwardsRun_rejected`.
+In the example:
+
+- a guest's checkout is refused before circulation is consulted, `loanActor1_holds`;
+- a run in which the warning was recorded before the checkout it cites is rejected on shape alone, `backwardsRun_rejected`.
 
 ### Inputs, never calls
 
@@ -342,7 +350,7 @@ In the example, a guest's checkout is refused before circulation is consulted, `
 
 `decide` is pure, and a decider may need another cell's answer or the date. The shell gathers every query answer and the clock reading before it calls `decide`. It hands them over as one argument beside the command. A decider that reaches for the clock is rejected at the type, because `decide` returns `Except` and not `IO`.
 
-A query is a pure read of the owning cell's state. Its answer is stamped with the owner's version. So a decision made on it records what it was made on, and the owner refuses the resulting command if it has moved on since.
+A query is a pure read of the owning cell's state. Its answer is stamped with the owner's version, so a decision made on it records what it was made on, and the owner refuses the resulting command if it has moved on since.
 
 This is Command Query Responsibility Segregation, with its eventual consistency made a field rather than a caveat. Rule 5 of [foundations.md](foundations.md) has the lineage.
 
@@ -354,9 +362,9 @@ In the example, fines assesses a late item on circulation's stamped answer and t
 
 **File:** `Boundaries.lean`, opt-in
 
-An identifier that must not cross a trust boundary is indexed by the boundary that knows it. So the kernel refuses a record in one boundary built with another boundary's ID.
+An identifier that must not cross a trust boundary is indexed by the boundary that knows it, so the kernel refuses a record in one boundary built with another boundary's ID.
 
-The alias map carries its inverse law as a field. So a map that does not invert cannot be constructed.
+The alias map carries its inverse law as a field, so a map that does not invert cannot be constructed.
 
 The **scrub** is a parse from one boundary's event to another's. It is owned by one cell, and it is the one function in the system whose type names two boundaries.
 
@@ -369,7 +377,7 @@ In the example, the desk knows a member by card and the stacks by patron token. 
 
 **File:** `Policy.lean`
 
-That place is at a journey boundary, as succession. A journey ends with a fact. The fabric lifts the fact into a command to the one cell that subscribes to it as a root, mechanically. The command has the key derived from the fact, the fact as the cause and a fresh run. So a retry of the lift is the same command, `succeed_sameKey`.
+The one place is a journey boundary, as succession. A journey ends with a fact. The fabric lifts the fact into a command to the one cell that subscribes to it as a root, mechanically. The command carries the key derived from the fact, the fact as the cause and a fresh run, so that a retry of the lift is the same command, `succeed_sameKey`.
 
 That cell is a **policy cell**, whose `decide` is the one place a proposal becomes a downstream command. Every branch of a policy cell names its rung. In shadow, a proposal is recorded and never issues. In review, it is held until a person approves it, and an approval issues only what was held. Each of those is a theorem for every proposal and state. In autonomous, it issues, checked on the example's proposal.
 
@@ -385,13 +393,13 @@ With `issuedAt`, `recordedAt`, `causation` and `correlation` on every event, a *
 
 The runs that fail are named. A measure sits beside the promise: the count kept over the count seen. `withinDuration_mono` says loosening a limit never breaks a kept promise, which is why a promise can be tightened in steps.
 
-A quality attribute is checkable only once it says what it ranges over. So the `Attribute` type fixes that in its constructor:
+A quality attribute is checkable only once it says what it ranges over, so the `Attribute` type fixes that in its constructor. An attribute ranges over one of:
 
 - one run, which is a promise;
 - a pair of runs, the shape of a confidentiality claim no single run can refute;
 - a population, a promise with a threshold, which is a hyperproperty over the window;
 - a distribution, which no finite set of traces checks and which the attribute says is measured;
-- or the artifact, a decided proposition about the model itself.
+- the artifact, a decided proposition about the model itself.
 
 `population_kept_of_all` says a promise every run keeps is kept at any threshold.
 
@@ -405,7 +413,7 @@ Governance is the changelog rule applied to the model.
 
 - **A theorem is never deleted.** It is superseded by name with Lean's `deprecated` attribute, so a use of the old one warns and names its successor.
 - **A statement that a change to the model makes false is not a theorem.** The build rejects it, and it is removed, while the example it proved is retired with its successor.
-- **An example is never deleted.** It is marked superseded with the date and the reason. The coverage theorems run over the live set. So retiring an example without a successor fails coverage, and the failure names the command kind, `hole_isNamed`.
+- **An example is never deleted.** It is marked superseded with the date and the reason. The coverage theorems run over the live set, so that retiring an example without a successor fails coverage, and the failure names the command kind, `hole_isNamed`.
 - **An event version is never removed.** The upcaster from every version ever published is total by exhaustiveness, which is the check Lean already does.
 
 The project's header carries one review line per design: the design's path and its content hash at review. The build checks it: a warning while unreviewed, and a failure when the design changes under a signed line.
@@ -428,11 +436,15 @@ What the relationship means in this method:
 - A conformist's parse is the identity up to shape.
 - An anti-corruption layer's parse is a real translation. It is the only place a refusal means "not understood" rather than "no".
 
-In the example, notices translates because it puts the name back. Every outside party is translated at the edge, and no core context conforms to a generic one.
+In the example:
+
+- notices translates because it puts the name back;
+- every outside party is translated at the edge;
+- no core context conforms to a generic one.
 
 ## What it proves, checks, tests and assumes
 
-Four words are used in those places and no others:
+Four words are used in these places and no others:
 
 - **Proved**: a universal theorem in the calculus or about a project's cells, true for every input, by `simp`, `cases` or induction.
 - **Checked**: a decidable claim about one project's values, by `decide` or `rfl`.
@@ -462,9 +474,9 @@ Each limit is a place the method can fail, and what it does about it.
 5. **The window is a value, not a model.** `unknown` is in the type and a rule in a comment. The next piece of theory is:
    - the saga as a cell with intent recorded, remote answered and result recorded;
    - the theorem that "intent, unknown, retry with the same key, ok" equals "intent, ok" for any idempotent receiver.
-6. **Event sourcing is a commitment.** Each cell keeps its history:
-   - as an event store where `replay` is literal;
-   - or as versioned rows where a row version is an event and the current row is the snapshot that `replay_append` makes sound.
+6. **Event sourcing is a commitment.** Each cell keeps its history as one of:
+   - an event store where `replay` is literal;
+   - versioned rows where a row version is an event and the current row is the snapshot that `replay_append` makes sound.
 
    A cell that keeps neither is one the calculus does not describe.
 7. **Modeling what is easy to model.** A method that proves structure and skips behavior proves the cheap thing. The annotation grammar makes behavior mandatory: a design's model must contain a `decide` for every command in its Commands table and a `react` for every foreign event in its Subscribes table. The coverage theorems must also hold. A design with tables and no decisions fails the same check as one with no examples.
