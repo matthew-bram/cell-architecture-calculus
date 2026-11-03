@@ -1,6 +1,6 @@
 # Changelog
 
-One row per decision, newest first. The calculus's version is in `cell-calculus/lakefile.toml` and moves by supersession.
+This changelog has one row per decision, newest first. The calculus's version is in `cell-calculus/lakefile.toml` and moves by supersession.
 
 | Date | What changed | Why |
 | --- | --- | --- |
