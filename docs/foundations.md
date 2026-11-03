@@ -72,7 +72,14 @@ So the window is not a gap in any one design. It is the floor every design stand
 
 Amazon's Cedar is the worked example of the lifecycle this method wants. Cedar's evaluator, authorizer and validator are total Lean functions over algebraic datatypes with the security properties proved. The Rust production engine is held to the Lean model by differential random testing. Millions of random policies and requests are evaluated in both, and any difference is a bug. Property-based testing covers the parts not modeled. The authors name the method verification-guided development **[H]**. SampCert went further: the verified Lean code is the production code **[M]**.
 
-Two other practices meet it. Specification by example (Adzic, 2011) gives examples as the shared specification and the executable test. Trace validation (Cirstea, Kuppe, Loillier and Merz, 2024) gives the backward half: the implementation is instrumented to record what it did, and a checker decides whether the recorded trace is a behavior of the specification. They report finding discrepancies in every distributed program they tried it on. When the model is executable, as it is here, the checker is a fold and no model checker is needed. Coverage for formal verification (Chockler, Kupferman and Vardi, 2001 and 2003) is the published answer to "do the examples have the model's geometry": repeat the verification on mutants of the model, and a part no property notices when mutated is a part the properties do not cover **[M]**. "Parse, don't validate" (King, 2019) gives the gateway: turn loose input into a typed value once, or refuse with a reason, so that nothing past the boundary has to check again **[H]**.
+Two other practices meet it:
+
+- Specification by example (Adzic, 2011) gives examples as the shared specification and the executable test.
+- Trace validation (Cirstea, Kuppe, Loillier and Merz, 2024) gives the backward half: the implementation is instrumented to record what it did, and a checker decides whether the recorded trace is a behavior of the specification. They report finding discrepancies in every distributed program they tried it on. When the model is executable, as it is here, the checker is a fold and no model checker is needed.
+
+Coverage for formal verification (Chockler, Kupferman and Vardi, 2001 and 2003) is the published answer to "do the examples have the model's geometry": repeat the verification on mutants of the model, and a part no property notices when mutated is a part the properties do not cover **[M]**.
+
+"Parse, don't validate" (King, 2019) gives the gateway: turn loose input into a typed value once, or refuse with a reason, so that nothing past the boundary has to check again **[H]**.
 
 ## 4. What the calculus takes from this
 
