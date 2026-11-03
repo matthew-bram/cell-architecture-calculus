@@ -27,7 +27,7 @@ type Decider<'c,'e,'s> =
       isTerminal: 's -> bool }
 ```
 
-What the calculus adds that the record lacks is the reaction, `Event => State => Event`, as a first-class archetype. It is there so that a cell's response to another cell's fact is pure and emits a fact, never a command. That is the restriction that makes the event graph between cells acyclic, which [the DAG rule](the-dag-rule.md) records.
+What the calculus adds that the record lacks is the reaction, `Event => State => Event`, as a first-class archetype. It is there so that a cell's response to another cell's fact is pure and emits a fact, never a command. That is the restriction that makes the event graph between cells acyclic, which [the-dag-rule.md](the-dag-rule.md) records.
 
 What the record adds that the two archetypes alone lack:
 
@@ -36,7 +36,7 @@ What the record adds that the two archetypes alone lack:
 
 The same shape is Akka Persistence's `commandHandler: (State, Command) => Effect[Event, State]` and `eventHandler: (State, Event) => State`, a Decider with the effect wrapped **[L]**.
 
-Fraktalio's fmodel library gives the Decider a `combine` operator, a monoid over the sum of commands and events and the product of states. That operator is the published form of "two cells packaged as one" **[M]**.
+Fraktalio's fmodel library gives the Decider a `combine` operator, a monoid over the sum of commands and events and the product of states, which is the published form of "two cells packaged as one" **[M]**.
 
 ## 2. The saga lives inside the owning cell, and the window has a name
 
@@ -66,20 +66,13 @@ There are three, in rising strength:
 2. **Kafka's exactly-once is scoped to Kafka.** It covers a read-process-write loop whose reads and writes are both Kafka topics. A consumer that changes a database, calls another cell or sends a notification is outside the transaction. Nothing reverts that effect on abort. Confluent's own delivery-semantics documentation states the scope **[M]**. In the architectures this calculus describes, every interesting step is such an effect: a command to another cell's gateway, a notification, a partner call.
 3. **Kafka's transaction protocol itself has an unresolved ordering flaw.** Jepsen's Bufstream analysis (Kingsbury, 2024) characterized, in Kafka and not only in Bufstream, "write loss, aborted read, and torn transactions caused by the lack of message ordering constraints in the Kafka transaction protocol." Cause: "There is no sequence number to order requests from the same client. There is no concept of a transaction number." A delayed `EndTxn` can commit or abort a different, later transaction. It is tracked as KAFKA-17754, and was unresolved at publication **[H]**.
 
-So the window is not a gap in any one design. It is the floor every design stands on, named by Helland in 2012. A fabric's exactly-once claim does not remove it for anything that leaves the fabric.
+So the window is not a gap in any one design. It is the floor every design stands on, named by Helland in 2012, and a fabric's exactly-once claim does not remove it for anything that leaves the fabric.
 
 ## 3. Verification-guided development
 
 Amazon's Cedar is the worked example of the lifecycle this method wants. Cedar's evaluator, authorizer and validator are total Lean functions over algebraic datatypes with the security properties proved. The Rust production engine is held to the Lean model by differential random testing. Millions of random policies and requests are evaluated in both, and any difference is a bug. Property-based testing covers the parts not modeled. The authors name the method verification-guided development **[H]**. SampCert went further: the verified Lean code is the production code **[M]**.
 
-Two other practices meet it:
-
-- **Specification by example** (Adzic, 2011) gives examples as the shared specification and the executable test.
-- **Trace validation** (Cirstea, Kuppe, Loillier and Merz, 2024) gives the backward half. The implementation is instrumented to record what it did, and a checker decides whether the recorded trace is a behavior of the specification. The authors report finding discrepancies in every distributed program they tried it on. When the model is executable, as it is here, the checker is a fold and no model checker is needed.
-
-Coverage for formal verification (Chockler, Kupferman and Vardi, 2001 and 2003) is the published answer to "do the examples have the model's geometry": repeat the verification on mutants of the model. A part no property notices when mutated is a part the properties do not cover **[M]**.
-
-"Parse, don't validate" (King, 2019) gives the gateway: turn loose input into a typed value once, or refuse with a reason, so that nothing past the boundary has to check again **[H]**.
+Two other practices meet it. Specification by example (Adzic, 2011) gives examples as the shared specification and the executable test. Trace validation (Cirstea, Kuppe, Loillier and Merz, 2024) gives the backward half: the implementation is instrumented to record what it did, and a checker decides whether the recorded trace is a behavior of the specification. They report finding discrepancies in every distributed program they tried it on. When the model is executable, as it is here, the checker is a fold and no model checker is needed. Coverage for formal verification (Chockler, Kupferman and Vardi, 2001 and 2003) is the published answer to "do the examples have the model's geometry": repeat the verification on mutants of the model, and a part no property notices when mutated is a part the properties do not cover **[M]**. "Parse, don't validate" (King, 2019) gives the gateway: turn loose input into a typed value once, or refuse with a reason, so that nothing past the boundary has to check again **[H]**.
 
 ## 4. What the calculus takes from this
 
@@ -101,7 +94,7 @@ sequenceDiagram
     R-->>C: The first result
 ```
 
-A command carries an idempotency key. The caller mints it before the first remote call, and it is persisted with the caller's intent. So a retry after the caller's death is recognized by the receiver and answered with the first result.
+A command carries an idempotency key minted by the caller before the first remote call and persisted with the caller's intent. So a retry after the caller's death is recognized by the receiver and answered with the first result.
 
 The sources are Helland 2012; Hohpe and Woolf, *Enterprise Integration Patterns*, "Idempotent Receiver", 2003 **[L]**; and Stripe's idempotency keys, Leach 2017 **[L]**.
 
@@ -109,8 +102,8 @@ The sources are Helland 2012; Hohpe and Woolf, *Enterprise Integration Patterns*
 
 `Either[Ex, B]` is right at the type level, but `Ex` is itself a sum, `Either[Refused, Unknown]`:
 
-- **Refused** is a deterministic no from the cell's invariants. It is final, and the journey stops at its named outcome.
-- **Unknown** is a timeout or a death in the window. It is the window made visible: the caller may only retry with the same key, never with a new one, and never decide as if the effect did not happen.
+- Refused is a deterministic no from the cell's invariants. It is final, and the journey stops at its named outcome.
+- Unknown is a timeout or a death in the window. It is the window made visible: the caller may only retry with the same key, never with a new one, and never decide as if the effect did not happen.
 
 The cell's own type is the inner `Either[Refused, B]`. The window is added only where a result crosses the wire, and the model never produces it.
 
@@ -118,7 +111,7 @@ The source is Helland 2012.
 
 ### Rule 3. The saga records its intent before its first remote effect, and its result after its last
 
-Between the two records the saga is resumable from the intent. That is what durable-execution engines do, by persisting the workflow's history before each step and requiring each external effect to be idempotent **[M]**.
+Between the two records the saga is resumable from the intent, which is what durable-execution engines do by persisting the workflow's history before each step and requiring each external effect to be idempotent **[M]**.
 
 The source for compensation when a later step refuses is Garcia-Molina and Salem 1987.
 
@@ -128,7 +121,7 @@ This is the outbox: the event row and the state change in one local write, relay
 
 ### Rule 5. Queries create no obligation and carry no window
 
-Meyer's command-query separation is the rule for one object: a method either changes state or answers a question, never both. Command Query Responsibility Segregation, CQRS, is Young's lift of it to a system. Commands go to the model that decides. Queries go to a model built for reading, often a projection kept apart from the record it is read from.
+Meyer's command-query separation is the rule for one object: a method either changes state or answers a question, never both. Command Query Responsibility Segregation, CQRS, is Young's lift of it to a system. In CQRS, commands go to the model that decides, and queries go to a model built for reading, often a projection kept apart from the record it is read from.
 
 The calculus takes the segregation and makes both halves types. A query is `State → Answer`, a pure read of the owning cell's record that emits no event and leaves nothing to compensate. It therefore has no window.
 

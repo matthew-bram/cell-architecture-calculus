@@ -21,7 +21,7 @@ flowchart LR
     J5 -->|"a late item<br/>is returned"| J3
 ```
 
-Journey 3 of the example, a return, readies a hold, journey 4. A picked-up item can run late, journey 5. A late item is returned, journey 3. Read as one relation, "this journey references that one", the map cycles.
+Journey 3 of the example, a return, readies a hold, journey 4; a picked-up item can run late, journey 5; a late item is returned, journey 3. Read as one relation, "this journey references that one", the map cycles.
 
 The rule says that is a defect of the reading, not a fact to accept, and the sharper reading is what the Lean checks.
 
@@ -44,7 +44,7 @@ A journey section must say which of the three each reference is. That is the Ref
 
 In Lean the type is `Except Ex B`, a monad in its right hole. A journey is a `do` block of steps `A → Except Ex B`. A `Left` short-circuits to the failure outcome. Fan-out is two steps reading the same value, and fan-in is a step taking both.
 
-Lean accepts only total functions, so a journey written this way cannot loop. A step that re-entered an earlier step would need recursion. Recursion Lean cannot prove terminating is rejected at compile time, with "fail to show termination".
+Lean accepts only total functions, so a journey written this way cannot loop: a step that re-entered an earlier step would need recursion. Recursion Lean cannot prove terminating is rejected at compile time, with "fail to show termination".
 
 So for journeys written as code, the DAG property needs no check; the compiler is the check. For journeys transcribed from tables, `wellFormed` does the same job: every step waits only on earlier steps.
 
