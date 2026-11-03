@@ -37,11 +37,13 @@ A warning in a build is a defect to fix, not to report around: the missing-docs 
 The figure shows the way from a branch to `main`, and from `main` to a release.
 
 ```mermaid
+%%{init: {"flowchart": {"wrappingWidth": 320}}}%%
 flowchart LR
     B["A branch named<br/>feature/#lt;name#gt;"] --> P["A pull request"]
     P -->|merges as a squash| M["main"]
-    M -->|a maintainer tags the commit| T["A tag<br/>v#lt;major#gt;.#lt;minor#gt;.#lt;patch#gt;"]
-    T -->|the release workflow publishes| R["The GitHub release"]
+    M -->|"when it holds what<br/>the next release should"| A["A maintainer"]
+    A -->|"adds the row to<br/>CHANGELOG.md,<br/>tags the commit<br/>and pushes the tag"| T["A tag<br/>v#lt;major#gt;.#lt;minor#gt;.#lt;patch#gt;"]
+    T -->|"the release<br/>workflow publishes"| R["The GitHub release"]
 ```
 
 `main` is protected. Nothing is pushed to it. Every change arrives as a pull request from a branch named `feature/<name>`, and a pull request from any other branch fails its first check.
@@ -72,7 +74,7 @@ Maintainers are listed in `.github/CODEOWNERS`. A maintainer may merge their own
 
 ## 4. Adding a cell to the example
 
-1. Write its design to the tables of style guide section 8, under `examples/library/designs/`, with a sentence in the prose for every row.
+1. Write its design to the tables of [style guide section 8](docs/style-guide.md#8-the-annotation-a-design-carries), under `examples/library/designs/`, with a sentence in the prose for every row.
 2. Add its rows to the corpus where the maps read them: the capability map, the paths table, the journeys that pass through it. Rebuild the maps and let the theorems say what no longer holds.
 3. Transcribe the tables into a module under `Library/`, one row to one definition, in the shape of `Circulation.lean`:
    - the five types;
@@ -96,7 +98,7 @@ A change to a skill is followed by a new run of its evaluations in `evals/evals.
 
 The skills under `.claude/skills/` are for work on this repository, not for using the method. The first is `authorship`. It writes and revises the documents, commit messages and pull request descriptions so that the repository reads in one voice. It also carries a prose check that measures sentences, paragraphs and figures against the voice's targets. The check warns. It never fails a build.
 
-These skills sit outside the scrub gate and outside the rules for the method's skills above. They may name the tools they run with, and they take no goldens from the example. What they write into the repository is still under the gate. A change to one is followed by a run of its evaluations, with the skill and without it. Its evaluations are the case folders under its `evals/`.
+These skills sit outside the scrub gate and outside the rules for the method's skills above. They may name the tools they run with, and they take no goldens from the example. What they write into the repository is still under the gate. A change to one is followed by a run of its evaluations, with the skill and without it. A contributor skill's evaluations are the case folders under its `evals/`.
 
 ## 7. Proposing a shape to the calculus
 

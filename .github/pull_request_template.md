@@ -25,7 +25,7 @@
 
 ## The rules
 
-- [ ] Every row, type and example in a model points at a sentence in a design or the corpus. A gap is in the design's open items, not in the model
-- [ ] No theorem or example was deleted or edited in place. A change is a supersession or a retirement with its successor, date and reason
+- [ ] Every row, type and example in a model points at a sentence in a design or the corpus; a gap is in the design's open items, not in the model
+- [ ] No theorem or example was deleted or edited in place; a change is a supersession or a retirement with its successor, date and reason
 - [ ] `CHANGELOG.md` has a row if a decision was made
 - [ ] The branch is `feature/<name>`
