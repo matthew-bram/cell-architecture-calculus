@@ -33,15 +33,15 @@ Engineers already answer these questions at a whiteboard before they implement, 
 
 **The value is noise removed from codification, not depth for its own sake.** Verification stays critical, and it is not the value statement. When the model has taken the branch structure, the guards, the constants, the invariants and the obligations, what is left for the engineer or the agent is a boxed job. That job is to fill in the shell against tests that already say what every line must do. The subjective part of implementation is where two competent people write two different programs from one design and a reviewer must decide between them. It shrinks to the part the model chose not to decide.
 
-**The reader of the tests has changed.** A deeper model leaves the implementer less room. For a person, that room has a value the method must weigh against what it removes. When the implementer is an agent, a tightly boxed job is the point: the agent's freedom is exactly the place its errors live. A method that moves decisions left, into a model that is reviewed against the design and held by the kernel, is a method that leaves an agent less to get wrong.
+**The reader of the tests has changed.** A deeper model leaves the implementer less room, and for a person that room has a value the method must weigh against what it removes. When the implementer is an agent, a tightly boxed job is the point: the agent's freedom is exactly the place its errors live. A method that moves decisions left, into a model that is reviewed against the design and held by the kernel, is a method that leaves an agent less to get wrong.
 
-**It is the next test the method's own argument asks for.** The white paper's section 7 proposes the compiled pure core and random inputs with the model as oracle. Both need the model in a form with structure to walk. A Lean function has none: it can be run and proved about, not inspected. The same lack is why the example's ten mutants are hand-written edits to its Lean files. It is also why nobody can ask the model which design rows a production trace reached. One change answers all of these at once: a model written as data that the kernel reads.
+**It is the next test the method's own argument asks for.** Section 7 proposes the compiled pure core and random inputs with the model as oracle. Both need the model in a form with structure to walk. A Lean function has none: it can be run and proved about, not inspected. The same lack is why the example's ten mutants are hand-written edits to its Lean files. It is also why nobody can ask the model which design rows a production trace reached. One change answers all of these at once: a model written as data that the kernel reads.
 
 ## The hypothesis
 
 A code-shaped model, the **program model**, can sit between the cell's three functions and the code: a small total language, deep-embedded in Lean as data, with `let`, `match`, guards and folds over finite collections and no general loop or recursion, which is the rule a journey already keeps. Lean proves the program model refines the cell, emits tests from its structure that the hand-chosen examples cannot, and holds the code to it below the boundary.
 
-The tower adds a rule, modeled on the white paper's treatment of the wire:
+The rule the tower adds is modeled on the white paper's treatment of the wire:
 
 - *every level below the cell refines the one above with its abstraction function stated;*
 - *the code is a projection of the lowest level;*
@@ -78,9 +78,7 @@ The question "do we need a lock here?" sorts every code decision into one of thr
 | The model fences it | Representation, effect order, concurrency, retry | An invariant the model states and a test that attacks it | 4, 5 | Any mechanism that keeps the invariant |
 | The model cannot see it | Allocation, logging, latency, batching | Nothing; the assumption list names it | 7 | All |
 
-The lock is the second kind. Two commands arrive at once for the same stream. A stream is the ordered history of one cell instance. The model states what must hold afterwards, and a generated test runs the two together and checks it. The code must have some mechanism, and which one is free: a lock, a compare-and-swap on the stream's version, a single-writer actor, a unique constraint in the store. The model does not pick the mechanism and should not.
-
-A mechanism pinned where only an invariant is needed makes the model a worse program than the code could be. A test that pins the order of the shell's effects fails every implementation that keeps the invariant another way.
+The lock is the second kind. Two commands arrive at once for the same stream. A stream is the ordered history of one cell instance. The model states what must hold afterwards, and a generated test runs the two together and checks it. The code must have some mechanism, and which one is free: a lock, a compare-and-swap on the stream's version, a single-writer actor, a unique constraint in the store. The model does not pick the mechanism and should not. A mechanism pinned where only an invariant is needed makes the model a worse program than the code could be. A test that pins the order of the shell's effects fails every implementation that keeps the invariant another way.
 
 Freedom here is behavioral. Tests pin what the code does, never how it is written. Only projected code has no structural freedom either.
 
@@ -111,10 +109,7 @@ A level pays when the value column moves and the cost column does not run away. 
 
 Any of the three on the first experiment ends the direction with a note that says so.
 
-Two rules on reading the measure:
-
-1. A mutant that preserves behavior is equivalent and not a surviving decision. The filter is a search over inputs for one that distinguishes it from the model, exhaustive up to a stated bound and a property test beyond it, with the bound reported.
-2. A survivor is not always a defect in the tests: a second-kind survivor names freedom the method means to keep. The sorted list is the result; the share alone is not.
+Two rules on reading the measure. A mutant that preserves behavior is equivalent and not a surviving decision. The filter is a search over inputs for one that distinguishes it from the model, exhaustive up to a stated bound and a property test beyond it, with the bound reported. And a survivor is not always a defect in the tests: a second-kind survivor names freedom the method means to keep. The sorted list is the result; the share alone is not.
 
 ## How we might explore this with proofs of concept
 
@@ -147,7 +142,7 @@ Two outputs of P5 are new to the method:
 - **Race examples** come from the effect declarations rather than from anyone's intuition about concurrency. Any two commands whose derived write sets overlap on one stream are a racing pair, listed whether or not a person would have thought to test it.
 - **The obligation list** is verification conditions at the architecture level rather than the statement level. A program verifier generates its conditions from a function's body, and this generates them from the shape of the tower.
 
-When a syntax mutant survives the generated tests, a search over the input types for a value where the mutant and the model disagree yields a concrete case nobody wrote. That case is proposed to the design's owner as a new example. That is the loop the white paper's section 7 proposes: random inputs that kill a mutant become examples. The deep embedding is what makes it mechanical.
+When a syntax mutant survives the generated tests, a search over the input types for a value where the mutant and the model disagree yields a concrete case nobody wrote, and that case is proposed to the design's owner as a new example. That is the loop section 7 proposes, random inputs that kill a mutant becoming examples. The deep embedding is what makes it mechanical.
 
 ## What is already known
 
@@ -162,11 +157,11 @@ Three things are known before any proof of concept runs. Each shapes the plan.
 - **Not a change to the calculus or the example.** Nothing in `cell-calculus/` or `examples/library/` moves until a shape proved here graduates by supersession. Every proof of concept lives in a package under this directory that requires the two by path.
 - **Not a skill.** The lifecycle's skills are procedures held to the example as their golden answer and changed with their evaluations. A skill for levels 3 to 6 follows once a procedure exists to hold it to. Writing one now would encode a prediction.
 - **Not a code generator for production.** Projection at level 6 is the last proof of concept. It is a measurement of what can be derived, not a tool to ship.
-- **Not a proof that the code is correct.** The method proves the model and holds the code to it. Below the cell it holds more of the code, to more of the model. The runtime, the effects' guarantees and the world stay assumed, by name.
+- **Not a proof that the code is correct.** The method proves the model and holds the code to it. Below the cell it holds more of the code, to more of the model; the runtime, the effects' guarantees and the world stay assumed, by name.
 
 ## The friction we expect
 
-Each is in the shape of the white paper's section 7: where it rubs, and what guards it.
+Each is in the shape of section 7: where it rubs, and what guards it.
 
 1. **Lean cannot read the target language.** Guard: project one language first, test the rest, lift only where a verifier for that language already exists.
 2. **The semantics differ.** Unbounded naturals against machine integers; string equality, map order and exceptions. Guard: exact numbers in the program model and machine types on the assumption list per target, each entry naming its boundary cases.
