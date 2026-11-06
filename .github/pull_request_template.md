@@ -14,7 +14,7 @@
 
 ## The gates
 
-<!-- CI runs these; say here whether you ran them locally. -->
+<!-- CI runs these. Say here whether you ran them locally. -->
 
 - [ ] `lake build` in both packages with no warnings
 - [ ] `python3 tools/mutants.py` on both mutants files, every mutant killed

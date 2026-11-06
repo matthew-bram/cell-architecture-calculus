@@ -77,6 +77,7 @@ A research note or a problem statement records what was believed on its date. A 
 Read the target and the pages that link to it. Then read the reference files the task needs:
 
 - [references/voice.md](references/voice.md), always.
+- [references/terms.md](references/terms.md), always: the one definition of each term, and the terms waiting on the owner.
 - [references/details.md](references/details.md), for any rewrite.
 - [references/page-anatomy.md](references/page-anatomy.md), for a whole page or a new one.
 - [references/figures.md](references/figures.md), whenever a section's subject has a shape.

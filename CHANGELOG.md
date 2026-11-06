@@ -1,6 +1,6 @@
 # Changelog
 
-One row per decision, newest first. The calculus's version is in `cell-calculus/lakefile.toml` and moves by supersession.
+This changelog has one row per decision, newest first. The calculus's version is in `cell-calculus/lakefile.toml` and moves by supersession.
 
 | Date | What changed | Why |
 | --- | --- | --- |
@@ -13,7 +13,7 @@ One row per decision, newest first. The calculus's version is in `cell-calculus/
 | 2026-11-01 | Sign-in, journey 0, is an example, not a rule: the vision's prose and the DAG rule say journeys 1, 2, 4 and 7 start there, as the References tables, the capability map and the journey map already did | The prose said every other journey starts from sign-in while the tables it is transcribed from name journey 0 for four of seven; the tables are the checked side |
 | 2026-11-01 | The cell's shape has one sentence in every document: an initial state, three pure functions, one of which is the fold, and a terminal predicate | `Cell` has five fields; the documents counted them three ways, with the fold inside the three, beside them, or beside a terminal predicate too |
 | 2026-11-01 | Style guide section 8 gains rows for the Terminal line, Universal claims, Sentences, Wire and the journey table | The design, the getting-started guide and the annotation skill transcribed the model from fourteen tables and attributed them to a section that listed nine |
-| 2026-11-01 | The executive summary counts five modelled cells, four of them with named examples | The renewals policy cell is a `Cell` value with six theorems in the package, the lakefile, the design and the capability map; "modeled" now means having a `Cell` value |
+| 2026-11-01 | The executive summary counts five modeled cells, four of them with named examples | The renewals policy cell is a `Cell` value with six theorems in the package, the lakefile, the design and the capability map; "modeled" now means having a `Cell` value |
 | 2026-11-01 | The nine skills cover seven steps of the lifecycle, three of them at step 2, and no document says one per step | The README's own table maps nine skills onto seven steps |
 | 2026-11-01 | The doc comment rule covers every declaration other than a theorem | The missing-docs linter never checks theorems, the style guide's reviewer rule omitted them, and 44 theorems across the two packages carry none |
 | 2026-11-01 | At step 6 a reader who cannot read the model reads the feature files, and the reviewer who signs reads the model against the design | The lifecycle said people never read the model while the style guide, getting-started and the lifecycle's own step 6 note have the reviewer read its names, comments and theorem statements |

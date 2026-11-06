@@ -30,14 +30,15 @@ Renaming a heading changes its anchor. Before renaming one, search the repositor
 The front door. A reader decides here whether the method is worth their time.
 
 1. **Title and one paragraph.** What the repository is, in plain words, with the link to the reference architecture for the word *cell*.
-2. **A figure of the round trip.** Design, model, fixtures, code, traces, and back to the model.
+2. **A figure of the round trip.** One example's round trip, drawn from the opening: from the design into the model and the code, and back to the model through the code's traces.
 3. **The case for the method.** The two papers and who each is for.
-4. **The idea in code.** The short Lean and Gherkin excerpts, each with a sentence saying what it shows.
-5. **Quick start.** Install, build, run the gates.
-6. **Modeling your own system.** The short form of the guide, as a table of steps.
-7. **The layout, the documents, the skills.** One table each.
-8. **What it proves, checks, tests and assumes.** The four words.
-9. **License.**
+4. **How a claim becomes a theorem.** The five roles of a formal argument for a reader new to formal methods: the rulebook, the givens, the claim, the proof and the outcome, with each one's standard name, shown for 2 + 2 = 4 and for an example in this repository, ending with which of the four words each kind of theorem takes.
+5. **The idea in code.** The short Lean and Gherkin excerpts, each with a sentence saying what it shows.
+6. **Quick start.** Install, build, run the gates.
+7. **Modeling your own system.** The short form of the guide, as a table of steps.
+8. **The layout, the documents, the skills.** One table each.
+9. **What it proves, checks, tests and assumes.** The four words.
+10. **License.**
 
 ## A directory README
 

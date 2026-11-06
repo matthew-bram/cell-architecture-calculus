@@ -1,8 +1,33 @@
 # cell-architecture-calculus
 
-A strongly typed approach to validating a cell-based architecture, in Lean 4, with functional theorems. A cell, in the sense of the [WSO2 cell-based reference architecture](https://github.com/wso2/reference-architecture/blob/master/reference-architecture-cell-based.md), is a self-contained unit with its own record and a gateway as the only way in. The calculus says what is inside one: an initial state, three pure functions, one of which is the fold, and a terminal predicate. From that shape the rest follows. Journeys across cells are terms that compile to directed acyclic graphs. Every example in a design is a theorem in the model and a test in the code, under one id. The running code's traces are replayed into the model, and the model is the judge.
+This repository is a strongly typed approach to validating a cell-based architecture, in Lean 4, with functional theorems. It uses the word *cell* in the sense of the [WSO2 cell-based reference architecture](https://github.com/wso2/reference-architecture/blob/master/reference-architecture-cell-based.md). A **cell** is a self-contained unit with its own record and a gateway as the only way in. The calculus says what is inside one:
 
-The repository holds the generic calculus as one Lean package with no dependencies, a worked example that carries the whole round trip, the documents that state the method, the two scripts that gate a build and the scrub gate, and nine skills over the seven steps of the lifecycle an agent leads or prepares, each written and evaluated against the example.
+- an initial state;
+- three pure functions, one of which is the fold;
+- a terminal predicate.
+
+From that shape the rest follows. Journeys across cells are terms that compile to directed acyclic graphs. Every example in a design is a theorem in the model and a test in the code, under one id. The running code's traces are replayed into the model. The model is the judge.
+
+The figure shows one example's round trip: into the model, into the code, and back to the model through the code's traces.
+
+```mermaid
+flowchart LR
+    E["An example in a design<br/>under one id"] -->|a theorem in| M["The model<br/>the judge"]
+    E -->|a test in| C["The running code"]
+    C --> T["Its traces"]
+    T -->|replayed into| M
+    style M stroke-width:3px
+```
+
+The repository holds:
+
+- the generic calculus, as one Lean package with no dependencies;
+- a worked example that carries the whole round trip;
+- the documents that state the method;
+- the two scripts that gate a build, and the scrub gate;
+- nine skills over the seven steps of the lifecycle an agent leads or prepares, each written and evaluated against the example.
+
+[The case for the method](#the-case-for-the-method), below, points architects and engineers at one paper and technology leaders at the other.
 
 ## The case for the method
 
@@ -13,9 +38,42 @@ Two papers at the root of the repository make the argument, for two readers.
 | [White paper](white-paper.md) | Architects and engineers | The hypothesis, the prior art each shape stands on, the calculus shape by shape with its theorems, the method as documents and a round trip, the evidence from the worked example with every number taken from the build, the ten places the method can fail with a proposal for each, the seven problems that had to be decided with what each leaves open, and a call to contribute |
 | [Executive summary](executive-summary.md) | Technology leaders | The problem from the leader's seat, what the method changes for an organization, what it removes from the daily work, what it costs, what it does not do, the evidence in one table, and how to start with a one-journey pilot |
 
+## How a claim becomes a theorem
+
+In a formal method like this one, a machine checks every step of every proof. In Lean, that machine is the **kernel**. An argument has five roles, and each has a standard name. If formal methods are new to you, these five are worth knowing before the code below. The table shows each role for a claim small enough to check in your head, 2 + 2 = 4, and where the same role appears in this repository.
+
+| Role | Standard name | In Lean, for 2 + 2 = 4 | In this repository |
+| --- | --- | --- | --- |
+| The rulebook | The calculus | A version of the Calculus of Inductive Constructions, in Lean's kernel | The same rulebook and kernel, for every theorem in `cell-calculus` and the example |
+| The givens | Axioms and definitions | How `Nat` and `+` are defined: `Nat` as zero and successor, `+` by recursion | The shapes of `cell-calculus`, such as the `Cell` structure, and a project's definitions transcribed from its design, such as `circulation` and `loanOut2` |
+| The claim | The proposition | `2 + 2 = 4` | `loanOut2.holds circulation = true`, an example from the next section |
+| The variable, the thing checked | The proof | `rfl`, checked by computing both sides | `by decide`, checked by computing the example |
+| The outcome | The theorem | The claim, once the kernel accepts its proof | `loanOut2_holds` |
+
+In Lean, the claim and its proof fit on one line:
+
+```lean
+theorem two_add_two : 2 + 2 = 4 := rfl
+```
+
+The claim comes after the colon, and the proof after `:=`. Once the kernel accepts the proof, `two_add_two` is a theorem. Change the claim to `2 + 2 = 5` and Lean rejects it, because the two sides don't compute to the same number.
+
+The rulebook and the givens are fixed before a claim is made. For one claim, the proof is the part that can vary: `rfl` and `by decide` both prove 2 + 2 = 4. The kernel accepts any proof that follows the rules and rejects any that doesn't.
+
+So to trust a theorem, you trust the kernel and the givens, and you read the claim. You don't have to trust whoever wrote the proof. The kernel can't catch a proof of the wrong claim. That is why a person reads the model against its design, which the [four words](#what-it-proves-checks-tests-and-assumes) at the end of this page call *assumed*.
+
+This repository calls its package `cell-calculus` *the calculus*. It is not a second rulebook. It is written under Lean's, so its shapes are givens and its theorems are outcomes.
+
+Two of the four words sort theorems by what they cover:
+
+- `loanOut2_holds` is *checked*. It is a claim about one example's values, and the kernel computes it.
+- `replay_append`, in `cell-calculus`, is *proved*. It holds for every cell and every history.
+
 ## In twenty lines
 
-A cell decides on commands, reacts to other cells' facts, and folds its own facts into its state. No function returns a command, so one cell cannot quietly trigger another: that wiring cannot be written.
+A cell decides on commands, reacts to other cells' facts, and folds its own facts into its state. No function returns a command, so one cell cannot quietly trigger another. That wiring cannot be written.
+
+Here is the `Cell` structure in Lean:
 
 ```lean
 structure Cell (Command ForeignEvent Event State Refusal : Type) where
@@ -37,7 +95,7 @@ def loanOut2 : Example CirculationCommand CirculationEvent CirculationRefusal :=
 theorem loanOut2_holds : loanOut2.holds circulation = true := by decide
 ```
 
-The same example, rendered from that value and never written by hand, is what the implementation's test suite runs as a JSON fixture and what a reviewer reads as Gherkin:
+The same example is rendered from that value, and never written by hand, as a JSON fixture and as Gherkin. The implementation's test suite runs the fixture. A reviewer reads the Gherkin:
 
 ```gherkin
 Scenario: LOAN-OUT-2 (retry after unknown)
@@ -48,7 +106,7 @@ Scenario: LOAN-OUT-2 (retry after unknown)
 
 ## Quick start
 
-Install Lean's version manager once; the toolchain is pinned by each package and fetched on first use. Nothing else is needed: the packages use core Lean only, and the example's implementation and tests use Python's standard library.
+Install Lean's version manager once. Each package pins the toolchain, which is fetched on first use. Nothing else is needed. The packages use core Lean only, and the example's implementation and tests use Python's standard library.
 
 ```
 curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
@@ -67,11 +125,18 @@ python3 -m unittest discover -s impl -v                        # the implementat
 
 A wrong claim fails with "Tactic `decide` proved that the proposition ... is false". A journey that loops fails with "fail to show termination". The same steps run in CI.
 
-## Modelling your own system
+## Modeling your own system
 
-A team's own package is a `lakefile.toml` that requires the calculus over git at a tag, plus the two types the calculus is generic over, both algebraic data types defined from your corpus: the **principal**, who a person or system is when they act, and the **subject**, what an event is about, bounded by a trust zone where you have one. From there, each cell is five types transcribed from its design's tables, the command, foreign event, event, state and refusal types, and one `Cell` value with a branch per row of the Decide table. The journey map, the context map, the examples, the fixtures, the tests and the traces follow in a fixed order, and every step has a file in the example that does it.
+A team's own package is a `lakefile.toml` that requires the calculus over git at a tag, plus the two types the calculus is generic over. Both are algebraic data types, defined from your corpus:
 
-[docs/getting-started.md](docs/getting-started.md) walks the twelve steps, from the corpus's tables to the gates in CI, each pointing at the example's file. The short form:
+- The **principal** is who a person or system is when they act.
+- The **subject** is what an event is about, bounded by a trust zone where you have one.
+
+From there, each cell is five types and one `Cell` value. The five types are transcribed from the tables of the cell's design: the command, foreign event, event, state and refusal types. The `Cell` value has a branch per row of the Decide table.
+
+The journey map, the context map, the examples, the fixtures, the tests and the traces follow in a fixed order. Every step has a file in the example that does it.
+
+[docs/getting-started.md](docs/getting-started.md) walks the twelve steps, from the corpus's tables to the gates in CI. Each step points at the example's file. This is the short form:
 
 | Step | You write | In the example |
 | --- | --- | --- |
@@ -80,7 +145,7 @@ A team's own package is a `lakefile.toml` that requires the calculus over git at
 | The maps | The journeys as DAGs and the context map, with the corpus's claims as theorems | [JourneyMap.lean](examples/library/JourneyMap.lean), [ContextMap.lean](examples/library/ContextMap.lean) |
 | The design | Prose, and the tables the model is transcribed from | [designs/circulation.md](examples/library/designs/circulation.md) |
 | The cell | The five types, the cell, the examples as theorems, the codec, the mutants | [Circulation.lean](examples/library/Library/Circulation.lean) |
-| The views | One line registering the cell; the feature file and the fixtures are generated | [Fixtures.lean](examples/library/Fixtures.lean) |
+| The views | One line registering the cell. The feature file and the fixtures are generated | [Fixtures.lean](examples/library/Fixtures.lean) |
 | The code | A pure fold and decider, and one test per example by id | [impl/](examples/library/impl/) |
 | The traces | What the code did, replayed into the model | [Replay.lean](examples/library/Replay.lean), [traces/](examples/library/traces/) |
 
@@ -92,15 +157,15 @@ A team's own package is a `lakefile.toml` that requires the calculus over git at
 | [examples/library/](examples/library/) | The worked example: a public library's circulation system, with its design corpus, its journey and context maps checked by theorem, one design written to the method's tables, the model, the generated views, a reference implementation tested against them by example id, and its trace replayed into the model |
 | [docs/](docs/) | The documents, below |
 | [skills/](skills/) | The nine skills, below: one directory each, with the procedure an agent follows, its checklists and templates, the golden answers it is held to, and its evaluations with their fixtures |
-| [research/](research/) | The research record that led here: eight dated notes from the earlier trial on a private architecture, with the trial's names replaced, and five literature notes on quality attributes as mathematics; its [README](research/README.md) says what was changed for publication |
-| [future/](future/) | The forward record: the directions being explored now, each stated as a problem before anything is built, with its experiments beside it once there are any; nothing there changes the calculus or the example until a shape graduates. The first asks [how far below the cell the model can go](future/into-the-code.md) |
+| [research/](research/) | The research record that led here: eight dated notes from the earlier trial on a private architecture, with the trial's names replaced, and five literature notes on quality attributes as mathematics. Its [README](research/README.md) says what was changed for publication |
+| [future/](future/) | The forward record: the directions being explored now, each stated as a problem before anything is built, with its experiments beside it once there are any. Nothing there changes the calculus or the example until a shape graduates. The first asks [how far below the cell the model can go](future/into-the-code.md) |
 | [tools/](tools/) | [mutants.py](tools/mutants.py), the mutation score as a gate; [review-check.py](tools/review-check.py), the review line checked against the design's hash; [scrub-check.py](tools/scrub-check.py), the rule that nothing names a tool, a host, a person or another project's domain |
 
 ## The documents
 
 | Document | What it is |
 | --- | --- |
-| [docs/getting-started.md](docs/getting-started.md) | Modelling your own system in twelve steps, from the corpus's tables to the gates in CI, each step pointing at the file in the example that does it |
+| [docs/getting-started.md](docs/getting-started.md) | Modeling your own system in twelve steps, from the corpus's tables to the gates in CI, each step pointing at the file in the example that does it |
 | [docs/the-calculus.md](docs/the-calculus.md) | The shapes, each with its theorem, its source and the file it lives in: the three-valued outcome, the cell, the journey algebra, the envelopes, inputs instead of calls, boundaries as types, the one place a fact may become a command, promises as predicates over runs, contracts that fold, governance by supersession, the context map |
 | [docs/the-lifecycle.md](docs/the-lifecycle.md) | The method as a lifecycle: nine steps by who leads each, the four places the work is checked against the model, the six-stage round trip with its artifact and acceptance test at each, what a reviewer reads, what the checks catch, and what the method does not do |
 | [docs/foundations.md](docs/foundations.md) | The prior art under the calculus: the Decider, the failure window, sagas, the holes in exactly-once, verification-guided development, and the six rules the calculus takes from them |
@@ -110,11 +175,15 @@ A team's own package is a `lakefile.toml` that requires the calculus over git at
 
 ## The skills
 
-The lifecycle has nine steps, and at seven of them an agent transcribes, prepares or checks while a person owns the meaning. Nine skills under [skills/](skills/) cover those seven steps, three of them at step 2; each is a procedure with its acceptance test at every stage, the rule of what it never does, and the report it ends with. Every skill reads the example as its golden answer, invents nothing a design does not state, and leaves the review line for a person to sign. Each carries `evals/evals.json`, the prompts and assertions it is graded on, with fixtures written for the library; a change to a skill is followed by a run with and without it.
+The lifecycle has nine steps. At seven of them an agent transcribes, prepares or checks while a person owns the meaning. Nine skills under [skills/](skills/) cover those seven steps. Three of the skills are at step 2.
+
+Each skill is a procedure with its acceptance test at every stage, the rule of what it never does, and the report it ends with. Every skill reads the example as its golden answer, invents nothing a design does not state, and leaves the review line for a person to sign.
+
+Each skill carries `evals/evals.json`: the prompts and assertions it is graded on, with fixtures written for the library. A change to a skill is followed by a run with and without it.
 
 | Skill | What it does | In the lifecycle |
 | --- | --- | --- |
-| [start-a-project](skills/start-a-project/SKILL.md) | Lays down a package on the calculus from a corpus: the build file at a release tag, the principal and the subject, an unreviewed review line, nothing modelled | Step 1, the package under the corpus |
+| [start-a-project](skills/start-a-project/SKILL.md) | Lays down a package on the calculus from a corpus: the build file at a release tag, the principal and the subject, an unreviewed review line, nothing modeled | Step 1, the package under the corpus |
 | [map-the-journeys](skills/map-the-journeys/SKILL.md) | Transcribes the vision's journeys, the capability map and the paths table into a module where each claim is a theorem, and reports a cycle rather than resolving it | Step 2, the journey map |
 | [map-the-contexts](skills/map-the-contexts/SKILL.md) | Draws the context map beside it: each cell's context and kind, every arrow's relationship upstream to downstream, coverage as a theorem | Step 2, the context map |
 | [annotate-a-design](skills/annotate-a-design/SKILL.md) | Turns a prose design into the tables of style guide section 8, each row traced to its sentence, every gap a question for the owner | Steps 2 and 3, the tables |
@@ -126,7 +195,12 @@ The lifecycle has nine steps, and at seven of them an agent transcribes, prepare
 
 ## What it proves, checks, tests and assumes
 
-Four words, used in those places and no others. *Proved*: a universal theorem, true for every cell, every history, every command, checked by the Lean kernel. *Checked*: a decidable claim about one project's values, such as "this journey has no loops" or "this example holds", computed by the kernel. *Tested*: the code against the model, through the generated fixtures and the replayed traces. *Assumed*: the world outside the model, and whether the model means what the design's prose intended, which is a person's review, recorded where the build can see it.
+Four words are used in those places and no others:
+
+- **Proved**: a universal theorem, true for every cell, every history, every command, checked by the Lean kernel.
+- **Checked**: a decidable claim about one project's values, such as "this journey has no loops" or "this example holds", computed by the kernel.
+- **Tested**: the code against the model, through the generated fixtures and the replayed traces.
+- **Assumed**: the world outside the model, and whether the model means what the design's prose intended, which is a person's review, recorded where the build can see it.
 
 ## License
 

@@ -1,8 +1,16 @@
 # The library: the worked example
 
-A town's public library lends items to its members. This package models its circulation slice on the calculus and carries the whole round trip: a design corpus, the two maps checked by theorem, one design written to the method's tables, the model transcribed from it with every example a theorem, the views generated from the model, a reference implementation tested against those views by example id, and the implementation's trace replayed into the model.
+A town's public library lends items to its members. This package models the library's circulation slice on the calculus. It carries the whole round trip:
 
-Nothing here is a real library's. The corpus was written for this repository so that every row the model transcribes has a sentence to point at.
+- a design corpus;
+- the two maps, checked by theorem;
+- one design, written to the method's tables;
+- the model transcribed from it, with every example a theorem;
+- the views generated from the model;
+- a reference implementation, tested against those views by example id;
+- the implementation's trace, replayed into the model.
+
+Nothing here is a real library's. The corpus was written for this repository, so that every row the model transcribes has a sentence to point at.
 
 ## The layout
 
@@ -20,7 +28,7 @@ Nothing here is a real library's. The corpus was written for this repository so 
 
 ## The commands
 
-From this directory, with Lean's version manager installed once as the repository's README says.
+Run these from this directory, with Lean's version manager installed once as the repository's README says.
 
 ```
 lake build                                                   # every theorem checked, no warnings
@@ -33,8 +41,14 @@ python3 -m unittest discover -s impl -v                      # the implementatio
 python3 impl/record_trace.py                                 # the implementation's trace, replayed above
 ```
 
-The review check warns on purpose: the review line is for a person to sign after reading the model against the design, and no one has. Signing it writes the design's hash into `Library/Governance.lean`, and the check fails from then on whenever the design changes under a signed line.
+The review check warns on purpose. The review line is for a person to sign after reading the model against the design, and no one has. Signing it writes the design's hash into `Library/Governance.lean`. From then on, the check fails whenever the design changes under a signed line.
 
 ## What to read first
 
-The [vision's journey 2](corpus/vision.md#journey-2-borrow-an-item), then its row in [JourneyMap.lean](JourneyMap.lean) with the theorems that check it, then the [design's Commands and Decide tables](designs/circulation.md#commands), then [Library/Circulation.lean](Library/Circulation.lean), where each row is one constructor, one branch or one example, and the generated [feature file](generated/circulation.feature), which is the examples as a reviewer reads them.
+Read these in order:
+
+1. The [vision's journey 2](corpus/vision.md#journey-2-borrow-an-item).
+2. Its row in [JourneyMap.lean](JourneyMap.lean), with the theorems that check it.
+3. The [design's Commands and Decide tables](designs/circulation.md#commands).
+4. [Library/Circulation.lean](Library/Circulation.lean), where each row is one constructor, one branch or one example.
+5. The generated [feature file](generated/circulation.feature), which is the examples as a reviewer reads them.
