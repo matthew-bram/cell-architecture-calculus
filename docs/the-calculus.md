@@ -1,6 +1,6 @@
 # The calculus
 
-This page covers the shapes of the method, each with its theorem, its source and the file it lives in. Where an entry names the file its shape lives in, the file comes first.
+This page covers the shapes of the method, each with its theorem, its source and the file it lives in. Where an entry names the file its shape lives in, the file comes first. It describes the calculus at version 2.3.0, the version in `cell-calculus/lakefile.toml`. The calculus changes as published practice does, as [the README](../README.md#the-calculus-changes-as-the-state-of-the-art-does) says.
 
 The generic shapes are the package [`cell-calculus`](../cell-calculus/). It has one module per idea and carries only universal theorems. It is generic over a project's principal through one class, and over the subject an event is about as a type parameter. Trust boundaries are an opt-in module.
 

@@ -78,7 +78,7 @@ An agent draws the journey map and the context map from the corpus, and checks t
 - every arrow between contexts is covered by a relationship in the right direction;
 - no path breaks the architecture's direction rule.
 
-Then it fills a fixed set of tables on each design:
+Then it fills the tables that [style guide section 8](style-guide.md#8-the-annotation-a-design-carries) fixes on each design:
 
 - the commands a cell accepts, and who may send them;
 - the facts it publishes and subscribes to;

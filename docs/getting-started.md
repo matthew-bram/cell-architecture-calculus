@@ -74,6 +74,8 @@ root = "Replay"
 
 Copy `lean-toolchain` from the calculus, so the two agree. The example requires the calculus by path instead, in its [lakefile.toml](../examples/library/lakefile.toml), because it lives in the same repository.
 
+A tag is a release of this repository. It carries the calculus at the version in `cell-calculus/lakefile.toml`, and `v1.0.0` carries version 2.3.0. The calculus changes as published practice does, so a newer tag can carry a newer version. Moving to it is a change like any other. The deprecations warn, and each names the successor to move to, or the reason a shape was retired with none.
+
 ## 3. Supply the two types the calculus is generic over
 
 The calculus is generic over exactly two types that your project supplies. Both are algebraic data types that you define from your corpus.
