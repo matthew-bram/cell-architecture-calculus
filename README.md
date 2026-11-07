@@ -73,7 +73,7 @@ Two of the four words sort theorems by what they cover:
 
 The calculus is not fixed. Each version of it is the method as published practice stood when that version was written. As the state of the art changes, the calculus and the patterns it stands on change with it.
 
-Every shape in the calculus has a published source, such as the Decider, the idempotent receiver, sagas, the outbox and the patterns of a context map. [The calculus](docs/the-calculus.md) and [its foundations](docs/foundations.md) cite them, from 1978 to 2024. Some of that evidence was still open. The foundations record a flaw in Kafka's transaction protocol, KAFKA-17754, as unresolved at publication. Some of the problem is new as well. Agents now write a growing share of the code, from the same documents people read. Practice will move again, and the calculus will move with it.
+Every shape in the calculus has a published source, such as the Decider, the idempotent receiver, sagas, the outbox and the patterns of a context map. [The calculus](docs/the-calculus.md) and [its foundations](docs/foundations.md) cite them, from 1978 to 2024. Some of that evidence was still open. The foundations record a flaw in Kafka's transaction protocol, KAFKA-17754, as unresolved when Jepsen's analysis was published, in 2024. Some of the problem is new as well. Agents now write a growing share of the code, from the same documents people read. Practice will move again, and the calculus will move with it.
 
 What doesn't move is a theorem. A theorem holds for the version of the calculus it was proved against, and the build checks every theorem again on every change. What moves from one version to the next is which shapes the calculus carries, which practices it stands on, and which names it uses.
 
