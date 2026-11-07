@@ -9,6 +9,7 @@
 - A change to the worked example or its documents, by the style guide
 - A new shape in the calculus, additive, with its universal theorem, its doc comments and a mutant its theorem kills
 - A supersession in the calculus: the old name stays, deprecated with the date and its successor, and the version in `cell-calculus/lakefile.toml` moves
+- A retirement in the calculus, with no successor: the name stays, deprecated with the date and the reason, and the version in `cell-calculus/lakefile.toml` moves
 - A change to a gate script or the workflow
 - A document only
 

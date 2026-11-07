@@ -1,5 +1,5 @@
-name: Propose a shape to the calculus
-description: A model needs a shape the generic package lacks.
+name: Propose a change to the calculus
+description: A model needs a shape the generic package lacks, or published practice has moved.
 title: "Shape: "
 labels: [proposal]
 body:
@@ -7,29 +7,30 @@ body:
     id: shape
     attributes:
       label: The shape
-      description: What it is, in a sentence, and the Lean signature you expect.
+      description: What it is, in a sentence, and the Lean signature you expect. For a retirement, the shape to retire.
     validations:
       required: true
   - type: textarea
     id: theorem
     attributes:
       label: The universal theorem it would carry
-      description: What holds for every cell, every history or every command that uses it. A shape without a theorem is a project's, not the calculus's.
+      description: What holds for every cell, every history or every command that uses it. A shape without a theorem is a project's, not the calculus's. For a retirement, write none.
     validations:
       required: true
   - type: textarea
     id: need
     attributes:
-      label: The project that needs it
-      description: Which design row the existing shapes could not carry, and what you modeled instead.
+      label: Why it's needed
+      description: Either the project that needs it, with the design row the existing shapes could not carry and what you modeled instead, or the published source that moved, with what it now says and where it says it.
     validations:
       required: true
   - type: dropdown
     id: kind
     attributes:
-      label: Additive or a supersession
+      label: Which kind of change
       options:
         - Additive, a new module or declaration
         - A supersession, replacing an existing shape, which keeps its old name deprecated
+        - A retirement, with no successor, which keeps the shape's name deprecated with the date and the reason
     validations:
       required: true

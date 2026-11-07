@@ -5,7 +5,7 @@ This is how work in this repository is done. The [README](README.md) is the inde
 ## 1. The rules
 
 - **The style guide is the standard.** Names, comments, proofs, the shapes a model may use, the annotation grammar, what a reviewer checks. A change to a model follows it. A change to the guide is a decision with a changelog row.
-- **The calculus changes by supersession, never by edit.** A public shape that changes keeps its old name, deprecated with its successor and the date. A new shape is additive. The version is in `cell-calculus/lakefile.toml` and moves with each supersession. The calculus's own mutants, in `cell-calculus/mutants.json`, gate it on its own.
+- **The calculus changes by supersession, never by edit.** A public shape that changes keeps its old name, deprecated with its successor and the date. A shape retired with no successor keeps its name too, deprecated with the date and the reason. A new shape is additive. The version is in `cell-calculus/lakefile.toml` and moves with each supersession and each retirement. The calculus's own mutants, in `cell-calculus/mutants.json`, gate it on its own.
 - **The design owns meaning.** A model never invents a row, a field type, an example or a sentence its design does not state. A gap is reported in the design's open items. The example's corpus and design are in-repository so that every row the model carries has a sentence to point at.
 - **The review line records a review.** The review line in a project's header is signed by a reviewer who has read the model against the design, never by a build. The example's line stays unsigned on purpose: the line and the check are there for a project's designs.
 - **Documents are written with the authorship skill.** A new or changed document, commit message or pull request description follows [`.claude/skills/authorship/`](.claude/skills/authorship/SKILL.md), so that the repository reads in one voice. The skills themselves are technical procedures, not documents for readers, and are written without it.
@@ -58,6 +58,8 @@ A pull request that changes a public shape of the calculus is a supersession, ne
 - the version in `cell-calculus/lakefile.toml` moves;
 - `CHANGELOG.md` gets its row.
 
+A pull request that retires a public shape with no successor follows the same three rules, with the reason for the retirement in place of the successor.
+
 A pull request that adds a shape is additive and carries its universal theorem, its doc comments and a mutant its theorem kills. A pull request that changes the example follows the style guide. It leaves every gate green, with the generated views and the recorded trace regenerated if the model or the implementation changed.
 
 A release is a tag. When `main` holds what the next release should, a maintainer adds the row to `CHANGELOG.md`, tags the commit `v<major>.<minor>.<patch>` and pushes the tag. The release workflow publishes the GitHub release with notes generated from the merged pull requests. Only maintainers can create a `v*` tag.
@@ -100,12 +102,15 @@ The skills under `.claude/skills/` are for work on this repository, not for usin
 
 These skills sit outside the scrub gate and outside the rules for the method's skills above. They may name the tools they run with, and they take no goldens from the example. What they write into the repository is still under the gate. A change to one is followed by a run of its evaluations, with the skill and without it. A contributor skill's evaluations are the case folders under its `evals/`.
 
-## 7. Proposing a shape to the calculus
+## 7. Proposing a change to the calculus
 
-A project introduces no new generic shape. If a model needs one the calculus lacks, open an issue that states the shape, the universal theorem it would carry and the project that needs it.
+A project introduces no new generic shape. A change to the calculus starts as an issue, for one of two reasons:
 
-A shape that is accepted arrives as a new module or a new declaration, additive. It arrives with its theorem, its doc comments, and a mutant in `cell-calculus/mutants.json` that its theorem kills. A shape that replaces one arrives beside the old, which is deprecated with the date and its successor's name. The version in `cell-calculus/lakefile.toml` moves, and the changelog gets its row.
+- **A project needs a shape the calculus lacks.** The issue states the shape, the universal theorem it would carry and the project that needs it.
+- **Published practice has moved.** A source the calculus stands on has been superseded or found to be flawed, or a pattern has been published that the calculus should carry. The issue states the shape it affects, the source that moved and what the calculus should carry instead, if anything. It cites the source, as [the foundations](docs/foundations.md) cite the ones the calculus stands on now.
+
+A shape that is accepted arrives as a new module or a new declaration, additive. It arrives with its theorem, its doc comments, and a mutant in `cell-calculus/mutants.json` that its theorem kills. A shape that replaces one arrives beside the old, which is deprecated with the date and its successor's name. A shape retired with no successor stays, deprecated with the date and the reason. The version in `cell-calculus/lakefile.toml` moves, and the changelog gets its row.
 
 ## 8. Building on the calculus from another repository
 
-A project's `lakefile.toml` requires the calculus over git with `subDir = "cell-calculus"` and a tag as `rev`, never a branch, so that `lake build` fetches it into the project's own `.lake/packages` and the manifest pins the commit. The example inside this repository requires it by path instead. A move to a newer tag is a change like any other: the deprecations warn, each naming the successor the project moves to.
+A project's `lakefile.toml` requires the calculus over git with `subDir = "cell-calculus"` and a tag as `rev`, never a branch, so that `lake build` fetches it into the project's own `.lake/packages` and the manifest pins the commit. The example inside this repository requires it by path instead. A move to a newer tag is a change like any other: the deprecations warn, each naming the successor the project moves to, or the reason a shape was retired with none.

@@ -77,7 +77,7 @@ Every shape in the calculus has a published source, such as the Decider, the ide
 
 What doesn't move is a theorem. A theorem holds for the version of the calculus it was proved against, and the build checks every theorem again on every change. What moves from one version to the next is which shapes the calculus carries, which practices it stands on, and which names it uses.
 
-A change arrives by supersession, never by edit. That holds whether a project needed a shape the calculus lacked or practice moved on. The old shape keeps its name, deprecated with its successor and the date, and the version moves. A project requires the calculus at a tag, so it moves to a newer one when it chooses. Each deprecation then names the successor to move to.
+A change arrives by supersession, never by edit. That holds whether a project needed a shape the calculus lacked or practice moved on. The old shape keeps its name, deprecated with its successor and the date, and the version moves. A project requires the calculus at a tag, so it moves to a newer one when it chooses. Each deprecation then names the successor to move to, or says why a shape was retired with none.
 
 The calculus has changed from the start. Version 1 was frozen on Oct 14, 2026. Its first supersession, `ProjectHeader` for `ModelHeader`, came the next day. The first public release, on Oct 19, carried version 2.3.0.
 
