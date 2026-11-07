@@ -1,8 +1,8 @@
 # Foundations: the prior art under the calculus
 
-Every shape in the calculus has a published statement by someone who arrived at it on their own. The method's authority is that the shapes were found more than once. The references are there so a reader can check it.
+Every shape in the calculus has a published statement by someone who arrived at it on their own. The method's authority is that the shapes were found more than once. The references are there so a reader can check it. The shapes are not final. As published practice moves, the calculus moves with it, as [the README](../README.md#the-calculus-changes-as-the-state-of-the-art-does) says.
 
-Beside each source is how it was checked when this was written:
+Beside each source is how it was checked when this was written, by the first public release on Oct 19, 2026:
 
 - **[H]** read in full;
 - **[M]** read in a summary;
@@ -64,7 +64,7 @@ There are three, in rising strength:
 
 1. **Exactly-once delivery is impossible at the transport.** Two generals. Treat, *You Cannot Have Exactly-Once Delivery*, 2015, and the *Redux*: the achievable thing is at-least-once delivery with idempotent processing, "effectively once" **[M]**.
 2. **Kafka's exactly-once is scoped to Kafka.** It covers a read-process-write loop whose reads and writes are both Kafka topics. A consumer that changes a database, calls another cell or sends a notification is outside the transaction. Nothing reverts that effect on abort. Confluent's own delivery-semantics documentation states the scope **[M]**. In the architectures this calculus describes, every interesting step is such an effect: a command to another cell's gateway, a notification, a partner call.
-3. **Kafka's transaction protocol itself has an unresolved ordering flaw.** Jepsen's Bufstream analysis (Kingsbury, 2024) characterized, in Kafka and not only in Bufstream, "write loss, aborted read, and torn transactions caused by the lack of message ordering constraints in the Kafka transaction protocol." Cause: "There is no sequence number to order requests from the same client. There is no concept of a transaction number." A delayed `EndTxn` can commit or abort a different, later transaction. It is tracked as KAFKA-17754, and was unresolved at publication **[H]**.
+3. **Kafka's transaction protocol itself has an ordering flaw, unresolved when it was analyzed.** Jepsen's Bufstream analysis (Kingsbury, 2024) characterized, in Kafka and not only in Bufstream, "write loss, aborted read, and torn transactions caused by the lack of message ordering constraints in the Kafka transaction protocol." Cause: "There is no sequence number to order requests from the same client. There is no concept of a transaction number." A delayed `EndTxn` can commit or abort a different, later transaction. It is tracked as KAFKA-17754, and was unresolved when the analysis was published **[H]**.
 
 So the window is not a gap in any one design. It is the floor every design stands on, named by Helland in 2012, and a fabric's exactly-once claim does not remove it for anything that leaves the fabric.
 

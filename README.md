@@ -69,6 +69,18 @@ Two of the four words sort theorems by what they cover:
 - `loanOut2_holds` is *checked*. It is a claim about one example's values, and the kernel computes it.
 - `replay_append`, in `cell-calculus`, is *proved*. It holds for every cell and every history.
 
+## The calculus changes as the state of the art does
+
+The calculus is not fixed. Each version of it is the method as published practice stood when that version was written. As the state of the art changes, the calculus and the patterns it stands on change with it.
+
+Every shape in the calculus has a published source, such as the Decider, the idempotent receiver, sagas, the outbox and the patterns of a context map. [The calculus](docs/the-calculus.md) and [its foundations](docs/foundations.md) cite them, from 1978 to 2024. Some of that evidence was still open. The foundations record a flaw in Kafka's transaction protocol, KAFKA-17754, as unresolved when Jepsen's analysis was published, in 2024. Some of the problem is new as well. Agents now write a growing share of the code, from the same documents people read. Practice will move again, and the calculus will move with it.
+
+What doesn't move is a theorem. A theorem holds for the version of the calculus it was proved against, and the build checks every theorem again on every change. What moves from one version to the next is which shapes the calculus carries, which practices it stands on, and which names it uses.
+
+A change arrives by supersession, never by edit. That holds whether a project needed a shape the calculus lacked or practice moved on. The old shape keeps its name, deprecated with its successor and the date, and the version moves. A project requires the calculus at a tag, so it moves to a newer one when it chooses. Each deprecation then names the successor to move to, or says why a shape was retired with none.
+
+The calculus has changed from the start. Version 1 was frozen on Oct 14, 2026. Its first supersession, `ProjectHeader` for `ModelHeader`, came the next day. The first public release, on Oct 19, carried version 2.3.0.
+
 ## In twenty lines
 
 A cell decides on commands, reacts to other cells' facts, and folds its own facts into its state. No function returns a command, so one cell cannot quietly trigger another. That wiring cannot be written.

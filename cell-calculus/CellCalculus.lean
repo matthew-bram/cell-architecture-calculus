@@ -63,10 +63,10 @@ found by the skills' evaluations; **2.2 the same day** adds `Replay`, the
 trace checker, and `JsonDecode`, nothing changed; **2.3** adds `ContextMap`. Version 1 was frozen the same morning with one
 consumer; the second pass took the consumer's zones, roles and
 identifiers out of the generic shapes, so a change of version rather than a
-set of deprecated aliases that would have kept them. The skill and the style
+set of deprecated aliases that would have kept them. The skills and the style
 guide are written against this API. A change to a public shape is governed by
 supersession, never by edit: the old name stays, deprecated, and names its
-successor (see `Governance`).
+successor (see `Governance`), or, for a shape retired with none, the reason.
 
 Every theorem here is universal: it holds for every cell, every policy,
 every command. Theorems that are computations on one project's values,

@@ -1,6 +1,6 @@
 # The calculus
 
-This page covers the shapes of the method, each with its theorem, its source and the file it lives in. Where an entry names the file its shape lives in, the file comes first.
+This page covers the shapes of the method, each with its theorem, its source and the file it lives in. Where an entry names the file its shape lives in, the file comes first. It describes the calculus at version 2.3.0, the version in `cell-calculus/lakefile.toml`. The calculus changes as published practice does, as [the README](../README.md#the-calculus-changes-as-the-state-of-the-art-does) says.
 
 The generic shapes are the package [`cell-calculus`](../cell-calculus/). It has one module per idea and carries only universal theorems. It is generic over a project's principal through one class, and over the subject an event is about as a type parameter. Trust boundaries are an opt-in module.
 
@@ -21,7 +21,7 @@ The page defines these terms, each in the entry linked beside it.
 | **Contract** | A step's non-functional contract: one assumption and a guarantee per viewpoint | [Contracts fold along a journey](#contracts-fold-along-a-journey) |
 | **Mutant** | One deliberate change to the model, which the examples, traces and theorems must notice | [Coverage has a second half](#coverage-has-a-second-half-and-it-is-mutation) |
 | **Envelope** | One of the two types, defined once, that wrap every command and every event | [Two envelopes](#two-envelopes-wrap-every-command-and-every-event) |
-| **Actor** | A sum over the five kinds of sender any system has | [Two envelopes](#two-envelopes-wrap-every-command-and-every-event) |
+| **Actor** | A sum over the five kinds of sender the calculus names | [Two envelopes](#two-envelopes-wrap-every-command-and-every-event) |
 | **Scrub** | A parse from one boundary's event to another's | [Boundaries as types](#boundaries-as-types) |
 | **Policy cell** | A cell whose `decide` is the one place a proposal becomes a downstream command | [A fact may become a command](#a-fact-may-become-a-command-in-exactly-one-place) |
 | **Promise** | A predicate over runs | [Promises](#promises-and-what-an-attribute-quantifies-over) |
@@ -317,7 +317,7 @@ structure EventEnvelope (Payload Subject : Type) where
 
 There are no property-bag headers. A cell reads only the fields the type names, and a decider that reaches for a header the envelope lacks is rejected at the type. The fold never sees an envelope. The shell wraps what a decider emits.
 
-**`Actor`** is a sum over the five kinds of sender any system has:
+**`Actor`** is a sum over the five kinds of sender the calculus names:
 
 - a principal in the project's own terms;
 - a policy cell;
@@ -325,7 +325,7 @@ There are no property-bag headers. A cell reads only the fields the type names, 
 - a partner;
 - the operator.
 
-So a decider's actor branch is a `match` the kernel checks is total.
+So a decider's actor branch is a `match` the kernel checks is total. A project that needs a sixth kind proposes it to the calculus.
 
 `Cell.gated` lifts any cell to the envelope with a policy saying which actor may issue which command. Each of these is a theorem for every cell and policy:
 
@@ -381,7 +381,7 @@ The one place is a journey boundary, as succession. A journey ends with a fact. 
 
 That cell is a **policy cell**, whose `decide` is the one place a proposal becomes a downstream command. Every branch of a policy cell names its rung. In shadow, a proposal is recorded and never issues. In review, it is held until a person approves it, and an approval issues only what was held. Each of those is a theorem for every proposal and state. In autonomous, it issues, checked on the example's proposal.
 
-Any automation, a recommender, a scheduler, an agent, is this one shape. The gated policy cell refuses an approval from the wrong actor before it looks at the ladder.
+The calculus models every automation as this one shape, whether a recommender, a scheduler or an agent. The gated policy cell refuses an approval from the wrong actor before it looks at the ladder.
 
 In the example, the reading assistant's renewal proposal runs through the three rungs. A member's approval issues it, and a guest's is refused at the gate.
 
@@ -422,7 +422,7 @@ The project's header carries one review line per design: the design's path and i
 
 **File:** `ContextMap.lean`
 
-The journey map says which cells exist, where each lives and which arrows join them. The context map says what each arrow means to the two sides, in the vocabulary Evans and Vernon fixed:
+The journey map says which cells exist, where each lives and which arrows join them. The context map says what each arrow means to the two sides, in the vocabulary Evans and Vernon named:
 
 - who is upstream and who is downstream;
 - an open host service, a published language or a plain supplier upstream;
