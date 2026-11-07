@@ -69,8 +69,9 @@ variable [Architecture]
 
 /-- Who is acting, carried on the command and never looked up inside
     `decide`: what the gateway established about the sender, as a sum over
-    the five kinds of sender any system has, so that a decider's actor
-    branch is a `match` the kernel checks is total. A `principal` is the
+    the five kinds of sender the calculus names, so that a decider's actor
+    branch is a `match` the kernel checks is total. A project that needs a
+    sixth kind proposes it to the calculus. A `principal` is the
     project's own type; the other four are the system acting on itself, a
     schedule, an outside party, and whoever runs the system. -/
 inductive Actor
