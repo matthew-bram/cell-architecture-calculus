@@ -1,6 +1,6 @@
 # Foundations: the prior art under the calculus
 
-Every shape in the calculus has a published statement by someone who arrived at it on their own. The method's authority is that the shapes were found more than once. The references are there so a reader can check it.
+Every shape in the calculus has a published statement by someone who arrived at it on their own. The method's authority is that the shapes were found more than once. The references are there so a reader can check it. The shapes are not final. As published practice moves, the calculus moves with it, as [the README](../README.md#the-calculus-changes-as-the-state-of-the-art-does) says.
 
 Beside each source is how it was checked when this was written, by the first public release on Oct 19, 2026:
 
