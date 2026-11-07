@@ -33,12 +33,13 @@ The front door. A reader decides here whether the method is worth their time.
 2. **A figure of the round trip.** One example's round trip, drawn from the opening: from the design into the model and the code, and back to the model through the code's traces.
 3. **The case for the method.** The two papers and who each is for.
 4. **How a claim becomes a theorem.** The five roles of a formal argument for a reader new to formal methods: the rulebook, the givens, the claim, the proof and the outcome, with each one's standard name, shown for 2 + 2 = 4 and for an example in this repository, ending with which of the four words each kind of theorem takes.
-5. **The idea in code.** The short Lean and Gherkin excerpts, each with a sentence saying what it shows.
-6. **Quick start.** Install, build, run the gates.
-7. **Modeling your own system.** The short form of the guide, as a table of steps.
-8. **The layout, the documents, the skills.** One table each.
-9. **What it proves, checks, tests and assumes.** The four words.
-10. **License.**
+5. **The calculus changes as the state of the art does.** The thesis that the calculus is not fixed: each version is the method as published practice stood when that version was written. Then why practice will move: the published sources the shapes stand on, the evidence that is still open and the part of the problem that is new. Then what stays fixed (a theorem holds for the version it was proved against) and what moves between versions (the shapes, the practices and the names), how a change arrives (by supersession, with a project moving to a newer tag when it chooses), and the calculus's history so far, from version 1 to the first public release.
+6. **The idea in code.** The short Lean and Gherkin excerpts, each with a sentence saying what it shows.
+7. **Quick start.** Install, build, run the gates.
+8. **Modeling your own system.** The short form of the guide, as a table of steps.
+9. **The layout, the documents, the skills.** One table each.
+10. **What it proves, checks, tests and assumes.** The four words.
+11. **License.**
 
 ## A directory README
 
